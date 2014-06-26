@@ -1,0 +1,21 @@
+Admission Cologne.pnml
+Admission IIS Erlangen.pnml
+Acceptance,receive acceptance
+Apply Online,Fill out Application Form
+Apply Online,add Certificate of english language
+Apply Online,Add Certificate of german language
+Apply Online,Add Certificates of Qualification
+Apply Online,Add Certificates of further language skills
+Apply Online,Create and add english letter of Motivation
+Acceptance,Send Acceptance
+Apply Online,Add Certificate of Bachelor Degree
+Apply Online,complete application
+Evaluate,Score Qualification
+Evaluate,Score Bachelor
+Send letter of rejection,Send rejection
+Acceptance,Accept Application
+Apply Online,Create and Add CV
+Evaluate,Score Motivation
+Send Documents by Post,Send Application
+Check Documents,Check Application Complete
+Check Documents,Check Application in Time

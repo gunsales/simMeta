@@ -1,0 +1,20 @@
+Admission Cologne.pnml
+Admission Potsdam.pnml
+Apply Online,Create and add letter of Motivation
+Acceptance,receive acceptance
+Apply Online,Add Certificate of german language
+Apply Online,Fill out Application Form
+Apply Online,Add Certificates of Qualification
+Rank Students according to GPA and the test results,rank case
+Acceptance,Send Acceptance
+Apply Online,Add Certificate of Bachelor Degree
+Apply Online,complete application
+Check Documents,Check if Bachelor Equivalent to Uni Potsdam
+Apply Online,Add Recommendations
+Send letter of rejection,Send rejection
+Acceptance,Accept Application
+Apply Online,Create and Add CV
+Send Documents by Post,Send Application
+Check Documents,Check Application Complete
+Apply Online,Add Case-of-Hardship Certificate
+Check Documents,Check Application in Time

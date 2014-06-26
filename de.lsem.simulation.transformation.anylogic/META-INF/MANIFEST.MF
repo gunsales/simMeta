@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Anylogic
+Bundle-SymbolicName: de.lsem.simulation.transformation.anylogic;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: de.lsem.simulation.transformation.anylogic.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.xtend.lib,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ de.lsem.simulation.metaModel;bundle-version="1.0.0",
+ org.eclipse.graphiti;bundle-version="0.10.0",
+ org.eclipse.graphiti.ui;bundle-version="0.10.0",
+ org.eclipse.emf.transaction;bundle-version="1.4.0",
+ org.eclipse.emf.ecore.xmi,
+ com.google.inject;bundle-version="3.0.0",
+ org.eclipse.xtext;bundle-version="2.4.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,lib/jaxb-impl-2.2.4.jar
+Import-Package: de.lsem.simulation.transformation.anylogic.generator.persistant
+

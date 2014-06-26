@@ -1,0 +1,13 @@
+Admission Cologne.pnml
+Admission Muenster.pnml
+Send letter of rejection,send rejection
+Rank Students according to GPA and the test results,create ranking
+Acceptance,receive rejection
+Acceptance,send acceptance
+Check Documents,check application complete
+Check Documents,check citizenship
+Check Documents,check application in time EU countries
+Send letter of rejection,reject applicant
+Acceptance,accept applicant
+Apply Online,complete online interview
+Send Documents by Post,send application form and documents

@@ -1,0 +1,409 @@
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="AnyLogicWorkspace">
+		<xs:annotation>
+			<xs:documentation>*************************************************
+				AnyLogic Project File
+				*************************************************
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Model">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:long" name="Id" />
+							<xs:element type="xs:string" name="Name" />
+							<xs:element type="xs:int" name="EngineVersion" />
+							<xs:element type="xs:string" name="JavaPackageName" />
+							<xs:element type="xs:string" name="ModelTimeUnit" />
+							<xs:element name="ActiveObjectClasses">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ActiveObjectClass">
+											<xs:annotation>
+												<xs:documentation>========= Active Object Class ========
+												</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element type="xs:long" name="Id" />
+													<xs:element type="xs:string" name="Name" />
+													<xs:element name="ClientAreaTopLeft">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element type="xs:int" name="X" />
+																<xs:element type="xs:int" name="Y" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element type="xs:string"
+														name="PresentationTopGroupPersistent" />
+													<xs:element type="xs:string" name="IconTopGroupPersistent" />
+													<xs:element type="xs:string" name="Generic" />
+													<xs:element type="xs:string" name="GenericParameters" />
+													<xs:element type="xs:string" name="GenericParametersLabel" />
+													<xs:element type="xs:int" name="SamplesToKeep" />
+													<xs:element type="xs:string" name="LimitNumberOfArrayElements" />
+													<xs:element type="xs:int" name="ElementsLimitValue" />
+													<xs:element type="xs:string" name="MakeDefaultViewArea" />
+													<xs:element type="xs:string" name="SceneGridColor" />
+													<xs:element type="xs:string" name="SceneBackgroundColor" />
+													<xs:element name="AgentProperties">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element type="xs:string" name="SpaceType" />
+																<xs:element type="xs:string"
+																	name="EnvironmentDefinesInitialLocation" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="DatasetsCreationProperties">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element type="xs:string" name="AutoCreate" />
+																<xs:element type="xs:string" name="RecurrenceCode" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Connectors">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Connector" maxOccurs="unbounded"
+																	minOccurs="0">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element type="xs:long" name="Id" />
+																			<xs:element type="xs:string" name="Name" />
+																			<xs:element type="xs:int" name="X" />
+																			<xs:element type="xs:int" name="Y" />
+																			<xs:element name="Label">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element type="xs:int" name="X" />
+																						<xs:element type="xs:int" name="Y" />
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element type="xs:string" name="PublicFlag" />
+																			<xs:element type="xs:string" name="PresentationFlag" />
+																			<xs:element type="xs:string" name="ShowLabel" />
+																			<xs:element type="xs:long" name="SourceEmbeddedObject" nillable="true" />
+																			<xs:element type="xs:string" name="SourceConnectableName" />
+																			<xs:element type="xs:long" name="TargetEmbeddedObject" nillable="true" />
+																			<xs:element type="xs:string" name="TargetConnectableName" />
+																			<xs:element name="Points">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="Point" maxOccurs="unbounded"
+																							minOccurs="0">
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element type="xs:int" name="X" />
+																									<xs:element type="xs:int" name="Y" />
+																								</xs:sequence>
+																							</xs:complexType>
+																						</xs:element>
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="EmbeddedObjects">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="EmbeddedObject" maxOccurs="unbounded"
+																	minOccurs="0">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element type="xs:long" name="Id" />
+																			<xs:element type="xs:string" name="Name" />
+																			<xs:element type="xs:int" name="X" />
+																			<xs:element type="xs:int" name="Y" />
+																			<xs:element name="Label">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element type="xs:int" name="X" />
+																						<xs:element type="xs:int" name="Y" />
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element type="xs:string" name="PublicFlag" />
+																			<xs:element type="xs:string" name="PresentationFlag" />
+																			<xs:element type="xs:string" name="ShowLabel" />
+																			<xs:element name="ActiveObjectClassInner">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element type="xs:string" name="PackageName" />
+																						<xs:element type="xs:string" name="ClassName" />
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element type="xs:string"
+																				name="GenericParametersSubstitute" />
+																			<xs:element name="Parameters">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="Parameter" maxOccurs="unbounded"
+																							minOccurs="0">
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element type="xs:string" name="Name" />
+																									<xs:element type="xs:string" name="Value" />
+																								</xs:sequence>
+																							</xs:complexType>
+																						</xs:element>
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element type="xs:string" name="CollectionType" />
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Experiments">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SimulationExperiment">
+											<xs:annotation>
+												<xs:documentation>========= Simulation Experiment ========
+												</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element type="xs:long" name="Id" />
+													<xs:element type="xs:string" name="Name" />
+													<xs:element name="ClientAreaTopLeft">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element type="xs:int" name="X" />
+																<xs:element type="xs:int" name="Y" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element type="xs:string"
+														name="PresentationTopGroupPersistent" />
+													<xs:element type="xs:string" name="IconTopGroupPersistent" />
+													<xs:element name="Frame">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element type="xs:int" name="X" />
+																<xs:element type="xs:int" name="Y" />
+																<xs:element type="xs:int" name="Width" />
+																<xs:element type="xs:int" name="Height" />
+																<xs:element type="xs:string" name="Maximized" />
+																<xs:element type="xs:string" name="CloseConfirmation" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element type="xs:string" name="CommandLineArguments" />
+													<xs:element type="xs:int" name="MaximumMemory" />
+													<xs:element type="xs:string" name="RandomNumberGenerationType" />
+													<xs:element type="xs:string" name="CustomGeneratorCode" />
+													<xs:element type="xs:int" name="SeedValue" />
+													<xs:element type="xs:string"
+														name="RandomSelectionModeForSimultaneousEvents" />
+													<xs:element type="xs:string" name="VmArgs" />
+													<xs:element type="xs:float" name="AbsoluteAccuracy" />
+													<xs:element type="xs:float" name="RelativeAccuracy" />
+													<xs:element type="xs:float" name="TimeAccuracy" />
+													<xs:element type="xs:float" name="FixedTimeStep" />
+													<xs:element type="xs:string" name="LoadRootFromSnapshot" />
+													<xs:element type="xs:string" name="SnapshotFile" />
+													<xs:element type="xs:string" name="DiffEquationsNumericalMethod" />
+													<xs:element type="xs:string" name="MixedEquationsNumericalMethod" />
+													<xs:element type="xs:string"
+														name="AlgebraicEquationsNumericalMethod" />
+													<xs:element name="Shapes">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Text" maxOccurs="unbounded"
+																	minOccurs="0">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element type="xs:long" name="Id" />
+																			<xs:element type="xs:string" name="Name" />
+																			<xs:element type="xs:int" name="X" />
+																			<xs:element type="xs:int" name="Y" />
+																			<xs:element name="Label">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element type="xs:int" name="X" />
+																						<xs:element type="xs:int" name="Y" />
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element type="xs:string" name="PublicFlag" />
+																			<xs:element type="xs:string" name="PresentationFlag" />
+																			<xs:element type="xs:string" name="ShowLabel" />
+																			<xs:element type="xs:string" name="AsObject" />
+																			<xs:element type="xs:string" name="EmbeddedIcon" />
+																			<xs:element type="xs:string" name="Lock" />
+																			<xs:element type="xs:string" name="ShowIn3D" />
+																			<xs:element type="xs:int" name="Z" />
+																			<xs:element type="xs:float" name="Rotation" />
+																			<xs:element type="xs:int" name="Color" />
+																			<xs:element type="xs:string" name="Text" />
+																			<xs:element name="Font">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element type="xs:string" name="Name" />
+																						<xs:element type="xs:int" name="Size" />
+																						<xs:element type="xs:int" name="Style" />
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element type="xs:string" name="Alignment" />
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Controls">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Control">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element type="xs:string" name="EmbeddedIcon" />
+																			<xs:element type="xs:long" name="Id" />
+																			<xs:element type="xs:string" name="Name" />
+																			<xs:element type="xs:int" name="X" />
+																			<xs:element type="xs:int" name="Y" />
+																			<xs:element name="Label">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element type="xs:int" name="X" />
+																						<xs:element type="xs:int" name="Y" />
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element type="xs:string" name="PublicFlag" />
+																			<xs:element type="xs:string" name="PresentationFlag" />
+																			<xs:element type="xs:string" name="ShowLabel" />
+																			<xs:element name="BasicProperties">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element type="xs:string" name="EmbeddedIcon" />
+																						<xs:element type="xs:string" name="FillColor" />
+																						<xs:element type="xs:string" name="TextColor" />
+																						<xs:element type="xs:string" name="ActionCode" />
+																					</xs:sequence>
+																					<xs:attribute type="xs:int" name="Width" />
+																					<xs:attribute type="xs:int" name="Height" />
+																					<xs:attribute type="xs:string" name="AsObject" />
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element name="ExtendedProperties">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="FontExtendedProperties">
+																							<xs:complexType>
+																								<xs:simpleContent>
+																									<xs:extension base="xs:string">
+																										<xs:attribute type="xs:string"
+																											name="Name" />
+																										<xs:attribute type="xs:int" name="Size" />
+																										<xs:attribute type="xs:int" name="Style" />
+																									</xs:extension>
+																								</xs:simpleContent>
+																							</xs:complexType>
+																						</xs:element>
+																						<xs:element type="xs:string" name="LabelText" />
+																						<xs:element type="xs:string" name="LabelCode" />
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																		<xs:attribute type="xs:string" name="Type" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element type="xs:string" name="Parameters" />
+													<xs:element name="PresentationProperties">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element type="xs:string" name="ExecutionMode" />
+																<xs:element type="xs:string" name="CpuRatio" />
+																<xs:element type="xs:string" name="Title" />
+																<xs:element type="xs:string" name="FramesPerSecond" />
+																<xs:element type="xs:float" name="RealTimeScale" />
+																<xs:element name="UIProperty" maxOccurs="unbounded"
+																	minOccurs="0">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string">
+																				<xs:attribute type="xs:string" name="Name"
+																					use="optional" />
+																				<xs:attribute type="xs:string" name="Value"
+																					use="optional" />
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute type="xs:string"
+																name="EnableAdaptiveFrameManagement" />
+															<xs:attribute type="xs:string" name="EnableAntiAliasing" />
+															<xs:attribute type="xs:string"
+																name="EnableEnhancedModelElementsAnimation" />
+															<xs:attribute type="xs:string" name="EnablePanning" />
+															<xs:attribute type="xs:string"
+																name="ToolbarCustomizableAtRuntime" />
+															<xs:attribute type="xs:string" name="EnableZoom" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="ModelTimeProperties">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element type="xs:string" name="StopOption" />
+																<xs:element type="xs:string" name="InitialDate" />
+																<xs:element type="xs:string" name="InitialTime" />
+																<xs:element type="xs:string" name="FinalDate" />
+																<xs:element type="xs:string" name="FinalTime" />
+															</xs:sequence>
+															<xs:attribute type="xs:string" name="UseCalendar" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute type="xs:long" name="ActiveObjectClassId" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RequiredLibraryReference">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:string" name="LibraryName" />
+										<xs:element type="xs:int" name="VersionMajor" />
+										<xs:element type="xs:int" name="VersionMinor" />
+										<xs:element type="xs:int" name="VersionBuild" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute type="xs:float" name="WorkspaceVersion" />
+			<xs:attribute type="xs:string" name="AnyLogicVersion" />
+			<xs:attribute type="xs:string" name="AlpVersion" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,12 @@
+Admission Cologne.pnml
+Admission Wuerzburg.pnml
+Send letter of rejection,send rejection
+Check Documents,checking for completeness
+Apply Online,fill in online form of application
+Send Online Protocol,fill in online form of application
+Acceptance,send commitment
+Check Documents,check if has direct university entrance qualification
+Check Documents,checking for contentual match
+Check Documents,check for DSH
+Send Documents by Post,send international application
+Send Documents by Post,send german application

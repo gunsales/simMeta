@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang3-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/guava-14.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hamcrest-core-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit-4.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jwi-2.2.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry including="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry exported="true" kind="lib" path="lib/ws4j-1.0.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jbpt-0.2.393.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

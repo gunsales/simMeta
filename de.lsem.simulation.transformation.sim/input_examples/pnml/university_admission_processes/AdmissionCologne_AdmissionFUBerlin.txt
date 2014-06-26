@@ -1,0 +1,12 @@
+Admission Cologne.pnml
+Admission FU Berlin.pnml
+Send letter of rejection,send rejection
+Acceptance,receive acceptance
+Acceptance,send acceptance
+Apply Online,Fill out Application Form
+Send Documents by Post,Send Application
+Check Documents,Check if Bachelors-Grade within top 85%
+Check Documents,Check if Bachelor is sufficient
+Check Documents,Check Application Complete
+Rank Students according to GPA and the test results,Rank with other Applicants
+Check Documents,Check Application in Time

@@ -1,0 +1,9 @@
+Admission Cologne.pnml
+Admission TU Munich.pnml
+Evaluate,Evaluate
+Check Documents,Check Bachelor's degree
+Check Documents,Check Documents
+Send Documents by Post,Send Documents by Post
+Send letter of rejection,Send letter of Rejection
+Acceptance,Send letter of Acceptance
+Apply Online,Apply Online

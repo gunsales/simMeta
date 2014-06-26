@@ -1,0 +1,8 @@
+Admission Cologne.pnml
+Admission Frankfurt.pnml
+Evaluate,Evaluate
+Check Documents,Check Documents
+Send Documents by Post,Send Documents by Post
+Acceptance,Send Letter of Acceptance
+Apply Online,Apply Online
+Send letter of rejection,Send Letter of Rejection

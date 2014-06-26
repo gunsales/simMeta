@@ -1,0 +1,9 @@
+Admission Cologne.pnml
+Admission Hohenheim.pnml
+Evaluate,assessment of application
+Check Documents,checking if complete
+Send Documents by Post,Complete and send application form online
+Apply Online,Complete and send application form online
+Acceptance,Receiving acceptance letter
+Send letter of rejection,Rejection
+Rank Students according to GPA and the test results,rank application on scale of 1 to 10

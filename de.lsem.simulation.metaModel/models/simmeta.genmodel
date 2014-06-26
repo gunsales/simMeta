@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.lsem.simulation.metaModel/src" editDirectory="de.lsem.simulation.metaModel.edit/src"
+    editorDirectory="/de.lsem.repository.model.simulation.editor/src" modelPluginID="de.lsem.simulation.metaModel"
+    modelName="Simmeta" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    publicConstructors="true" editPluginID="de.lsem.repository.model.edit" editorPluginID="de.lsem.repository.model.simulation.editor"
+    interfaceNamePattern="I{0}" classNamePattern="{0}" operationReflection="true"
+    importOrganizing="true">
+  <foreignModel>simmeta.ecore</foreignModel>
+  <genPackages prefix="Simulation" basePackage="de.lsem.repository.model" disposableProviderFactory="true"
+      classPackageSuffix="" contentTypeIdentifier="" ecorePackage="simmeta.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="simmeta.ecore#//UnitOfTime">
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//UnitOfTime/HOUR"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//UnitOfTime/MINUTE"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//UnitOfTime/SECOND"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//UnitOfTime/DAY"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="simmeta.ecore#//ServiceType">
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//ServiceType/Default"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//ServiceType/Transport"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//ServiceType/Picking"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//ServiceType/Handling"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//ServiceType/Storage"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//ServiceType/ValueAdded"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="simmeta.ecore#//QueuingStrategy">
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//QueuingStrategy/FIFO"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//QueuingStrategy/LIFO"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//QueuingStrategy/SORTED"/>
+      <genEnumLiterals ecoreEnumLiteral="simmeta.ecore#//QueuingStrategy/RANDOM"/>
+    </genEnums>
+    <genClasses ecoreClass="simmeta.ecore#//Activity">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simmeta.ecore#//Activity/timePeriod"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simmeta.ecore#//Activity/capacity"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simmeta.ecore#//Activity/subActivities"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Activity/serviceType"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Time">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Time/unit"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simmeta.ecore#//Time/period"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Capacity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Capacity/maxCapacity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Capacity/queueStrategy"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Simulation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simmeta.ecore#//Simulation/elements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simmeta.ecore#//Simulation/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simmeta.ecore#//Simulation/end"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Good">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Good/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Good/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Good/description"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//ConditionalRelation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//ConditionalRelation/condition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//ConditionalRelation/probability"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//ConditionalRelation/hasCondition"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Source">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simmeta.ecore#//Source/newEntities"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simmeta.ecore#//Source/firstEntity"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simmeta.ecore#//Source/processedObject"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Source/maxNewEntities"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Sink"/>
+    <genClasses image="false" ecoreClass="simmeta.ecore#//Distribution"/>
+    <genClasses ecoreClass="simmeta.ecore#//Constant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Constant/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="simmeta.ecore#//DistributionFunction">
+      <genOperations ecoreOperation="simmeta.ecore#//DistributionFunction/toString"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Weibull">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Weibull/beta"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Weibull/alpha"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Beta">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Beta/beta"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Beta/alpha"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Gamma">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Gamma/beta"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Gamma/alpha"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Normal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Normal/mean"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Normal/stdDev"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Triangular">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Triangular/min"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Triangular/mode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Triangular/max"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//LogNormal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//LogNormal/logMean"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//LogNormal/logStd"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Uniform">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Uniform/min"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Uniform/max"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Poisson">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Poisson/mean"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//NegExp">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//NegExp/mean"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//Erlang">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Erlang/expMean"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Erlang/k"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//SimulationObject"/>
+    <genClasses ecoreClass="simmeta.ecore#//SimulationElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference simmeta.ecore#//SimulationElement/outgoing"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//SimulationElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="simmeta.ecore#//SimulationParameter"/>
+    <genClasses ecoreClass="simmeta.ecore#//Relation">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference simmeta.ecore#//Relation/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference simmeta.ecore#//Relation/target"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute simmeta.ecore#//Relation/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

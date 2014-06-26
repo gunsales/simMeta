@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+     <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="de.lsem.simulation.transformation.ed.commands.TransformToEDCommand"
+            id="de.lsem.simulation.transformation.ed.transformToED"
+            name="Transform to Enterprise Dynamics">
+      </command>
+   </extension>
+</plugin>
