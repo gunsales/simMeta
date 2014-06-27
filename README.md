@@ -19,7 +19,8 @@ http://download.eclipse.org/bpmn2-modeler/updates/kepler/0.7.0/
 http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/nightly/pragmatics/
 and install KIELER Layout for Graphiti"
 
-In workspec, first step is to generate the model-code in project .metamodel/model/simMeta.genmodel
+In workspace, first step is to generate the model-code in project .metamodel/model/simMeta.genmodel.
+Second, clean up the workspace and start the product via de.lsem.simulation/simulator.product (Might fail. Check Run-Configurations-->Plugin-Dependencies-->Auto-Add Dependencies)
 
 Comments are always welcome!
 Cheers, Lewin Boehlke
