@@ -15,7 +15,7 @@ Bundle-ClassPath: jpmmt.jar,
  lib/junit-4.11.jar,
  lib/jwi-2.2.2.jar,
  src/main/resources/
-Export-Package: assemblies,
+Export-Package: 
  de.lsem.config,
  de.lsem.evaluation,
  de.lsem.evaluation.onetoone,
@@ -100,3 +100,4 @@ Export-Package: assemblies,
  org.junit.runners,
  org.sqlite,
  resources.lib
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

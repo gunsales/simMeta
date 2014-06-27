@@ -13,7 +13,6 @@ import de.lsem.repository.model.simulation.SimulationFactory;
 import de.lsem.repository.model.simulation.UnitOfTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 
 @SuppressWarnings("all")
@@ -112,11 +111,10 @@ public class CommonTransformation {
     t.setName(_trimmedId);
   }
   
-  protected void transferId(final FlowElement s, final ISimulationElement t) {
-    String _id = s.getId();
-    String _name = s.getName();
-    String _trimmedId = this.getTrimmedId(_id, _name);
-    t.setName(_trimmedId);
+  protected void transferId(final /* FlowElement */Object s, final ISimulationElement t) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nid cannot be resolved"
+      + "\nname cannot be resolved");
   }
   
   private String getTrimmedId(final String id, final String label) {

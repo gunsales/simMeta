@@ -1,6 +1,8 @@
 /bin
 /xtend-gen
 *.class
+/jaxb
+.metadata
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
