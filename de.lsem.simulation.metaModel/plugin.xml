@@ -9,46 +9,5 @@
             class="de.lsem.repository.model.simulation.ISimulationPackage"
             genModel="models/simmeta.genmodel"/>
    </extension>
-   <extension
-         point="org.eclipse.emf.validation.constraintProviders">
-      <category
-            id="emf-validation-simulation/ocl"
-            name="%category-name">
-      </category>
-      <constraintProvider
-            cache="true"
-            mode="Live">
-         <package
-               namespaceUri="http://simulation.repository.lsem.de/meta/1.0">
-         </package>
-         <constraints
-               categories="emf-validation-simulation/ocl">
-            <constraint
-                  class="de.lsem.simulation.metaModel.validation.ElementNameNotNullConstraint"
-                  id="de.lsem.simulation.metaModel.constraints.elementName"
-                  isEnabledByDefault="true"
-                  lang="OCL"
-                  mode="Batch"
-                  name="Element-Name not null or empty"
-                  severity="ERROR"
-                  statusCode="de.lsem.simulation.metaModel.constraint1">
-               <message>
-                  Element-Name of element {0} must not be empty.
-               </message>
-               <target
-                     class="Activity">
-               </target>
-               <target
-                     class="Source"></target>
-               <target
-                     class="Sink">
-               </target>
-               <target
-                     class="Relation">
-               </target>
-            </constraint>
-         </constraints>
-      </constraintProvider>
-   </extension>
 
 </plugin>
