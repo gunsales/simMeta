@@ -1,12 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Validation
-Bundle-SymbolicName: de.lsem.simulation.validation
+Bundle-SymbolicName: de.lsem.simulation.validation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: de.lsem.simulation.validation.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- de.lsem.simulation.metaModel;bundle-version="1.0.0"
+ de.lsem.simulation.metaModel;bundle-version="1.0.0",
+ org.eclipse.pde.runtime;bundle-version="3.4.400"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: de.lsem.simulation.validation,

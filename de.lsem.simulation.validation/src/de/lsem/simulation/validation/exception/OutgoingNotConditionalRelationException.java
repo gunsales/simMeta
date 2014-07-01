@@ -25,6 +25,6 @@ public class OutgoingNotConditionalRelationException extends
 				+ r.getSource().getName()
 				+ "\" and \""
 				+ r.getTarget().getName()
-				+ "\" is not a conditional-relation. If multiple outgoing relations exists, they must all be conditional. Please fix this.";
+				+ "\" is not a conditional-relation. If multiple outgoing relations exist, they must all be conditional. Please fix this.";
 	}
 }

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -16,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -27,8 +30,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.graphiti.platform.IDiagramContainer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -42,10 +49,13 @@ import de.lsem.repository.model.simulation.ISimulationElement;
 import de.lsem.simulation.transformation.mdb.Activator;
 import de.lsem.simulation.transformation.mdb.generator.GeneratorInjector;
 import de.lsem.simulation.transformation.mdb.xtend.ArenaTransformer;
+import de.lsem.simulation.validation.SimulationValidator;
+import de.lsem.simulation.validation.exception.ValidationException;
 
 public class TransformToArenaJob extends Job {
 
 	private IWorkbenchWindow workbench;
+	private static final Logger log = Logger.getLogger(TransformToArenaJob.class.getSimpleName());
 
 	public TransformToArenaJob(String name, final IWorkbenchWindow workbench) {
 		super(name);
@@ -57,6 +67,9 @@ public class TransformToArenaJob extends Job {
 		IWorkbenchPage page = workbench.getActivePage();
 		IEditorPart editor = page.getActiveEditor();
 
+		monitor.beginTask("Validating elements...", IProgressMonitor.UNKNOWN);
+		preCheckBusinessObjects(editor);
+		
 		Status retVal = new Status(Status.INFO, Activator.PLUGIN_ID, "");
 
 		monitor.beginTask(Messages.TransformToArena_4, IProgressMonitor.UNKNOWN);
@@ -96,6 +109,51 @@ public class TransformToArenaJob extends Job {
 		monitor.done();
 
 		return retVal;
+	}
+	
+	private void preCheckBusinessObjects(IEditorPart editor) {
+		if (editor instanceof IDiagramContainer) {
+			IDiagramContainer container = (IDiagramContainer) editor;
+			EList<Resource> resources = container.getDiagramBehavior()
+					.getEditingDomain().getResourceSet().getResources();
+			for (Resource r : resources) {
+				if (r instanceof XMIResource) {
+					XMIResource xmiResource = (XMIResource) r;
+
+					SimulationValidator simulationValidator = new SimulationValidator(
+							xmiResource, Activator.PLUGIN_ID);
+
+					List<ValidationException> foundProblems = simulationValidator
+							.validate();
+					
+					ILog iLog = Activator.getDefault().getLog();
+
+					for (ValidationException e : foundProblems) {
+
+						log.log(Level.WARNING, e.getLocalizedMessage() + "\n"
+								+ e.getMessage());
+						
+
+						iLog.log(e.getStatus());
+						
+					}
+					
+					if ( foundProblems.size() > 0){
+						Display.getDefault().asyncExec(new Runnable() {
+							
+							@Override
+							public void run() {
+
+								MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(), SWT.ICON_INFORMATION);
+								messageBox.setMessage("Your model contains errors or warnings. Please check the error log.");
+								messageBox.setText("Errors found in model");
+								messageBox.open();
+							}
+						});
+					}
+				}
+			}
+		}
 	}
 
 	private void updateProject(XMIResourceImpl xmiResource)

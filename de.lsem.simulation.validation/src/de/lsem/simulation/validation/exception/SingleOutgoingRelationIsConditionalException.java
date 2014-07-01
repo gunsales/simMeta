@@ -1,5 +1,6 @@
 package de.lsem.simulation.validation.exception;
 
+import de.lsem.repository.model.simulation.IRelation;
 import de.lsem.repository.model.simulation.ISimulationElement;
 import de.lsem.repository.model.simulation.ISimulationObject;
 
@@ -27,9 +28,20 @@ public class SingleOutgoingRelationIsConditionalException extends
 			return "The only outgoing relation of element "
 					+ name
 					+ " is conditional, but should be a usual relation. Please fix this.";
+		} else if (getElement() instanceof IRelation) {
+			IRelation r = (IRelation) getElement();
+
+			ISimulationElement source = r.getSource();
+
+			if (source != null) {
+				return "The only outgoing relation of element \""
+						+ source.getName()
+						+ "\" is conditional, but should be a usual relation. Please fix this.";
+			}
 		}
 
-		return "One element of your process has only one outgoing relation, which is conditional. It should be a usual relation. Please fix this.";
+		return "One element of your process has only one outgoing relation, which is conditional. It should be a usual relation. Please fix this. Object-ID:"
+				+ getElement().toString();
 	}
 
 }

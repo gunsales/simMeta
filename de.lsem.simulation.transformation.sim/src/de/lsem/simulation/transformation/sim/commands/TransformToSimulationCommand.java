@@ -61,7 +61,7 @@ public class TransformToSimulationCommand implements IHandler,
 			return null;
 
 		IEditorPart editor = HandlerUtil.getActiveEditor(event);
-		if (editor.isDirty()) {
+		if (editor != null && editor.isDirty()) {
 			int open = createSaveMessageBox(event);
 			if (open == SWT.YES) {
 				editor.doSave(new NullProgressMonitor());

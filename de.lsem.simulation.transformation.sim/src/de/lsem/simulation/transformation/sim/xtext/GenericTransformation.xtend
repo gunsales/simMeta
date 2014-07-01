@@ -31,26 +31,26 @@ class GenericTransformation {
 	}
 
 	private def void filterNodesAndEdges(Set<ProcessNode> nodes, Set<ProcessEdge> edges) {
-		
+
 		this.edges = edges
 		this.nodes = nodes
-		
+
 		//Transform only activities and gateways
-		this.nodes = nodes.filter[
+		this.nodes = nodes.filter [
 			(activity || gateway) // only gateways and activities
 		].toSet
-		
-		nodes.filter[gateway].filter[incoming.size < 1 || outgoing.size < 1].forEach[
+
+		nodes.filter[gateway].filter[incoming.size < 1 || outgoing.size < 1].forEach [
 			edges.removeAll(incoming)
 			edges.removeAll(outgoing)
 		]
-		
+
 		//Remove all gateways without incoming or outgoing relations
 		this.nodes.removeAll(
 			nodes.filter[gateway].filter[incoming.size < 1 || outgoing.size < 1]
 		)
 	}
-	
+
 	public def Set<ISimulationElement> transform(Set<ProcessNode> nodes, Set<ProcessEdge> edges) {
 		filterNodesAndEdges(nodes, edges)
 		val starts = startElements.map [
@@ -61,8 +61,12 @@ class GenericTransformation {
 	}
 
 	private def isGateway(ProcessNode p) {
+
+		//		println("" + (p.isOfType(ProcessNode::GATEWAY) || p.isOfType(ProcessNode::EXCLUSIVE_GATEWAY) ||
+		//			p.isOfType(ProcessNode::PARALLEL_GATEWAY)) + " name: " + p.label + " id:"+ p.id)
 		return ( p.isOfType(ProcessNode::GATEWAY) || p.isOfType(ProcessNode::EXCLUSIVE_GATEWAY) ||
 			p.isOfType(ProcessNode::PARALLEL_GATEWAY) )
+
 	}
 
 	private def Set<ISimulationElement> addStartAndEndElement(Set<ISimulationElement> transformedSet) {
@@ -112,7 +116,6 @@ class GenericTransformation {
 		edges.filter [
 			source.id.equals(p.id) && ( source.activity || source.gateway )
 		].toSet
-
 	}
 
 	private def Set<ISimulationElement> reachable(Set<ISimulationElement> input, Set<ISimulationElement> output) {
@@ -128,23 +131,35 @@ class GenericTransformation {
 		}
 	}
 
-	private def void transformFlow(ProcessEdge e) {
+	private def void transformFlow(ProcessEdge it) {
 
-		if (e.target.gateway) {
-			val sour = e.source.transform
-			e.target.outgoing.forEach [
-				sour.outgoing.add(createConditionalRelation(e.source, target))
-			]
+		if (target.gateway) {
+			val sour = source.transform
+
+			// BUGFIX if there is only one outgoing relation and target is a gateway, create a usual relation
+			if (source.outgoing.size < 2) {
+				sour.outgoing.add(createRelation(sour, target.transform))
+			} 
+			// Create conditional relations for each outgoing edge
+			else {
+				target.outgoing.forEach [ t |
+					sour.outgoing.add(createConditionalRelation(sour, target.transform))
+				]
+			}
 		} else {
-			var sour = e.source.transform
-			var targ = e.target.transform
-			var relation = createRelation(sour, targ)
+			var sour = source.transform
+			var targ = target.transform
 
-			relation.source = sour
-			relation.target = targ
+			if (source.outgoing.size < 2) {
+				createRelation(sour, targ)
+			} else {
+				createConditionalRelation(sour, targ)
+			}
 
-			//			println("Creating relation between: " + relation.source + " and " + relation.target)
-			sour.outgoing.add(relation)
+		//			relation.source = sour
+		//			relation.target = targ
+		//			println("Creating relation between: " + relation.source + " and " + relation.target)
+		//			sour.outgoing.add(relation)
 		}
 	}
 
@@ -164,14 +179,16 @@ class GenericTransformation {
 	}
 
 	private def create condRel:SimulationFactory::eINSTANCE.createConditionalRelation createConditionalRelation(
-		ProcessNode source, ProcessNode target) {
-		condRel.source = source.transform
-		condRel.target = target.transform
+		ISimulationElement source, ISimulationElement target) {
 		condRel.condition = ""
 		condRel.probability = 50f
 		condRel.name = "relation_" + relationCounter
 
+		condRel.source = source
+		condRel.target = target
+
 		relationCounter = relationCounter + 1
+		source.outgoing.add(condRel)
 	}
 
 	private def create rel:SimulationFactory::eINSTANCE.createRelation createRelation(ISimulationElement source,
@@ -180,6 +197,7 @@ class GenericTransformation {
 		rel.target = target
 		rel.name = "relation_" + relationCounter
 		relationCounter = relationCounter + 1
+		source.outgoing.add(rel)
 	}
 
 	private def create el:SimulationFactory::eINSTANCE.createActivity createActivity(ProcessNode sourceNode) {
@@ -191,7 +209,8 @@ class GenericTransformation {
 		el.serviceType = ServiceType::DEFAULT
 		el.timePeriod = el.createTime
 		el.subActivities
-		el.outgoing
+
+		//		el.outgoing
 		sourceNode.transformOutgoingFlows
 	}
 

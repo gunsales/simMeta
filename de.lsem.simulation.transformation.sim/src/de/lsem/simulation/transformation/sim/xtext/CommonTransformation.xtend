@@ -9,6 +9,7 @@ import de.lsem.repository.model.simulation.SimulationFactory
 import de.lsem.repository.model.simulation.UnitOfTime
 import org.eclipse.bpmn2.FlowElement
 
+
 class CommonTransformation {
 
 	protected def create capa:SimulationFactory::eINSTANCE.createCapacity createCapacity(IActivity o) {

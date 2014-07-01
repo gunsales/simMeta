@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.lsem.repository.model.simulation.IGood;
 import de.lsem.repository.model.simulation.ISimulationObject;
-import de.lsem.simulation.validation.exception.NameValidationException;
+import de.lsem.simulation.validation.exception.AttributeValidationException;
 import de.lsem.simulation.validation.exception.ValidationException;
 
 public class GoodValidator implements IValidator {
@@ -30,17 +30,17 @@ public class GoodValidator implements IValidator {
 		String type = good.getType();
 
 		if (null == description || "".equals(description)) {
-			NameValidationException nve = new NameValidationException(good,
+			AttributeValidationException nve = new AttributeValidationException(good,
 					"Description is empty");
 			retVal.add(nve);
 		}
 		if (null == name || "".equals(name)) {
-			NameValidationException nve = new NameValidationException(good,
+			AttributeValidationException nve = new AttributeValidationException(good,
 					"Name is empty");
 			retVal.add(nve);
 		}
 		if (null == type || "".equals(type)) {
-			NameValidationException nve = new NameValidationException(good,
+			AttributeValidationException nve = new AttributeValidationException(good,
 					"Type is empty");
 			retVal.add(nve);
 		}

@@ -1,16 +1,20 @@
 package de.lsem.simulation.transformation.anylogic.commands;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 
 import com.google.inject.Injector;
 
@@ -22,8 +26,13 @@ import de.lsem.simulation.transformation.anylogic.generator.persistant.Connector
 import de.lsem.simulation.transformation.anylogic.generator.persistant.EmbeddedObject;
 import de.lsem.simulation.transformation.anylogic.transform.generator.GeneratorInjector;
 import de.lsem.simulation.transformation.anylogic.transform.xtend.MainTransformer;
+import de.lsem.simulation.validation.SimulationValidator;
+import de.lsem.simulation.validation.exception.ValidationException;
 
 public class TransformToAnylogicJob extends Job {
+
+	private static final Logger log = Logger
+			.getLogger(TransformToAnylogicJob.class.getSimpleName());
 
 	private XMIResource xmiResource;
 	private List<EmbeddedObject> generatedEmbeddedObjects;
@@ -44,21 +53,24 @@ public class TransformToAnylogicJob extends Job {
 
 		Status status = new Status(Status.OK, Activator.PLUGIN_ID,
 				"Transformation completed successfully.");
+
 		// Filter business-objects
-		List<ISimulationElement> businessObjects = filterBusinessObjects(xmiResource);
+		// List<ISimulationElement> businessObjects =
+		// filterBusinessObjects(xmiResource);
+		// Pre-Check transform-conditions REPLACED BY plugin
+		// de.simulation.validation
+		// final Status preCheckStatus = preCheckConditions(businessObjects);
+		// switch (preCheckStatus.getSeverity()) {
+		// case Status.ERROR: {
+		// return preCheckStatus;
+		// }
+		// case Status.WARNING: {
+		// status = preCheckStatus;
+		// }
+		// default:
+		// }
 
-		// Pre-Check transform-conditions
-		final Status preCheckStatus = preCheckConditions(businessObjects);
-
-		switch (preCheckStatus.getSeverity()) {
-		case Status.ERROR: {
-			return preCheckStatus;
-		}
-		case Status.WARNING: {
-			status = preCheckStatus;
-		}
-		default:
-		}
+		preCheckBusinessObjects();
 
 		// Init Transformation based on business-objects
 		// Injector injector = Guice.createInjector(new GeneratorModule());
@@ -68,7 +80,6 @@ public class TransformToAnylogicJob extends Job {
 		Injector injector = generator.createInjectorAndDoEMFRegistration();
 		MainTransformer anylogicTransformer = injector
 				.getInstance(MainTransformer.class);
-		
 
 		// Execute Transformation
 		try {
@@ -86,6 +97,43 @@ public class TransformToAnylogicJob extends Job {
 		return status;
 	}
 
+	private void preCheckBusinessObjects() {
+
+		SimulationValidator simulationValidator = new SimulationValidator(
+				xmiResource, Activator.PLUGIN_ID);
+
+		List<ValidationException> foundProblems = simulationValidator
+				.validate();
+
+		ILog iLog = Activator.getDefault().getLog();
+
+		for (ValidationException e : foundProblems) {
+
+			log.log(Level.WARNING,
+					e.getLocalizedMessage() + "\n" + e.getMessage());
+
+			iLog.log(e.getStatus());
+
+		}
+
+		if (foundProblems.size() > 0) {
+			Display.getDefault().asyncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					MessageBox messageBox = new MessageBox(Display.getDefault()
+							.getActiveShell(), SWT.ICON_INFORMATION);
+					messageBox
+							.setMessage("Your model contains errors or warnings. Please check the error log.");
+					messageBox.setText("Errors found in model");
+					messageBox.open();
+				}
+			});
+			
+		}
+	}
+
+	@Deprecated
 	private Status preCheckConditions(List<ISimulationElement> businessObjects) {
 
 		// Case 1 (Warning): If multiple outgoing connections and at least on of
@@ -121,17 +169,6 @@ public class TransformToAnylogicJob extends Job {
 
 	protected List<EmbeddedObject> getEmbeddedObjects() {
 		return generatedEmbeddedObjects;
-	}
-
-	private List<ISimulationElement> filterBusinessObjects(
-			XMIResource xmiResource) {
-		List<ISimulationElement> retVal = new ArrayList<ISimulationElement>();
-		for (Iterator<EObject> it = xmiResource.getAllContents(); it.hasNext();) {
-			EObject obj = it.next();
-			if (obj instanceof ISimulationElement)
-				retVal.add((ISimulationElement) obj);
-		}
-		return retVal;
 	}
 
 	protected Set<Connector> getConnections() {
