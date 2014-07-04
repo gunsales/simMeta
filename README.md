@@ -4,8 +4,8 @@ simMeta
 University of Leipzig, Chair for Information-Systems, June 2014.
 This is a basic-version of the prototype belonging to a dissertation.
 
-This project transforms BPMN2-Processes, EPC-Processes, Petri-Net-Processes and others into a EMF-Based meta-modell in order 
-to enrich the processes with simulation- and logistic-stecific information. Therefor, a Graphiti-based edtior allows the visual customization.
+This project transforms BPMN2-Processes, EPC-Processes, Petri-Net-Processes and others into a EMF-Based meta-model in order 
+to enrich the processes with simulation- and logistic-specific information. Therefor, a Graphiti-based editor allows the visual customization.
 Final step is the transformation from the enriched processes into simulation-specific software (ARENA, Enterprise Dynamics and Anylogic).
 The processes are now ready to be simulated of the shelf.
 
