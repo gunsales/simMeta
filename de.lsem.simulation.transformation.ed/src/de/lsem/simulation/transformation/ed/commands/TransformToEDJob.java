@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -31,6 +32,7 @@ import com.google.inject.Injector;
 import de.lsem.simulation.transformation.ed.Activator;
 import de.lsem.simulation.transformation.ed.generator.GeneratorModule;
 import de.lsem.simulation.transformation.ed.xtext.MainGenerator;
+import de.lsem.simulation.validation.SimulationValidator;
 
 public class TransformToEDJob extends Job {
 
@@ -45,6 +47,14 @@ public class TransformToEDJob extends Job {
 	protected IStatus run(IProgressMonitor monitor) {
 		// TASK 1 - Execute transformation and open file
 		IEditorPart editor = getActiveEditor(monitor);
+
+		if (!preCheckBusinessObjects(editor)) {
+			return new Status(
+					Status.ERROR,
+					Activator.PLUGIN_ID,
+					"Transformation can not be started. Please check the error-log for more information.");
+		}
+		
 		try {
 			// Execute Enterprise Dynamics
 			File task = executeTransformationTask(monitor, editor);
@@ -60,7 +70,28 @@ public class TransformToEDJob extends Job {
 		return Status.OK_STATUS;
 	}
 	
+	private boolean preCheckBusinessObjects(IEditorPart editor) {
+		if (editor instanceof IDiagramContainer) {
+			IDiagramContainer container = (IDiagramContainer) editor;
+			EList<Resource> resources = container.getDiagramBehavior()
+					.getEditingDomain().getResourceSet().getResources();
+			for (Resource r : resources) {
+				if (r instanceof XMIResource) {
+					XMIResource xmiResource = (XMIResource) r;
 
+					ILog iLog = Activator.getDefault().getLog();
+					
+					SimulationValidator simulationValidator = new SimulationValidator(
+							xmiResource, iLog, Activator.PLUGIN_ID);
+
+					return simulationValidator.validate();
+				}
+			}
+		}
+		// Allow transformation even if pre-check is not possible.
+		return true;
+	}
+	
 	private File executeTransformationTask(IProgressMonitor monitor,
 			IEditorPart editor) throws Exception {
 		monitor.beginTask(Messages.TransformToED_3, IProgressMonitor.UNKNOWN);

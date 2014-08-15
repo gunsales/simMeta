@@ -16,22 +16,10 @@ public enum DistributionFunctionProvider {
 
 	private List<IDistributionFunction> distributionFunctionList;
 
-
-
 	private DistributionFunctionProvider(){
 		distributionFunctionList = new ArrayList<IDistributionFunction>();
 //		loadClasses();
 	}
-
-//	private void loadClasses() {
-//		Collection<? extends IDistributionFunction> loader = Lookup.lookupAll(
-//				IDistributionFunction.class);
-//		distributionFunctionList = new ArrayList<IDistributionFunction>();
-//		for(IDistributionFunction d : loader){
-//			distributionFunctionList.add(d);
-//			log.log(Level.INFO, "Added class " + d.getClass().getSimpleName() + " to IDistributionFunctions.");
-//		}
-//	}
 
 	public List<IDistributionFunction> getDistributionFunctions(){
 		Collection<? extends IDistributionFunction> loader = Lookup.lookupAll(

@@ -158,6 +158,10 @@
   </extension>
   <extension
         point="org.eclipse.ui.newWizards">
+     <category
+           id="de.lsem.simulation.category"
+           name="Simulation">
+     </category>
      <wizard
            canFinishEarly="false"
            category="de.lsem.simulation.category"
@@ -167,13 +171,25 @@
            name="Simulation Diagram"
            project="true">
      </wizard>
-     <category
-           id="de.lsem.simulation.category"
-           name="Simulation">
-     </category>
      <primaryWizard
            id="de.lsem.simulation.wizards.newSimulationDiagram">
      </primaryWizard>
+     <wizard
+           canFinishEarly="false"
+           category="de.lsem.simulation.category"
+           class="de.lsem.simulation.wizards.NewSimulationProject"
+           descriptionImage="icons/simLogo2_16_16_32Bit.png"
+           finalPerspective="de.lsem.simulation.perspective"
+           hasPages="true"
+           icon="icons/simLogo2_16_16_32Bit.png"
+           id="de.lsem.simulation.wizards.newSimulationProject"
+           name="Simulation Project"
+           preferredPerspectives="de.lsem.simulation.perspective"
+           project="true">
+        <description>
+           Creates a project with simulation-dependent settings, i.e. validation of simMeta-model files is possible via *.digram->context-menu->validate.
+        </description>
+     </wizard>
   </extension>
   <extension
         point="de.cau.cs.kieler.kiml.service.layoutManagers">
@@ -286,6 +302,15 @@
                  label="Transform to Simulation"
                  style="push">
            </command>
+           <separator
+                 name="de.lsem.simulation.separator1">
+           </separator>
+           <command
+                 commandId="de.lsem.simulation.validation.commands.validate"
+                 icon="icons/Ok.png"
+                 label="Validate Model"
+                 style="push">
+           </command>
         </toolbar>
      </menuContribution>
      <menuContribution
@@ -304,6 +329,27 @@
            </command>
         </menu>
      </menuContribution>
+  </extension>
+  <extension
+        id="nature"
+        name="Simulation Nature"
+        point="org.eclipse.core.resources.natures">
+     <runtime>
+        <run
+              class="de.lsem.simulation.ProjectNature">
+        </run>
+     </runtime>
+     <one-of-nature
+           id="nature">
+     </one-of-nature>
+  </extension>
+  <extension
+        point="org.eclipse.ui.ide.projectNatureImages">
+     <image
+           icon="icons/simLogo2_16_16_32Bit.png"
+           id="de.lsem.simulation.images.projectNature"
+           natureId="de.lsem.simulation.id2">
+     </image>
   </extension>
 </plugin>
 

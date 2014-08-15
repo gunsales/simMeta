@@ -1,0 +1,108 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="eAnnotations">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="source" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="eClassifiers">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element name="eAnnotations" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="details" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="key" use="optional"/>
+                      <xs:attribute type="xs:string" name="value" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="source" use="optional"/>
+            <xs:attribute type="xs:string" name="references" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="eStructuralFeatures" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType mixed="true">
+            <xs:sequence>
+              <xs:element name="eAnnotations" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="details">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="key"/>
+                            <xs:attribute type="xs:string" name="value"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:anyURI" name="source"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="name" use="optional"/>
+            <xs:attribute type="xs:string" name="eType" use="optional"/>
+            <xs:attribute type="xs:byte" name="upperBound" use="optional"/>
+            <xs:attribute type="xs:string" name="containment" use="optional"/>
+            <xs:attribute type="xs:byte" name="lowerBound" use="optional"/>
+            <xs:attribute type="xs:string" name="unique" use="optional"/>
+            <xs:attribute type="xs:byte" name="defaultValueLiteral" use="optional"/>
+            <xs:attribute type="xs:string" name="ordered" use="optional"/>
+            <xs:attribute type="xs:string" name="volatile" use="optional"/>
+            <xs:attribute type="xs:string" name="transient" use="optional"/>
+            <xs:attribute type="xs:string" name="eOpposite" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="eLiterals" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="name" use="optional"/>
+                <xs:attribute type="xs:byte" name="value" use="optional"/>
+                <xs:attribute type="xs:string" name="literal" use="optional"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="eOperations" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="eAnnotations">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="details">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="key"/>
+                            <xs:attribute type="xs:string" name="value"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:anyURI" name="source"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="name"/>
+            <xs:attribute type="xs:string" name="eType"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="eSuperTypes" use="optional"/>
+      <xs:attribute type="xs:string" name="abstract" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

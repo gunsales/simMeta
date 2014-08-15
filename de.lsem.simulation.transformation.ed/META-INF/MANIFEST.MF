@@ -18,5 +18,5 @@ Require-Bundle: org.eclipse.ui,
  de.lsem.simulation.metaModel;bundle-version="1.0.0",
  de.lsem.simulation.validation
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 

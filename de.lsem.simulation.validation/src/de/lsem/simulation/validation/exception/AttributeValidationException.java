@@ -12,12 +12,12 @@ public class AttributeValidationException extends ValidationException {
 
 	@Override
 	public String getMessage() {
-		return "Attribute of Element"
+		return "Attribute of Element \""
 				+ getElement().getClass().getSimpleName()
-				+ " with ID "
-				+ getElement().toString()
+				+ "\" with ID "
+				+ getElement().hashCode()
 				+ " is null or empty. Please give it a name which is unique."
-				+ "Reason: " + getReason();
+				+ " Reason: " + getReason();
 	}
 
 }

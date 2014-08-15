@@ -2,9 +2,16 @@ package de.lsem.simulation.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 
 import de.lsem.repository.model.simulation.IActivity;
 import de.lsem.repository.model.simulation.ISimulationElement;
@@ -19,22 +26,46 @@ import de.lsem.simulation.validation.validators.SourceValidator;
 public class SimulationValidator {
 
 	private List<ISimulationElement> elements;
+	private ILog log;
 	public static List<String> elementNames;
 	private static String pluginId;
+	private Logger logger;
 
+	@Deprecated
 	public SimulationValidator(List<ISimulationElement> transformedElements,
 			String pluginId_) {
-		this.elements = transformedElements;
 		init();
-		if (pluginId_ != null && !"".equals(pluginId_))
-			pluginId = pluginId_;
+		this.elements = transformedElements;
+		setPluginid(pluginId_);
+		initLogger();
 	}
 
+	@Deprecated
 	public SimulationValidator(XMIResource resource, String pluginId_) {
-		elements = filterBusinessObjects(resource);
 		init();
-		if (pluginId_ != null && !"".equals(pluginId_))
+		elements = filterBusinessObjects(resource);
+		setPluginid(pluginId_);
+		initLogger();
+	}
+
+	public SimulationValidator(XMIResource resource, ILog log, String pluginId_) {
+		init();
+		this.log = log;
+		elements = filterBusinessObjects(resource);
+		setPluginid(pluginId_);
+		initLogger();
+	}
+
+	private void initLogger() {
+		logger = Logger.getLogger(pluginId);
+	}
+
+	private void setPluginid(String pluginId_) {
+		if (pluginId_ != null && !"".equals(pluginId_)) {
 			pluginId = pluginId_;
+		} else {
+			pluginId = Activator.PLUGIN_ID;
+		}
 	}
 
 	private void init() {
@@ -42,11 +73,62 @@ public class SimulationValidator {
 		pluginId = new String();
 	}
 
-	public List<ValidationException> validate() {
+	/**
+	 * Validates a process if attributes are set and if the process-structure is
+	 * valid. A valid process-structure contains at least >=1 Source, >=1
+	 * Activity and >=1 Sink connected to each other.
+	 * 
+	 * The user will be informed via a pop-up-message and the warnings will be
+	 * displayed in error-view.
+	 * 
+	 * @return Returns whether a model is transformable or not. If Status.Error
+	 *         is thrown, validation fails and method returns false. If only
+	 *         Status.Warning/Everything fine, method returns true.
+	 */
+	public boolean validate() {
 		List<ValidationException> retVal = new ArrayList<ValidationException>();
 		retVal = checkElements(retVal);
 		retVal = checkProcessStructure(retVal);
-		return retVal;
+
+		return setLog(retVal);
+	}
+
+	private boolean setLog(List<ValidationException> foundProblems) {
+		boolean hasNoError = true;
+
+		if (log == null) {
+			return true;
+		}
+
+		for (ValidationException e : foundProblems) {
+			log.log(e.getStatus());
+			if (e.getStatus().getSeverity() == Status.ERROR) {
+				hasNoError = false;
+			}
+			logger.log(Level.WARNING, e.getMessage());
+		}
+
+		// Errors should aboard transformation, so that the containing job gives
+		// the user information about aborting the transformation
+		if (foundProblems.size() > 0 && hasNoError) {
+			displayProblemsExistMessage();
+		}
+		return hasNoError;
+	}
+
+	private void displayProblemsExistMessage() {
+		Display.getDefault().syncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				MessageBox messageBox = new MessageBox(Display.getDefault()
+						.getActiveShell(), SWT.ICON_INFORMATION);
+				messageBox
+						.setMessage("Your model contains errors or warnings. Please check the error log.");
+				messageBox.setText("Errors found in model");
+				messageBox.open();
+			}
+		});
 	}
 
 	private List<ValidationException> checkProcessStructure(

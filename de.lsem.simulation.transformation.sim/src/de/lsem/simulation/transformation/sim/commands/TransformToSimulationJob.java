@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.FlowNode;
@@ -43,9 +41,7 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -68,14 +64,13 @@ import de.lsem.simulation.transformation.sim.helper.Position;
 import de.lsem.simulation.transformation.sim.xtext.GenericTransformation;
 import de.lsem.simulation.transformation.sim.xtext.TransformBPMN2ToSimulation;
 import de.lsem.simulation.validation.SimulationValidator;
-import de.lsem.simulation.validation.exception.ValidationException;
 
 public class TransformToSimulationJob extends Job {
 
 	private static final String SIMULATION_DIAGRAM_TYPE_ID = "de.lsem.simulation";
-	private static final Logger log = Logger.getLogger(TransformToSimulationJob.class.getSimpleName());
-	
-	
+//	private static final Logger log = Logger
+//			.getLogger(TransformToSimulationJob.class.getSimpleName());
+
 	private List<FlowElement> bpmnElementList;
 	private IFile saveFile;
 	private IWorkbenchPage page;
@@ -123,7 +118,7 @@ public class TransformToSimulationJob extends Job {
 		if (process != null) {
 
 			// Set up flow elements to be transformed
-			bpmnElementList = new ArrayList<>();
+			bpmnElementList = new ArrayList<FlowElement>();
 			for (FlowElement e : process.getFlowElements()) {
 				if (e instanceof FlowNode) {
 					bpmnElementList.add((FlowNode) e);
@@ -150,7 +145,7 @@ public class TransformToSimulationJob extends Job {
 		monitor.beginTask("Starting transformation", IProgressMonitor.UNKNOWN);
 		// Transform! Get simulation elements from bpmn-elements
 		Set<? extends ISimulationElement> transformationSet = startTransformation(monitor);
-		
+
 		// Oh-Pen diagram in editor
 		monitor.beginTask("Opening and initializing editor...",
 				IProgressMonitor.UNKNOWN);
@@ -161,8 +156,8 @@ public class TransformToSimulationJob extends Job {
 		return new Status(IStatus.OK, Activator.PLUGIN_ID,
 				"Transformation done.");
 	}
-	
-	private void preCheckBusinessObjects(IEditorPart editor) {
+
+	private boolean preCheckBusinessObjects(IEditorPart editor) {
 		if (editor instanceof IDiagramContainer) {
 			IDiagramContainer container = (IDiagramContainer) editor;
 			EList<Resource> resources = container.getDiagramBehavior()
@@ -170,34 +165,17 @@ public class TransformToSimulationJob extends Job {
 			for (Resource r : resources) {
 				if (r instanceof XMIResource) {
 					XMIResource xmiResource = (XMIResource) r;
-
-					SimulationValidator simulationValidator = new SimulationValidator(
-							xmiResource, Activator.PLUGIN_ID);
-
-					List<ValidationException> foundProblems = simulationValidator
-							.validate();
-					
 					ILog iLog = Activator.getDefault().getLog();
 
-					for (ValidationException e : foundProblems) {
+					SimulationValidator simulationValidator = new SimulationValidator(
+							xmiResource, iLog, Activator.PLUGIN_ID);
 
-						log.log(Level.WARNING, e.getLocalizedMessage() + "\n"
-								+ e.getMessage());
-						
-
-						iLog.log(e.getStatus());
-						
-					}
-					
-					if ( foundProblems.size() > 0){
-						MessageBox messageBox = new MessageBox(editor.getSite().getShell(), SWT.ICON_INFORMATION);
-						messageBox.setMessage("Your model contains errors or warnings. Please check the error log.");
-						messageBox.setText("Errors found in model");
-						messageBox.open();
-					}
+					return simulationValidator.validate();
 				}
 			}
 		}
+		// Allow transformation even if pre-check is not possible.
+		return true;
 	}
 
 	private void addSimulationElementsToResource(final Resource resource,
@@ -330,7 +308,7 @@ public class TransformToSimulationJob extends Job {
 
 					monitor.beginTask("Adding elements to resource ... ",
 							IProgressMonitor.UNKNOWN);
-					
+
 					// Create resource-set
 					Resource resource = editingDomain.getResourceSet()
 							.getResources().get(0);
@@ -344,11 +322,12 @@ public class TransformToSimulationJob extends Job {
 
 					// Save editor
 					editor.doSave(new NullProgressMonitor());
-					
+
 					// Check process-structure
-					monitor.beginTask("Validating elements...", IProgressMonitor.UNKNOWN);
+					monitor.beginTask("Validating elements...",
+							IProgressMonitor.UNKNOWN);
 					preCheckBusinessObjects(editor);
-					
+
 					monitor.done();
 				} catch (PartInitException e) {
 					e.printStackTrace();

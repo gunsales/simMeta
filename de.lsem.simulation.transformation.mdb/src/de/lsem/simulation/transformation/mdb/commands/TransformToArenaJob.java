@@ -3,10 +3,6 @@ package de.lsem.simulation.transformation.mdb.commands;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -28,14 +24,10 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.graphiti.platform.IDiagramContainer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -43,19 +35,15 @@ import org.xml.sax.SAXException;
 
 import com.google.inject.Injector;
 
-import de.lsem.repository.model.simulation.IConditionalRelation;
-import de.lsem.repository.model.simulation.IRelation;
-import de.lsem.repository.model.simulation.ISimulationElement;
 import de.lsem.simulation.transformation.mdb.Activator;
 import de.lsem.simulation.transformation.mdb.generator.GeneratorInjector;
 import de.lsem.simulation.transformation.mdb.xtend.ArenaTransformer;
 import de.lsem.simulation.validation.SimulationValidator;
-import de.lsem.simulation.validation.exception.ValidationException;
 
 public class TransformToArenaJob extends Job {
 
 	private IWorkbenchWindow workbench;
-	private static final Logger log = Logger.getLogger(TransformToArenaJob.class.getSimpleName());
+//	private static final Logger log = Logger.getLogger(TransformToArenaJob.class.getSimpleName());
 
 	public TransformToArenaJob(String name, final IWorkbenchWindow workbench) {
 		super(name);
@@ -80,9 +68,14 @@ public class TransformToArenaJob extends Job {
 				XMIResourceImpl xmiResource = getXMIResource(diagContainer);
 
 				if (xmiResource != null) {
-					List<ISimulationElement> elementList = filterBusinessObjectsFromXMIResource(xmiResource);
-					preCheckElements(elementList);
-
+					
+					if (!preCheckBusinessObjects(editor)) {
+						return new Status(
+								Status.ERROR,
+								Activator.PLUGIN_ID,
+								"Transformation can not be started. Please check the error-log for more information.");
+					}
+					
 					monitor.beginTask(Messages.TransformToArena_8,
 							IProgressMonitor.UNKNOWN);
 
@@ -110,50 +103,28 @@ public class TransformToArenaJob extends Job {
 
 		return retVal;
 	}
-	
-	private void preCheckBusinessObjects(IEditorPart editor) {
+
+	private boolean preCheckBusinessObjects(IEditorPart editor) {
 		if (editor instanceof IDiagramContainer) {
 			IDiagramContainer container = (IDiagramContainer) editor;
 			EList<Resource> resources = container.getDiagramBehavior()
 					.getEditingDomain().getResourceSet().getResources();
 			for (Resource r : resources) {
 				if (r instanceof XMIResource) {
+
+					ILog iLog = Activator.getDefault().getLog();
+					
 					XMIResource xmiResource = (XMIResource) r;
 
 					SimulationValidator simulationValidator = new SimulationValidator(
-							xmiResource, Activator.PLUGIN_ID);
+							xmiResource, iLog, Activator.PLUGIN_ID);
 
-					List<ValidationException> foundProblems = simulationValidator
-							.validate();
-					
-					ILog iLog = Activator.getDefault().getLog();
-
-					for (ValidationException e : foundProblems) {
-
-						log.log(Level.WARNING, e.getLocalizedMessage() + "\n"
-								+ e.getMessage());
-						
-
-						iLog.log(e.getStatus());
-						
-					}
-					
-					if ( foundProblems.size() > 0){
-						Display.getDefault().asyncExec(new Runnable() {
-							
-							@Override
-							public void run() {
-
-								MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(), SWT.ICON_INFORMATION);
-								messageBox.setMessage("Your model contains errors or warnings. Please check the error log.");
-								messageBox.setText("Errors found in model");
-								messageBox.open();
-							}
-						});
-					}
+					return simulationValidator.validate();
 				}
 			}
 		}
+		// Allow transformation even if pre-check is not possible.
+		return true;
 	}
 
 	private void updateProject(XMIResourceImpl xmiResource)
@@ -178,43 +149,6 @@ public class TransformToArenaJob extends Job {
 		ArenaTransformer transformer = injector
 				.getInstance(ArenaTransformer.class);
 		return transformer.start(xmiResource);
-	}
-
-	private Status preCheckElements(List<ISimulationElement> elementList) {
-
-		// Case 1 : One outgoing relation but it is a conditional relation
-		for (ISimulationElement s : elementList) {
-			for (IRelation r : s.getOutgoing()) {
-				if (r instanceof IConditionalRelation
-						&& s.getOutgoing().size() == 1) {
-
-					return new Status(
-							Status.WARNING,
-							Activator.PLUGIN_ID,
-							"Warning. Element "
-									+ s.getName()
-									+ " has only one outgoing relation, but it is set as a conditional relation. Please ajust your model.");
-				}
-			}
-		}
-
-		return new Status(Status.OK, Activator.PLUGIN_ID,
-				"Pre-check successfully completed.");
-
-	}
-
-	private List<ISimulationElement> filterBusinessObjectsFromXMIResource(
-			XMIResourceImpl xmiResource) {
-
-		List<ISimulationElement> retVal = new ArrayList<ISimulationElement>();
-
-		for (EObject e : xmiResource.getContents()) {
-			if (e instanceof ISimulationElement) {
-				retVal.add((ISimulationElement) e);
-			}
-		}
-
-		return retVal;
 	}
 
 	private XMIResourceImpl getXMIResource(IDiagramContainer diagContainer) {

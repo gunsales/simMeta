@@ -5,10 +5,11 @@ Bundle-SymbolicName: de.lsem.simulation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: de.lsem.simulation.Activator
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.jface;bundle-version="3.9.0",
  org.eclipse.core.resources;bundle-version="3.8.100",
  org.eclipse.graphiti.examples.common;bundle-version="0.10.0",
+ org.eclipse.graphiti;bundle-version="0.10.0",
  org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.emf.common;bundle-version="2.9.0",
  org.eclipse.graphiti.ui;bundle-version="0.10.0",
@@ -16,7 +17,6 @@ Require-Bundle: org.eclipse.jface;bundle-version="3.9.0",
  org.eclipse.ui.workbench,
  org.eclipse.emf.transaction;bundle-version="1.4.0",
  org.eclipse.ui.ide.application;bundle-version="1.0.400",
- org.eclipse.graphiti;bundle-version="0.10.0",
  de.cau.cs.kieler.core;bundle-version="0.11.0",
  de.cau.cs.kieler.kiml;bundle-version="0.14.0",
  de.cau.cs.kieler.kiml.graphiti;bundle-version="0.5.0",
@@ -25,6 +25,8 @@ Require-Bundle: org.eclipse.jface;bundle-version="3.9.0",
  org.eclipse.ui.views.properties.tabbed,
  de.lsem.simulation.metaModel;bundle-version="1.0.0",
  org.eclipse.gef;bundle-version="3.9.0",
- org.eclipse.pde.runtime;bundle-version="3.4.400"
+ org.eclipse.pde.runtime;bundle-version="3.4.400",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.4.3",
+ org.eclipse.ui.ide;bundle-version="3.9.0"
 Import-Package: org.eclipse.ui.dialogs
 

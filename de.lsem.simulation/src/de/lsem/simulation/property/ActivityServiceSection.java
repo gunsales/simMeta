@@ -37,6 +37,7 @@ import de.lsem.repository.model.simulation.ServiceType;
 import de.lsem.repository.model.simulation.SimulationFactory;
 import de.lsem.repository.model.simulation.UnitOfTime;
 import de.lsem.simulation.DistributionFunctionProvider;
+import de.lsem.simulation.property.xtend.LSEMElementGeneralPropertySection;
 
 /**
  * Even though generating origin, destination, startDate and endDate values are
@@ -58,17 +59,17 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 	private ComboViewer timeCV;
 	private CCombo distCV;
 
-	private CLabel serviceLabel;
-	private CLabel dauerLabel;
-	private CLabel mengeLabel;
+//	private CLabel serviceLabel;
+	private CLabel durationLabel;
+	private CLabel amountLabel;
 	private CLabel maxCapacityLabel;
 	private CLabel queueLabel;
 	private CLabel constTextLabel;
 	private CLabel distCVLabel;
 	private CLabel timeCVLabel;
 
-	private Text dauerText;
-	private Text mengeText;
+	private Text durationText;
+	private Text amountText;
 	private Text maxCapacityText;
 	private Text constText;
 
@@ -82,6 +83,10 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 		createStorageSection();
 		createTransportSection();
 
+		addAllSelectionListeners();
+	}
+
+	private void addAllSelectionListeners() {
 		serviceCV.addSelectionChangedListener(comboServiceSelectionListener);
 		queueCV.addSelectionChangedListener(comboQueueStrategySelectionListener);
 		distCV.addSelectionListener(comboDistributionFunctionSelectionChangedListener);
@@ -138,12 +143,12 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 
 		if (getSelectedPictogramElement() != null) {
 			final Object bo = getPictogramElement();
-			
+
 			if (bo == null && !(bo instanceof Activity))
 				return;
-			
+
 			Activity activity = ((Activity) bo);
-			
+
 			// ServiceType Combo
 			if (serviceCV != null) {
 
@@ -158,7 +163,8 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 
 				// set default service
 				StructuredSelection sl = new StructuredSelection(
-						(serviceType == null) ? ServiceType.DEFAULT : serviceType);
+						(serviceType == null) ? ServiceType.DEFAULT
+								: serviceType);
 
 				serviceCV.setSelection(sl, true);
 				changeServiceVisibility(serviceType);
@@ -181,16 +187,17 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 					try {
 						if (distCV != null) {
 							for (String s : distCV.getItems()) {
-								// System.out.println(s + " vs. " +
-								// period.getClass().getSimpleName());
-								if (s.startsWith(period.getClass()
+//								 System.out.println(s + " vs. " +
+//								 period.getClass().getSimpleName());
+								if (s.contains(period.getClass()
 										.getSimpleName())) {
-									String label = getDistributionFunctionLabelForComboViewer((IDistributionFunction) period);
+									String label = getLabelGenerator()
+											.getDistributionFunctionLabelForComboViewer(
+													(IDistributionFunction) period);
 									distCV.add(label, distCV.indexOf(s));
 									distCV.setData(label, period);
 									distCV.remove(s);
 									distCV.select(distCV.indexOf(label));
-									// System.out.println("-->" + s);
 									break;
 								}
 							}
@@ -200,7 +207,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 					}
 				} else if (period instanceof IConstant) {
 					try {
-						logger.log(Level.INFO, " Period INSTANCE OF CONSTANT");
+//						logger.log(Level.INFO, " Period INSTANCE OF CONSTANT");
 						constText.setText("" + ((IConstant) period).getValue());
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -262,7 +269,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 				IConstant timePeriod = createConstant();
 				time.setPeriod(timePeriod);
 				time.setUnit(UnitOfTime.HOUR);
-				
+
 				getDiagramContents().add(time);
 				getDiagramContents().add(timePeriod);
 				activity.setTimePeriod(time);
@@ -274,13 +281,11 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 			}
 
 			private IConstant createConstant() {
-				return SimulationFactory.eINSTANCE
-						.createConstant();
+				return SimulationFactory.eINSTANCE.createConstant();
 			}
 
 			private ITime createTime() {
-				return SimulationFactory.eINSTANCE
-						.createTime();
+				return SimulationFactory.eINSTANCE.createTime();
 			}
 		});
 	}
@@ -305,8 +310,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 	}
 
 	private TransactionalEditingDomain getEditDomain() {
-		return getDiagramContainer()
-				.getDiagramBehavior().getEditingDomain();
+		return getDiagramContainer().getDiagramBehavior().getEditingDomain();
 	}
 
 	private EObject getPictogramElement() {
@@ -320,8 +324,8 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 		timeCV.setSelection(new StructuredSelection());
 		queueCV.setSelection(new StructuredSelection());
 		distCV.select(-1);
-		dauerText.setText("");
-		mengeText.setText("");
+		durationText.setText("");
+		amountText.setText("");
 		maxCapacityText.setText("");
 		constText.setText("");
 	}
@@ -434,8 +438,9 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 						return;
 
 					if (!activity.getServiceType().equals(firstElement)) {
-						
-						if /* Picking */ (firstElement.equals(ServiceType.PICKING)) {
+
+						if /* Picking */(firstElement
+								.equals(ServiceType.PICKING)) {
 							activity.setServiceType(ServiceType.PICKING);
 							changeServiceVisibility(ServiceType.PICKING);
 						} /* Value added */else if (firstElement
@@ -454,7 +459,8 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 								.equals(ServiceType.TRANSPORT)) {
 							activity.setServiceType(ServiceType.TRANSPORT);
 							changeServiceVisibility(ServiceType.TRANSPORT);
-						} /* Default Service-Type */ else if(firstElement.equals(ServiceType.DEFAULT)) {
+						} /* Default Service-Type */else if (firstElement
+								.equals(ServiceType.DEFAULT)) {
 							activity.setServiceType(ServiceType.DEFAULT);
 							changeServiceVisibility(ServiceType.DEFAULT);
 						} /* Default */else {
@@ -472,10 +478,9 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 	private ITime switchDistributionItem(ITime time, IDistribution itemToAdd) {
 		// Remove from diagram
 		getDiagram().eResource().getContents().remove(time.getPeriod());
-
-		// Change deviationType to IUniform and add it
+		// add IDistribution to BO
 		time.setPeriod(itemToAdd);
-		// Add new to diagram
+		// Add new IDistribution to diagram
 		getDiagram().eResource().getContents().add(itemToAdd);
 
 		return time;
@@ -496,7 +501,8 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 					String text = distCV.getText().trim();
 					logger.log(Level.INFO, text);
 					if (text != null && !text.isEmpty()) {
-						IDistributionFunction fct = getDistributionFunctionForLSEMElement(text);
+						IDistributionFunction fct = getLabelGenerator()
+								.getDistributionFunctionForLSEMElement(text);
 						logger.log(Level.INFO, fct.toString());
 						if (fct != null) {
 							ITime distributionItem = switchDistributionItem(
@@ -526,7 +532,8 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 					String text = distCV.getText().trim();
 					logger.log(Level.INFO, text);
 					if (text != null && !text.isEmpty()) {
-						IDistributionFunction fct = getDistributionFunctionForLSEMElement(text);
+						IDistributionFunction fct = getLabelGenerator()
+								.getDistributionFunctionForLSEMElement(text);
 						if (fct != null) {
 							activity.setTimePeriod(switchDistributionItem(
 									activity.getTimePeriod(), fct));
@@ -629,57 +636,46 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 	};
 
 	private void createServiceComboAndLabel() {
-		serviceCV = createComboViewer(composite, serviceCV,
-				ServiceType.values(), composite, factory, SWT.READ_ONLY);
-		serviceLabel = createCLabel(composite, factory, serviceCV.getControl(),
-				serviceLabel, SERVICE_TYPE);
+		serviceCV = createComboViewer(getComposite(), ServiceType.values(),
+				getComposite(), SWT.READ_ONLY);
+		createCLabel(serviceCV.getControl(), SERVICE_TYPE);
 	}
 
 	private void createKommisionierungSection() {
-		dauerText = createText(composite, factory, serviceCV.getControl(),
-				dauerText);
-		dauerText.addModifyListener(modifyPickingListener);
-		dauerLabel = createCLabel(composite, factory, dauerText, dauerLabel,
-				DAUER_LABEL);
-		mengeText = createText(composite, factory, dauerText, mengeText);
-		mengeLabel = createCLabel(composite, factory, mengeText, dauerLabel,
-				MENGE_LABEL);
+		durationText = createText(getComposite());
+		durationText.addModifyListener(modifyPickingListener);
+		durationLabel = createCLabel(durationText, DAUER_LABEL);
+		amountText = createText(getComposite());
+		amountLabel = createCLabel(amountText, MENGE_LABEL);
 	}
 
 	private void createStorageSection() {
-		queueCV = createComboViewer(composite, queueCV,
-				QueuingStrategy.values(), serviceCV.getControl(), factory,
-				SWT.READ_ONLY);
-		queueLabel = createCLabel(composite, factory, queueCV.getControl(),
-				queueLabel, QUEUETYPE_STRING);
+		queueCV = createComboViewer(getComposite(), QueuingStrategy.values(),
+				serviceCV.getControl(), SWT.READ_ONLY);
+		queueLabel = createCLabel(queueCV.getControl(), QUEUETYPE_STRING);
 
-		maxCapacityText = createText(composite, factory, queueCV.getControl(),
-				maxCapacityText);
-		maxCapacityLabel = createCLabel(composite, factory, maxCapacityText,
-				maxCapacityLabel, MAX_KAPAZITAET);
+		maxCapacityText = createText(queueCV.getControl());
+		maxCapacityLabel = createCLabel(maxCapacityText, MAX_CAPACITY);
 	}
 
 	private void createTransportSection() {
 
 		// Time section when Transport is chosen
-		distCV = createCCombo(composite, distCV,
+		distCV = createCCombo(getComposite(),
 				DistributionFunctionProvider.INSTANCE
 						.getDistributionFunctions().toArray(),
-				serviceCV.getControl(), factory, SWT.NONE);
-		distCVLabel = createCLabel(composite, factory, distCV, distCVLabel,
-				DEVIATION_TYPE);
+				serviceCV.getControl(), SWT.NONE);
+		distCVLabel = createCLabel(distCV, DEVIATION_TYPE);
 
-		// 2.1 value
-		constText = createText(composite, factory, distCV, constText);
+		// 2.1 const-value
+		constText = createText(distCV);
 		// 2.2 Label
-		constTextLabel = createCLabel(composite, factory, constText,
-				constTextLabel, CONSTANT_CONSTANT);
+		constTextLabel = createCLabel(constText, CONSTANT_CONSTANT);
 
-		timeCV = createComboViewer(composite, timeCV, TIME_VALUES, constText,
-				factory, SWT.READ_ONLY);
+		timeCV = createComboViewer(getComposite(), TIME_VALUES, constText,
+				SWT.READ_ONLY);
 
-		timeCVLabel = createCLabel(composite, factory, timeCV.getControl(),
-				timeCVLabel, ZEITEINHEIT_CONSTANT);
+		timeCVLabel = createCLabel(timeCV.getControl(), ZEITEINHEIT_CONSTANT);
 	}
 
 	private void changeServiceVisibility(ServiceType selectedFunction) {
@@ -702,13 +698,13 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 
 	private void setAllSubElementsToInvicible() {
 		try {
-			dauerLabel.setVisible(false);
-			mengeLabel.setVisible(false);
+			durationLabel.setVisible(false);
+			amountLabel.setVisible(false);
 			maxCapacityLabel.setVisible(false);
 			queueLabel.setVisible(false);
 
-			dauerText.setVisible(false);
-			mengeText.setVisible(false);
+			durationText.setVisible(false);
+			amountText.setVisible(false);
 			maxCapacityText.setVisible(false);
 			queueCV.getControl().setVisible(false);
 
@@ -726,10 +722,10 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 	}
 
 	private void setPickingSelected() {
-		dauerText.setVisible(true);
-		mengeText.setVisible(true);
-		dauerLabel.setVisible(true);
-		mengeLabel.setVisible(true);
+		durationText.setVisible(true);
+		amountText.setVisible(true);
+		durationLabel.setVisible(true);
+		amountLabel.setVisible(true);
 	}
 
 	private void setStorageSelected() {

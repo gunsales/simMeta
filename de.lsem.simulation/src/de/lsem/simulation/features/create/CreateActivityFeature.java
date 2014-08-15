@@ -77,7 +77,7 @@ public class CreateActivityFeature extends AbstractCreateFeature {
 			getDiagram().eResource().getContents().add(activity);
 		}
 
-		addParametersToDiagram(capacity, time, constant);
+		addSubElementsToDiagram(capacity, time, constant);
 
 		// If Activity is dropped on another Activity
 		ContainerShape targetElement = context.getTargetContainer();
@@ -105,7 +105,7 @@ public class CreateActivityFeature extends AbstractCreateFeature {
 		return String.valueOf(iActivitiesFromDiagram.size()+1);
 	}
 
-	private void addParametersToDiagram(ICapacity capacity, ITime time,
+	private void addSubElementsToDiagram(ICapacity capacity, ITime time,
 			IConstant constant) {
 		getDiagram().eResource().getContents().add(capacity);
 		getDiagram().eResource().getContents().add(time);

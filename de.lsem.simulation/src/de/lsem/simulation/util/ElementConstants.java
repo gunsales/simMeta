@@ -64,7 +64,7 @@ public interface ElementConstants {
 	public static final String QUEUETYPE_STRING = "Queue-Strategy:";
 	public static final String DAUER_LABEL 		= "Duration:";
 	public static final String MENGE_LABEL 		= "Amount:";
-	public static final String MAX_KAPAZITAET 	= "Max. Capacity:";
+	public static final String MAX_CAPACITY 	= "Max. Capacity:";
 	public static final String MIN_MAX_STRING 	= "Min/Max:";
 
 	public static final String DEVIATION_TYPE 		= "Deviation-type:";

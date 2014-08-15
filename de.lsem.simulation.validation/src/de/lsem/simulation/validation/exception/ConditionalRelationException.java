@@ -20,7 +20,7 @@ public class ConditionalRelationException extends ValidationException {
 				+ r.getSource().getName()
 				+ "\" and \""
 				+ r.getTarget().getName()
-				+ "\" has a wrong probability or its condition is null. Please fix.";
+				+ "\" has a wrong probability or its condition is null.";
 //				+"Reason: " + getReason();
 	}
 }

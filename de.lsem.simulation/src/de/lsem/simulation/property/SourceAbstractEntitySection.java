@@ -29,6 +29,7 @@ import de.lsem.repository.model.simulation.ITime;
 import de.lsem.repository.model.simulation.SimulationFactory;
 import de.lsem.repository.model.simulation.UnitOfTime;
 import de.lsem.simulation.DistributionFunctionProvider;
+import de.lsem.simulation.property.xtend.LSEMElementGeneralPropertySection;
 import de.lsem.simulation.util.ElementConstants;
 
 public class SourceAbstractEntitySection extends
@@ -53,19 +54,14 @@ LSEMElementGeneralPropertySection {
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
 
-		distCC = createCCombo(composite, distCC,
-				DistributionFunctionProvider.INSTANCE
-				.getDistributionFunctions().toArray(), composite,
-				factory, SWT.NONE);
-		distComboLabel = createCLabel(composite, factory, distCC,
-				distComboLabel, ElementConstants.DEVIATION_TYPE);
+		distCC = createCCombo(getComposite(), DistributionFunctionProvider.INSTANCE
+				.getDistributionFunctions().toArray(), getComposite(), SWT.NONE);
+		distComboLabel = createCLabel(distCC, ElementConstants.DEVIATION_TYPE);
 
 		createDistSection_Constant();
 
-		timeCV = createComboViewer(composite, timeCV, UnitOfTime.values(),
-				constText, factory, SWT.READ_ONLY);
-		timeLabel = createCLabel(composite, factory, timeCV.getControl(),
-				timeLabel, ElementConstants.ZEITEINHEIT_CONSTANT);
+		timeCV = createComboViewer(getComposite(), UnitOfTime.values(), getComposite(), SWT.READ_ONLY);
+		timeLabel = createCLabel(timeCV.getControl(), ElementConstants.ZEITEINHEIT_CONSTANT);
 
 		addListeners();
 
@@ -74,10 +70,9 @@ LSEMElementGeneralPropertySection {
 	private void createDistSection_Constant() {
 		// ************** 2.Constant
 		// 2.1 value
-		constText = createText(composite, factory, distCC, constText);
+		constText = createText(distCC);
 		// 2.2 Label
-		constantLabel = createCLabel(composite, factory, constText,
-				constantLabel, ElementConstants.CONSTANT_CONSTANT);
+		constantLabel = createCLabel(constText, ElementConstants.CONSTANT_CONSTANT);
 	}
 
 	@Override
@@ -104,7 +99,7 @@ LSEMElementGeneralPropertySection {
 						// System.out.println(s + " vs. " +
 						// period.getClass().getSimpleName());
 						if (s.startsWith(period.getClass().getSimpleName())) {
-							String label = getDistributionFunctionLabelForComboViewer((IDistributionFunction) period);
+							String label = getLabelGenerator().getDistributionFunctionLabelForComboViewer((IDistributionFunction) period);
 							distCC.add(label, distCC.indexOf(s));
 							distCC.setData(label, period);
 							distCC.remove(s);
@@ -189,7 +184,7 @@ LSEMElementGeneralPropertySection {
 					String text = distCC.getText().trim();
 					logger.log(Level.INFO, text);
 					if (text != null && !text.isEmpty()) {
-						IDistributionFunction fct = getDistributionFunctionForLSEMElement(text);
+						IDistributionFunction fct = getLabelGenerator().getDistributionFunctionForLSEMElement(text);
 						if (fct != null) {
 							logger.log(Level.INFO, fct.toString());
 							entity = switchDistributionItem(entity, fct);
@@ -230,7 +225,7 @@ LSEMElementGeneralPropertySection {
 					String text = distCC.getText().trim();
 					logger.log(Level.INFO, text);
 					if (text != null && !text.isEmpty()) {
-						IDistributionFunction fct = getDistributionFunctionForLSEMElement(text);
+						IDistributionFunction fct = getLabelGenerator().getDistributionFunctionForLSEMElement(text);
 						logger.log(Level.INFO, fct.toString());
 						if (fct != null) {
 							entity = switchDistributionItem(entity, fct);

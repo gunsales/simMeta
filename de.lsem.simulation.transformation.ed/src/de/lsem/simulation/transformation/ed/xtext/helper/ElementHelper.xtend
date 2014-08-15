@@ -27,7 +27,6 @@ class ElementHelper {
 	var lastId = 500
 
 	def getDistributionFor(IDistribution it, String objectString) {
-		println(class.simpleName)
 		if (it instanceof IDistributionFunction) {
 			distributionFunction(objectString)
 		} else if (it instanceof IConstant) {

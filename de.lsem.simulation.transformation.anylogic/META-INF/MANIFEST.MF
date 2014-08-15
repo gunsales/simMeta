@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.ui,
  com.google.inject;bundle-version="3.0.0",
  org.eclipse.xtext;bundle-version="2.4.1",
  de.lsem.simulation.validation;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,lib/jaxb-impl-2.2.4.jar
 Import-Package: de.lsem.simulation.transformation.anylogic.generator.persistant

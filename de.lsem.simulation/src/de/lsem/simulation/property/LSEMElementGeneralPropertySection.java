@@ -23,6 +23,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+import de.lsem.repository.model.simulation.DistributionFunction;
 import de.lsem.repository.model.simulation.IBeta;
 import de.lsem.repository.model.simulation.IDistribution;
 import de.lsem.repository.model.simulation.IDistributionFunction;
@@ -104,14 +105,18 @@ public class LSEMElementGeneralPropertySection extends GFPropertySection
 				IDistributionFunction distFunc = (IDistributionFunction) valueSet[i];
 				String distLabel = getDistributionFunctionLabelForComboViewer(distFunc);
 				cv.add(distLabel);
+				
 				cv.setData(distLabel, distFunc);
 				cComboToolTip.setData(distLabel, distFunc);
 			} else {
 				cv.add(valueSet[i].toString());
 				cv.setData(valueSet[i].toString(), valueSet[i]);
 			}
-			logger.log(Level.INFO, "Adding value : \"" + valueSet[i]
-					+ "\" to combo viewer " + cv.toString());
+			logger.log(
+					Level.INFO,
+					"Adding value : \""
+							+ getDistributionFunctionLabelForComboViewer((DistributionFunction) valueSet[i])
+							+ "\" to combo viewer " + cv.toString());
 		}
 		cv.addSelectionListener(createCComboToolTipListener(cv));
 
@@ -129,7 +134,7 @@ public class LSEMElementGeneralPropertySection extends GFPropertySection
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				
+
 				Object data = cv.getData(cv.getItem(cv.getSelectionIndex()));
 				if (data != null) {
 					cComboToolTip.setText(data.toString());
