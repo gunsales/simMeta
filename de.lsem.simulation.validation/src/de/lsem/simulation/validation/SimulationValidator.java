@@ -107,6 +107,7 @@ public class SimulationValidator {
 				hasNoError = ValidationStatus.STATUS_ERROR;
 			}
 			logger.log(Level.WARNING, e.getMessage());
+			hasNoError = ValidationStatus.STATUS_PROBLEM;
 		}
 
 		// Errors should aboard transformation, so that the containing job gives

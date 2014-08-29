@@ -1,46 +1,20 @@
 package de.lsem.simulation.transformation.mdb.xtend;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.healthmarketscience.jackcess.Database;
-import de.lsem.repository.model.simulation.Beta;
-import de.lsem.repository.model.simulation.Constant;
-import de.lsem.repository.model.simulation.Erlang;
-import de.lsem.repository.model.simulation.Gamma;
 import de.lsem.repository.model.simulation.IActivity;
-import de.lsem.repository.model.simulation.IBeta;
 import de.lsem.repository.model.simulation.IConditionalRelation;
-import de.lsem.repository.model.simulation.IConstant;
-import de.lsem.repository.model.simulation.IDistribution;
-import de.lsem.repository.model.simulation.IErlang;
-import de.lsem.repository.model.simulation.IGamma;
-import de.lsem.repository.model.simulation.ILogNormal;
-import de.lsem.repository.model.simulation.INegExp;
-import de.lsem.repository.model.simulation.INormal;
-import de.lsem.repository.model.simulation.IPoisson;
 import de.lsem.repository.model.simulation.ISimulationElement;
-import de.lsem.repository.model.simulation.ITriangular;
-import de.lsem.repository.model.simulation.IUniform;
-import de.lsem.repository.model.simulation.IWeibull;
-import de.lsem.repository.model.simulation.LogNormal;
-import de.lsem.repository.model.simulation.NegExp;
-import de.lsem.repository.model.simulation.Normal;
-import de.lsem.repository.model.simulation.Poisson;
 import de.lsem.repository.model.simulation.ServiceType;
-import de.lsem.repository.model.simulation.Triangular;
-import de.lsem.repository.model.simulation.Uniform;
 import de.lsem.repository.model.simulation.UnitOfTime;
-import de.lsem.repository.model.simulation.Weibull;
 import de.lsem.simulation.transformation.mdb.commands.Messages;
 import de.lsem.simulation.transformation.mdb.xtend.ArenaTransformationConstants;
-import de.lsem.simulation.transformation.mdb.xtend.DistributionStringGenerator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -60,7 +34,6 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
-import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
@@ -68,10 +41,6 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 @Singleton
 @SuppressWarnings("all")
 public class ArenaTransformationHelper implements ArenaTransformationConstants {
-  @Inject
-  @Extension
-  private DistributionStringGenerator _distributionStringGenerator;
-  
   private int counter = 0;
   
   private Diagram diagram;
@@ -124,106 +93,6 @@ public class ArenaTransformationHelper implements ArenaTransformationConstants {
     }
     if (!_matched) {
       _switchResult = ArenaTransformationConstants.SERVICE_TYPE_ARENA_HANDLING;
-    }
-    return _switchResult;
-  }
-  
-  /**
-   * Generates IDistributionFunction or IConstant
-   */
-  public CharSequence createDistributionTypeString(final IDistribution dist) {
-    CharSequence _switchResult = null;
-    boolean _matched = false;
-    if (!_matched) {
-      if (dist instanceof Weibull) {
-        final Weibull _weibull = (Weibull)dist;
-        _matched=true;
-        CharSequence _createWeibull = this._distributionStringGenerator.createWeibull(((IWeibull) _weibull));
-        _switchResult = _createWeibull;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof Beta) {
-        final Beta _beta = (Beta)dist;
-        _matched=true;
-        CharSequence _createBeta = this._distributionStringGenerator.createBeta(((IBeta) _beta));
-        _switchResult = _createBeta;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof Normal) {
-        final Normal _normal = (Normal)dist;
-        _matched=true;
-        CharSequence _createNormal = this._distributionStringGenerator.createNormal(((INormal) _normal));
-        _switchResult = _createNormal;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof Triangular) {
-        final Triangular _triangular = (Triangular)dist;
-        _matched=true;
-        CharSequence _createTriangle = this._distributionStringGenerator.createTriangle(((ITriangular) _triangular));
-        _switchResult = _createTriangle;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof LogNormal) {
-        final LogNormal _logNormal = (LogNormal)dist;
-        _matched=true;
-        CharSequence _createLogN = this._distributionStringGenerator.createLogN(((ILogNormal) _logNormal));
-        _switchResult = _createLogN;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof Uniform) {
-        final Uniform _uniform = (Uniform)dist;
-        _matched=true;
-        CharSequence _createUniform = this._distributionStringGenerator.createUniform(((IUniform) _uniform));
-        _switchResult = _createUniform;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof Poisson) {
-        final Poisson _poisson = (Poisson)dist;
-        _matched=true;
-        CharSequence _createPoisson = this._distributionStringGenerator.createPoisson(((IPoisson) _poisson));
-        _switchResult = _createPoisson;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof NegExp) {
-        final NegExp _negExp = (NegExp)dist;
-        _matched=true;
-        CharSequence _createNegativeExpo = this._distributionStringGenerator.createNegativeExpo(((INegExp) _negExp));
-        _switchResult = _createNegativeExpo;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof Erlang) {
-        final Erlang _erlang = (Erlang)dist;
-        _matched=true;
-        CharSequence _createErlang = this._distributionStringGenerator.createErlang(((IErlang) _erlang));
-        _switchResult = _createErlang;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof Gamma) {
-        final Gamma _gamma = (Gamma)dist;
-        _matched=true;
-        CharSequence _createGamma = this._distributionStringGenerator.createGamma(((IGamma) _gamma));
-        _switchResult = _createGamma;
-      }
-    }
-    if (!_matched) {
-      if (dist instanceof Constant) {
-        final Constant _constant = (Constant)dist;
-        _matched=true;
-        CharSequence _createConstant = this._distributionStringGenerator.createConstant(((IConstant) _constant));
-        _switchResult = _createConstant;
-      }
-    }
-    if (!_matched) {
-      _switchResult = "";
     }
     return _switchResult;
   }
@@ -437,19 +306,19 @@ public class ArenaTransformationHelper implements ArenaTransformationConstants {
     return _xifexpression;
   }
   
-  public Iterable<ISimulationElement> filterSimulationElementsFromXMIResource() {
+  public Iterator<ISimulationElement> filterSimulationElementsFromXMIResource() {
     TreeIterator<EObject> _allContents = this.resource.getAllContents();
     Iterator<ISimulationElement> _filter = Iterators.<ISimulationElement>filter(_allContents, ISimulationElement.class);
-    Iterable<ISimulationElement> _iterable = IteratorExtensions.<ISimulationElement>toIterable(_filter);
-    return _iterable;
+    return _filter;
   }
   
-  public List<ISimulationElement> filterSubActivities(final List<ISimulationElement> list) {
+  public List<ISimulationElement> filterSubActivities(final Iterator<ISimulationElement> iterator) {
     List<ISimulationElement> _xblockexpression = null;
     {
-      ArrayList<ISimulationElement> _arrayList = new ArrayList<ISimulationElement>(list);
+      List<ISimulationElement> _list = IteratorExtensions.<ISimulationElement>toList(iterator);
+      ArrayList<ISimulationElement> _arrayList = new ArrayList<ISimulationElement>(_list);
       final List<ISimulationElement> retList = _arrayList;
-      Iterable<IActivity> _filter = Iterables.<IActivity>filter(list, IActivity.class);
+      Iterator<IActivity> _filter = Iterators.<IActivity>filter(iterator, IActivity.class);
       final Procedure1<IActivity> _function = new Procedure1<IActivity>() {
         public void apply(final IActivity e1) {
           EList<IActivity> _subActivities = e1.getSubActivities();
@@ -461,7 +330,7 @@ public class ArenaTransformationHelper implements ArenaTransformationConstants {
           IterableExtensions.<IActivity>forEach(_subActivities, _function);
         }
       };
-      IterableExtensions.<IActivity>forEach(_filter, _function);
+      IteratorExtensions.<IActivity>forEach(_filter, _function);
       _xblockexpression = (retList);
     }
     return _xblockexpression;

@@ -19,7 +19,9 @@ import de.lsem.repository.model.simulation.ServiceType;
 import de.lsem.repository.model.simulation.UnitOfTime;
 import de.lsem.simulation.transformation.mdb.xtend.ArenaTransformationConstants;
 import de.lsem.simulation.transformation.mdb.xtend.ArenaTransformationHelper;
+import de.lsem.simulation.transformation.mdb.xtend.DistributionStringGenerator;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 import org.eclipse.emf.common.util.EList;
@@ -33,12 +35,16 @@ public class ElementCreator implements ArenaTransformationConstants {
   @Extension
   private ArenaTransformationHelper _arenaTransformationHelper;
   
+  @Inject
+  @Extension
+  private DistributionStringGenerator _distributionStringGenerator;
+  
   /**
    * @param e
    * @return generated ARENA-id
    * @throws IOException
    */
-  public int createProcess(final IActivity it) throws IOException {
+  protected int _createElement(final IActivity it) throws IOException {
     int idDummy = this._arenaTransformationHelper.generateID();
     Database _saveFile = this._arenaTransformationHelper.getSaveFile();
     Table table = _saveFile.getTable(ArenaTransformationConstants.T_BP_PROCESS);
@@ -70,9 +76,8 @@ public class ElementCreator implements ArenaTransformationConstants {
             delayTypeFunction = ArenaTransformationConstants.ARENA_FUNCTION_EXPRESSION;
             ITime _timePeriod_3 = it.getTimePeriod();
             IDistribution _period_1 = _timePeriod_3.getPeriod();
-            CharSequence _createDistributionTypeString = this._arenaTransformationHelper.createDistributionTypeString(_period_1);
-            String _string = _createDistributionTypeString.toString();
-            functionType = _string;
+            String _distributionString = this._distributionStringGenerator.getDistributionString(_period_1);
+            functionType = _distributionString;
           }
         }
       } else {
@@ -172,7 +177,7 @@ public class ElementCreator implements ArenaTransformationConstants {
     }
   }
   
-  public int createCreate(final ISource e) throws IOException {
+  protected int _createElement(final ISource e) throws IOException {
     int _xblockexpression = (int) 0;
     {
       final int idDummy = this._arenaTransformationHelper.generateID();
@@ -195,9 +200,8 @@ public class ElementCreator implements ArenaTransformationConstants {
         final IDistribution timePeriod = newEntities.getPeriod();
         boolean _notEquals_1 = (!Objects.equal(timePeriod, null));
         if (_notEquals_1) {
-          CharSequence _createDistributionTypeString = this._arenaTransformationHelper.createDistributionTypeString(timePeriod);
-          String _string = _createDistributionTypeString.toString();
-          followingEntities = _string;
+          String _distributionString = this._distributionStringGenerator.getDistributionString(timePeriod);
+          followingEntities = _distributionString;
           boolean _contains = followingEntities.contains("(");
           if (_contains) {
             interarrival = ArenaTransformationConstants.ARENA_FUNCTION_EXPRESSION;
@@ -212,9 +216,8 @@ public class ElementCreator implements ArenaTransformationConstants {
         IDistribution timePeriod_1 = firstEntity.getPeriod();
         boolean _notEquals_3 = (!Objects.equal(timePeriod_1, null));
         if (_notEquals_3) {
-          CharSequence _createDistributionTypeString_1 = this._arenaTransformationHelper.createDistributionTypeString(timePeriod_1);
-          String _string_1 = _createDistributionTypeString_1.toString();
-          firstCreation = _string_1;
+          String _distributionString_1 = this._distributionStringGenerator.getDistributionString(timePeriod_1);
+          firstCreation = _distributionString_1;
         }
       }
       String objectType = "Entity 1";
@@ -239,7 +242,7 @@ public class ElementCreator implements ArenaTransformationConstants {
     return 0;
   }
   
-  public int createDispose(final ISink e) throws IOException {
+  protected int _createElement(final ISink e) throws IOException {
     int idDummy = this._arenaTransformationHelper.generateID();
     Database _saveFile = this._arenaTransformationHelper.getSaveFile();
     Table table = _saveFile.getTable(ArenaTransformationConstants.T_BP_DISPOSE);
@@ -302,5 +305,18 @@ public class ElementCreator implements ArenaTransformationConstants {
     serialNumber = _generateID;
     table.addRow(Integer.valueOf(serialNumber), modelLevelID, Integer.valueOf(x), Integer.valueOf(y), userDescription, name, reportStatistics, Double.valueOf(usage), Double.valueOf(busy), type, Double.valueOf(idle), scheduleRule, Integer.valueOf(schedule), Integer.valueOf(capacity), stateSetN, initState, fdmName, Integer.valueOf(fdmID), arenaImportName, Double.valueOf(baseEfficiency), efficiencySchedule);
     return serialNumber;
+  }
+  
+  public int createElement(final ISimulationElement it) throws IOException {
+    if (it instanceof IActivity) {
+      return _createElement((IActivity)it);
+    } else if (it instanceof ISink) {
+      return _createElement((ISink)it);
+    } else if (it instanceof ISource) {
+      return _createElement((ISource)it);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(it).toString());
+    }
   }
 }
