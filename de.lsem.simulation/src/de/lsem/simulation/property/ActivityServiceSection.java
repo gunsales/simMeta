@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import de.lsem.repository.model.simulation.Activity;
+import de.lsem.repository.model.simulation.DistributionFunction;
 import de.lsem.repository.model.simulation.ICapacity;
 import de.lsem.repository.model.simulation.IConstant;
 import de.lsem.repository.model.simulation.IDistribution;
@@ -192,8 +193,8 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 								if (s.contains(period.getClass()
 										.getSimpleName())) {
 									String label = getLabelGenerator()
-											.getDistributionFunctionLabelForComboViewer(
-													(IDistributionFunction) period);
+											.getDistributionFunctionFor(
+													(DistributionFunction) period);
 									distCV.add(label, distCV.indexOf(s));
 									distCV.setData(label, period);
 									distCV.remove(s);

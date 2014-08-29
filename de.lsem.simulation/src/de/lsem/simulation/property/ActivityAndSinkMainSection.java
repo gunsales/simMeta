@@ -102,7 +102,6 @@ public class ActivityAndSinkMainSection extends GFPropertySection implements
 						if (!preCheck(dummy)) {
 							InputDialog dialog = createUniqueNameInputDialog(dummy, (ISimulationElement) selectedPicto);
 							int asd = dialog.open();
-							System.out.println(asd + " " + Window.OK);
 							if (asd == Window.OK) {
 								dummy = dialog.getValue();
 								nameText.setText(dummy);

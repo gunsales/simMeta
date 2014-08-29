@@ -4,7 +4,18 @@ import de.lsem.repository.model.simulation.Beta
 import de.lsem.repository.model.simulation.Constant
 import de.lsem.repository.model.simulation.Erlang
 import de.lsem.repository.model.simulation.Gamma
+import de.lsem.repository.model.simulation.IBeta
+import de.lsem.repository.model.simulation.IConstant
 import de.lsem.repository.model.simulation.IDistribution
+import de.lsem.repository.model.simulation.IErlang
+import de.lsem.repository.model.simulation.IGamma
+import de.lsem.repository.model.simulation.ILogNormal
+import de.lsem.repository.model.simulation.INegExp
+import de.lsem.repository.model.simulation.INormal
+import de.lsem.repository.model.simulation.IPoisson
+import de.lsem.repository.model.simulation.ITriangular
+import de.lsem.repository.model.simulation.IUniform
+import de.lsem.repository.model.simulation.IWeibull
 import de.lsem.repository.model.simulation.LogNormal
 import de.lsem.repository.model.simulation.NegExp
 import de.lsem.repository.model.simulation.Normal
@@ -14,79 +25,51 @@ import de.lsem.repository.model.simulation.Uniform
 import de.lsem.repository.model.simulation.Weibull
 
 class DistributionFunctionHelper {
-	
 		
 	private def className(IDistribution it){
 		class.simpleName.toLowerCase
 	}
 			
-	private def dispatch cDist(Weibull it) {
-		className + "(" + beta + ", " + alpha + ")"
-	}
+	def dispatch String getDistributionFunctionFor(IWeibull it)'''
+		«className»(«beta», «alpha»)'''
+		 
+	def dispatch String getDistributionFunctionFor(IBeta it) '''
+		«className»(«beta», «alpha»)'''
+		
+	def dispatch String getDistributionFunctionFor(INormal it) '''
+		«className»(«mean», «stdDev»)'''
 	
-	private def dispatch cDist(Beta it) {
-		className + "(" + beta + ", " + alpha + ")"
-	}
-	
-	private def dispatch cDist(Normal it) {
-		className + "(" + mean + ", " + stdDev + ")"
-	}
-	
-	private def dispatch cDist(Triangular it) {
-		className + "(" + min + ", " + mode + ", " + max + ")"
-	}
-	
-	private def dispatch cDist(Uniform it) {
-		className + "(" + min + ", " + max + ")"
-	}
-	
-	private def dispatch cDist(LogNormal it) {
-		className + "(" + logMean + ", " + logStd + ")"
-	}
-	
-	private def dispatch cDist(Poisson it) {
-		className + "(" + mean +")"
-	}
-	
-	private def dispatch cDist(NegExp it) {
-		className + "(" + mean +" )"
-	}
-	
-	private def dispatch cDist(Erlang it) {
-		className + "(" + expMean + ", " + k + ")"
-	}
-	
-	private def dispatch cDist(Gamma it) {
-		className + "(" + beta + ", " + alpha + ")"
-	}
-	
-	private def dispatch cDist(Constant it) {
-		Math.round(value).toString
-//		value.toString
-	}
-	
-	def getDistributionFunctionFor(IDistribution it){
+	def dispatch String getDistributionFunctionFor(ITriangular it) '''
+		«className»(«min», «mode», «max»)'''
 
-		switch it {
-			Weibull		: 	cDist
-			Beta		: 	cDist			
-			Normal		: 	cDist
-			Triangular 	: 	cDist
-			Uniform 	: 	cDist
-			LogNormal	:	cDist
-			Poisson		:	cDist
-			NegExp		:	cDist
-			Erlang		:	cDist
-			Gamma		:	cDist
-			Constant	:	cDist
-		}	
-	}
+	def dispatch String getDistributionFunctionFor(IUniform it) '''
+		«className»(«min», «max»)'''
+	
+	def dispatch String getDistributionFunctionFor(ILogNormal it) '''
+		«className»(«logMean», «logStd»)'''
+
+	def dispatch String getDistributionFunctionFor(IPoisson it) '''
+		«className»(«mean»)'''
+	
+	def dispatch String getDistributionFunctionFor(INegExp it) '''
+		«className»(«mean»)'''
+	
+	def dispatch String getDistributionFunctionFor(IErlang it) '''
+		«className»(«expMean», «k»)'''
+	
+	def dispatch String getDistributionFunctionFor(IGamma it) '''
+		«className»(«beta», «alpha»)'''
+	
+	def dispatch String getDistributionFunctionFor(IConstant it) '''
+		«Math.round(value).toString»'''
+	
+	def dispatch String getDistributionFunctionFor(Void it)'''
+	'''
 
 /**
  * Testcase
  */
 	def static void main(String[] args) {
-		val dfh = new DistributionFunctionHelper
 		
 		val test1 = new Beta
 		test1.setAlpha(0.1)
@@ -131,6 +114,7 @@ class DistributionFunctionHelper {
 		test12.setBeta(2.0)
 		
 		
+		val dfh = new DistributionFunctionHelper
 		println(dfh.getDistributionFunctionFor(test1))
 		println(dfh.getDistributionFunctionFor(test2))
 		println(dfh.getDistributionFunctionFor(test3))

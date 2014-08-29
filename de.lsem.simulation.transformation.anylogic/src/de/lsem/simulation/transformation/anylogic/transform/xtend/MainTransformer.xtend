@@ -17,50 +17,58 @@ class MainTransformer implements Costants {
 	@Inject extension SelectOutputGenerator
 	@Inject extension Variables v
 
-	def create retVal:new ArrayList<EmbeddedObject>() transform(XMIResource r) throws NullPointerException {
+	/**
+	 * @param r - xmiresource that holds the graphical and object-based information to be transformed. The resource must be unique in injection-scope, meaning only one transformation allowed per injection.
+	 */
+	def transform(XMIResource r) throws NullPointerException {
+		val retVal = new ArrayList<EmbeddedObject>
 		if (r == null) {
 			throw new NullPointerException("Error. Resource must not be null.")
+		} else if (resource != null) {
+			throw new Exception(
+				"Transformation can not be started, as the xmi-resource is not unique. Please use a new injector.")
 		}
 
+		// Only one instance can be run per generated injector!
 		resource = r
 
 		simulationElementsWithoutSubActivities.forEach [
 			retVal.add(transformGeneralObject)
 			dispatchOut.forEach[retVal.add(it)]
 		]
+		retVal
 	}
 
 	def getConnectorSet() {
 		v.connectorSet
 	}
 
-//	private def isSubactivity(ISimulationElement ac) {
-//		if (!( ac instanceof IActivity ))
-//			return false
-//		while (activities.hasNext) {
-//			if (getParentActivity(activities.next) != null)
-//				return true
-//		}
-//		return false
-//	}
-//
-//	private def getParentActivity(IActivity subActivity) {
-//		while (activities.hasNext) {
-//			for (aDummy : activities.next.subActivities) {
-//				if (aDummy == subActivity)
-//					return next
-//			}
-//		}
-//	}
-
+	//	private def isSubactivity(ISimulationElement ac) {
+	//		if (!( ac instanceof IActivity ))
+	//			return false
+	//		while (activities.hasNext) {
+	//			if (getParentActivity(activities.next) != null)
+	//				return true
+	//		}
+	//		return false
+	//	}
+	//
+	//	private def getParentActivity(IActivity subActivity) {
+	//		while (activities.hasNext) {
+	//			for (aDummy : activities.next.subActivities) {
+	//				if (aDummy == subActivity)
+	//					return next
+	//			}
+	//		}
+	//	}
 	private def activities() {
 		resource.allContents.filter(typeof(IActivity)).toList
 	}
-	
-	private def getSubActivities(){
+
+	private def getSubActivities() {
 		val retVal = newArrayList
-		for ( aDummy : activities ) {
-			for (aDummy2 : aDummy.subActivities){
+		for (aDummy : activities) {
+			for (aDummy2 : aDummy.subActivities) {
 				retVal.add(aDummy2)
 			}
 		}

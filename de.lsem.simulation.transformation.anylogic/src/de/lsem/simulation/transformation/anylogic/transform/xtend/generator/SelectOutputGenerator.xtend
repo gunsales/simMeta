@@ -2,13 +2,13 @@ package de.lsem.simulation.transformation.anylogic.transform.xtend.generator
 
 import de.lsem.repository.model.simulation.IConditionalRelation
 import de.lsem.repository.model.simulation.IRelation
+import de.lsem.repository.model.simulation.ISimulationElement
 import de.lsem.simulation.transformation.anylogic.generator.persistant.EmbeddedObject
 import de.lsem.simulation.transformation.anylogic.generator.persistant.Parameters
 import de.lsem.simulation.transformation.anylogic.transform.helper.Costants
 import de.lsem.simulation.transformation.anylogic.transform.preparedObjects.ActiveObjectClassInnerImpl
 import de.lsem.simulation.transformation.anylogic.transform.preparedObjects.EmbeddedObjectGeneric
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.CreateHelper
-import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.NamingHelper
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.Variables
 import java.util.ArrayList
 import java.util.List
@@ -16,14 +16,13 @@ import javax.inject.Inject
 
 import static de.lsem.simulation.transformation.anylogic.transform.helper.IDGenerator.*
 import static de.lsem.simulation.transformation.anylogic.transform.preparedObjects.EmbeddedObjectGeneric.*
-import de.lsem.repository.model.simulation.ISimulationElement
+import static de.lsem.simulation.transformation.anylogic.transform.xtend.helper.NamingHelper.*
 
 class SelectOutputGenerator implements Costants {
 
 	@Inject extension Variables
 	@Inject extension ConnectorGenerator
 	@Inject extension CreateHelper
-	@Inject extension NamingHelper
 	@Inject extension ObjectTransformer
 
 	def dispatchOut(ISimulationElement it) {
@@ -258,13 +257,11 @@ class SelectOutputGenerator implements Costants {
 			case 4: OUT_4_STRING
 			default: ""
 		}
-//		println(outStringCounter + " " + retVal)
 		outStringCounter = outStringCounter + 1
 
 		retVal
 	}
 
-	//	var outStringCounter = 0
 	private def switchOutStringCaseSelectOutput() {
 		val retVal = switch outStringCounter {
 			case 0: OUT_TRUE_STRING
@@ -306,7 +303,7 @@ class SelectOutputGenerator implements Costants {
 		while ((i = i + 1) <= probabilities.size) {
 			j = i - 1
 			apEmpty("condition" + j)
-			addParameter(createParameter("probability" + j, String::valueOf(probabilities.get(j))))
+			addParameter(createParameter("probability" + j, String.valueOf(probabilities.get(j))))
 		}
 
 		// Add remaining probabilities
@@ -375,12 +372,12 @@ class SelectOutputGenerator implements Costants {
 	private def setCommonSelectOutputParameter(EmbeddedObjectGeneric retVal) {
 
 		retVal.setId(generateID)
-		retVal.name = selectOutputName
+		retVal.name = getSelectOutputName(selectOutputCounter)
 		retVal.label = createLabel(-2, -11)
 		retVal.publicFlag = F
 		retVal.presentationFlag = T
 		retVal.showLabel = T
-		retVal.genericParametersSubstitute = "Entity".wrapCDATA
+		retVal.genericParametersSubstitute = wrapCDATA("Entity")
 		retVal.collectionType = ARRAY_LIST_BASED
 		retVal
 	}

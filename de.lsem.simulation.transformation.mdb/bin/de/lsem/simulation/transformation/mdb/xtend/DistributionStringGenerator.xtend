@@ -16,47 +16,49 @@ import javax.inject.Singleton
 @Singleton
 class DistributionStringGenerator {
 
-	def createWeibull(IWeibull it) '''
-		Weib( «beta», «alpha» )
+	def dispatch String getDistributionString(IWeibull it) '''
+		Weib( Â«betaÂ», Â«alphaÂ» )
 	'''
 
-	def createBeta(IBeta it) '''
-		BETA( «beta», «alpha» )
+	def dispatch String getDistributionString(IBeta it) '''
+		BETA( Â«betaÂ», Â«alphaÂ» )
 	'''
 
-	def createNormal(INormal it) '''
-		NORM( «mean», «stdDev» )
+	def dispatch String getDistributionString(INormal it) '''
+		NORM( Â«meanÂ», Â«stdDevÂ» )
 	'''
 
-	def createTriangle(ITriangular it) '''
-		TRIA( «min», «mode», «max» )
+	def dispatch String getDistributionString(ITriangular it) '''
+		TRIA( Â«minÂ», Â«modeÂ», Â«maxÂ» )
 	'''
 
-	def createLogN(ILogNormal it) '''
-		LOGN( «logMean», «logStd» )
+	def dispatch String getDistributionString(ILogNormal it) '''
+		LOGN( Â«logMeanÂ», Â«logStdÂ» )
 	'''
 
-	def createUniform(IUniform it) '''
-		UNIF( «min», «max» )
+	def dispatch String getDistributionString(IUniform it) '''
+		UNIF( Â«minÂ», Â«maxÂ» )
 	'''
 
-	def createPoisson(IPoisson it) '''
-		POIS( «mean» )
+	def dispatch String getDistributionString(IPoisson it) '''
+		POIS( Â«meanÂ» )
 	'''
 
-	def createNegativeExpo(INegExp it) '''
-		EXPO( «mean» )
+	def dispatch String getDistributionString(INegExp it) '''
+		EXPO( Â«meanÂ» )
 	'''
 
-	def createErlang(IErlang it) '''
-		ERLA( «expMean», «k» )
+	def dispatch String getDistributionString(IErlang it) '''
+		ERLA( Â«expMeanÂ», Â«kÂ» )
 	'''
 
-	def createGamma(IGamma it) '''
-		GAMM( «beta», «alpha» )
+	def dispatch String getDistributionString(IGamma it) '''
+		GAMM( Â«betaÂ», Â«alphaÂ» )
 	'''
 
-	def createConstant(IConstant it) '''
-		«value»
+	def dispatch String getDistributionString(IConstant it) '''
+		Â«valueÂ»
 	'''
+	
+	def dispatch String getDistributionString(Void it) ''''''
 }

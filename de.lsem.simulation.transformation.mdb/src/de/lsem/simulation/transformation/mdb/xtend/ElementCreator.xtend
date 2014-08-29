@@ -15,6 +15,8 @@ class ElementCreator implements ArenaTransformationConstants {
 
 	@Inject
 	extension ArenaTransformationHelper
+	@Inject
+	extension DistributionStringGenerator
 
 	/**
 	 * 
@@ -22,7 +24,7 @@ class ElementCreator implements ArenaTransformationConstants {
 	 * @return generated ARENA-id
 	 * @throws IOException
 	 */
-	def createProcess(IActivity it) throws IOException {
+	def dispatch int createElement(IActivity it) throws IOException {
 		var int idDummy = generateID()
 		var Table table = saveFile.getTable(T_BP_PROCESS)
 
@@ -46,7 +48,7 @@ class ElementCreator implements ArenaTransformationConstants {
 
 					if (timePeriod.period != null) {
 						delayTypeFunction = ARENA_FUNCTION_EXPRESSION
-						functionType = createDistributionTypeString(timePeriod.period).toString
+						functionType = getDistributionString(timePeriod.period)
 
 					// value = timePeriod.getClass()
 					}
@@ -114,7 +116,7 @@ class ElementCreator implements ArenaTransformationConstants {
 
 	}
 
-	def int createCreate(ISource e) throws IOException {
+	def dispatch int createElement(ISource e) throws IOException {
 		val idDummy = generateID
 		val table = saveFile.getTable(T_BP_CREATE)
 
@@ -135,7 +137,7 @@ class ElementCreator implements ArenaTransformationConstants {
 			val timePeriod = newEntities.period
 
 			if (timePeriod != null) {
-				followingEntities = createDistributionTypeString(timePeriod).toString
+				followingEntities = getDistributionString(timePeriod)
 
 				// Switch between constant and distribution function @
 				// delayFunctionType
@@ -152,7 +154,7 @@ class ElementCreator implements ArenaTransformationConstants {
 		if (firstEntity != null) {
 			var timePeriod = firstEntity.period
 			if (timePeriod != null) {
-				firstCreation = createDistributionTypeString(timePeriod).toString
+				firstCreation = getDistributionString(timePeriod)
 			}
 		}
 		var objectType = "Entity 1"
@@ -189,7 +191,7 @@ class ElementCreator implements ArenaTransformationConstants {
 		return 0
 	}
 
-	def int createDispose(ISink e) throws IOException {
+	def dispatch int createElement(ISink e) throws IOException {
 		var int idDummy = generateID()
 		var Table table = saveFile.getTable(T_BP_DISPOSE)
 		var xCoor = getX(e)

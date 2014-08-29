@@ -39,11 +39,9 @@ public class DeleteActivityFeature extends DefaultDeleteFeature {
 		if ( !getUserDecision() )
 			return;
 
-		IActivity activity = getActivityFrom(context);
-
-//		deleteSubActivities(activity);
-
 		try {
+			IActivity activity = getActivityFrom(context);
+			
 			DeleteHelper.deleteIncommingConnections(getDiagram().eResource()
 					.getContents(), activity);
 			deleteActivityFromDiagram(activity);
@@ -88,19 +86,5 @@ public class DeleteActivityFeature extends DefaultDeleteFeature {
 	private void deleteFromDiagram(final EObject e) {
 		getContentsOfDiagram().remove(e);
 	}
-
-//	private void deleteSubActivities(IActivity activity) {
-//
-//		for (Iterator<IActivity> subActivities = activity.getSubActivities()
-//				.iterator(); subActivities.hasNext();) {
-//			IActivity subActivity = subActivities.next();
-//
-//			deleteFromDiagram(subActivity.getCapacity());
-//			deleteFromDiagram(subActivity.getTimePeriod());
-//			deleteFromDiagram(subActivity.getTimePeriod().getPeriod());
-//			deleteFromDiagram(subActivity);
-//
-//		}
-//	}
 
 }

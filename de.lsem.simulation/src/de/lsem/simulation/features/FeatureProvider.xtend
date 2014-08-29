@@ -5,8 +5,6 @@ import de.lsem.repository.model.simulation.ConditionalRelation
 import de.lsem.repository.model.simulation.IActivity
 import de.lsem.repository.model.simulation.IConditionalRelation
 import de.lsem.repository.model.simulation.ISimulationElement
-import de.lsem.repository.model.simulation.ISink
-import de.lsem.repository.model.simulation.ISource
 import de.lsem.repository.model.simulation.Relation
 import de.lsem.repository.model.simulation.Sink
 import de.lsem.repository.model.simulation.Source
@@ -28,7 +26,7 @@ import de.lsem.simulation.features.delete.DeleteSinkFeature
 import de.lsem.simulation.features.delete.DeleteSourceFeature
 import de.lsem.simulation.features.update.RelationReconnectionFeature
 import de.lsem.simulation.features.update.UpdateConditionalRelationFeature
-import de.lsem.simulation.features.update.UpdateLSEMElementFeature
+import de.lsem.simulation.features.update.UpdateSimulationElementFeature
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.context.IAddContext
 import org.eclipse.graphiti.features.context.ICustomContext
@@ -50,15 +48,15 @@ class FeatureProvider extends DefaultFeatureProvider {
 		new RelationReconnectionFeature(this)
 	}
 
-	override getAddFeature(IAddContext context) {
+	override getAddFeature(IAddContext it) {
 
-		switch context.newObject {
+		switch newObject {
 			Activity: new AddActivityFeature(this)
 			ConditionalRelation: new AddConditionalRelationFeature(this)
 			Relation: new AddRelationFeature(this)
 			Sink: new AddSinkFeature(this)
 			Source: new AddSourceFeature(this)
-			default: super.getAddFeature(context)
+			default: super.getAddFeature(it)
 		}
 	}
 
@@ -70,32 +68,37 @@ class FeatureProvider extends DefaultFeatureProvider {
 		]
 	}
 
-	override getUpdateFeature(IUpdateContext context) {
-		val pe = context.pictogramElement
+	override getUpdateFeature(IUpdateContext it) {
 
-		//		 Relation changes moved to RelationReconnectionFeature
-		switch pe {
-			case FreeFormConnection: {
-				val element = getBusinessObjectForPictogramElement(pe as FreeFormConnection)
+		//Connections
+		if (pictogramElement instanceof FreeFormConnection) {
+			updateConnectionFeature
+		}
+		// Activity-, Start-, End-Event
+		else if (pictogramElement instanceof	ContainerShape) {
+			updateSimulationElement
+		} else {
+			super.getUpdateFeature(it)
+		}
+	}
 
-				// ConditionalRelation
-				if (element instanceof IConditionalRelation) {
-					new UpdateConditionalRelationFeature(this)
-				} else {
-					super.getUpdateFeature(context)
-				}
-			}
-			// Activity-, Start-, End-Event
-			case ContainerShape: {
-				val element = getBusinessObjectForPictogramElement(pe)
-				if (element instanceof ISimulationElement) {
-					new UpdateLSEMElementFeature(this)
-				} else {
-					super.getUpdateFeature(context)
-				}
-			}
-			default:
-				super.getUpdateFeature(context)
+	private def updateSimulationElement(IUpdateContext it) {
+		val element = getBusinessObjectForPictogramElement(pictogramElement)
+		if (element instanceof ISimulationElement) {
+			new UpdateSimulationElementFeature(this)
+		} else {
+			super.getUpdateFeature(it)
+		}
+	}
+
+	private def getUpdateConnectionFeature(IUpdateContext it) {
+		val element = getBusinessObjectForPictogramElement(pictogramElement as FreeFormConnection)
+
+		// ConditionalRelation
+		if (element instanceof IConditionalRelation) {
+			new UpdateConditionalRelationFeature(this)
+		} else {
+			super.getUpdateFeature(it)
 		}
 	}
 
@@ -125,11 +128,11 @@ class FeatureProvider extends DefaultFeatureProvider {
 	override getDeleteFeature(IDeleteContext context) {
 		val element = getBusinessObjectForPictogramElement(context.pictogramElement)
 		switch element {
-			case IActivity: new DeleteActivityFeature(this)
-			case ISink: new DeleteSinkFeature(this)
-			case ISource: new DeleteSourceFeature(this)
+			Activity: new DeleteActivityFeature(this)
+			Sink: new DeleteSinkFeature(this)
+			Source: new DeleteSourceFeature(this)
 			default: super.getDeleteFeature(context)
 		}
 	}
-	
+
 }

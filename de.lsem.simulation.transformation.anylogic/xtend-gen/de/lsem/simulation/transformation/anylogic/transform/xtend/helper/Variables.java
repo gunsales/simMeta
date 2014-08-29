@@ -1,5 +1,6 @@
 package de.lsem.simulation.transformation.anylogic.transform.xtend.helper;
 
+import com.google.common.base.Objects;
 import de.lsem.simulation.transformation.anylogic.generator.persistant.Connector;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
@@ -74,8 +76,20 @@ public class Variables {
   }
   
   public XMIResource setResource(final XMIResource r) {
-    XMIResource _resource = this.resource = r;
-    return _resource;
+    try {
+      XMIResource _xifexpression = null;
+      boolean _equals = Objects.equal(this.resource, null);
+      if (_equals) {
+        XMIResource _resource = this.resource = r;
+        _xifexpression = _resource;
+      } else {
+        Exception _exception = new Exception("Resource set multiple times", null);
+        throw _exception;
+      }
+      return _xifexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
   
   public XMIResource getResource() {

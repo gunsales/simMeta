@@ -11,14 +11,16 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.lsem.simulation.transformation.anylogic.Activator;
 import de.lsem.simulation.transformation.anylogic.generator.persistant.Connector;
 import de.lsem.simulation.transformation.anylogic.generator.persistant.EmbeddedObject;
-import de.lsem.simulation.transformation.anylogic.transform.generator.GeneratorInjector;
+import de.lsem.simulation.transformation.anylogic.transform.generator.GeneratorModule;
 import de.lsem.simulation.transformation.anylogic.transform.xtend.MainTransformer;
 import de.lsem.simulation.validation.SimulationValidator;
+import de.lsem.simulation.validation.ValidationStatus;
 
 public class TransformToAnylogicJob extends Job {
 
@@ -45,7 +47,10 @@ public class TransformToAnylogicJob extends Job {
 		Status status = new Status(Status.OK, Activator.PLUGIN_ID,
 				"Transformation completed successfully.");
 
-		if (!preCheckBusinessObjects()) {
+		ValidationStatus validationStatus = preCheckBusinessObjects();
+		if (validationStatus.compareTo(ValidationStatus.STATUS_ERROR) == 0
+				|| validationStatus
+						.compareTo(ValidationStatus.VALIDATION_IMPOSSIBLE) == 0) {
 			return new Status(
 					Status.ERROR,
 					Activator.PLUGIN_ID,
@@ -53,11 +58,7 @@ public class TransformToAnylogicJob extends Job {
 		}
 
 		// Init Transformation based on business-objects
-		// Injector injector = Guice.createInjector(new GeneratorModule());
-		// AnylogicTransformer anylogicObjectTransformer = injector
-		// .getInstance(AnylogicTransformer.class);
-		GeneratorInjector generator = new GeneratorInjector();
-		Injector injector = generator.createInjectorAndDoEMFRegistration();
+		Injector injector = Guice.createInjector(new GeneratorModule());
 		MainTransformer anylogicTransformer = injector
 				.getInstance(MainTransformer.class);
 
@@ -65,6 +66,7 @@ public class TransformToAnylogicJob extends Job {
 		try {
 			generatedEmbeddedObjects = anylogicTransformer
 					.transform(xmiResource);
+
 			// Get Connections
 			connections = anylogicTransformer.getConnectorSet();
 
@@ -77,7 +79,7 @@ public class TransformToAnylogicJob extends Job {
 		return status;
 	}
 
-	private boolean preCheckBusinessObjects() {
+	private ValidationStatus preCheckBusinessObjects() {
 
 		ILog iLog = Activator.getDefault().getLog();
 

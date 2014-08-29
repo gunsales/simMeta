@@ -31,8 +31,9 @@ import com.google.inject.Injector;
 
 import de.lsem.simulation.transformation.ed.Activator;
 import de.lsem.simulation.transformation.ed.generator.GeneratorModule;
-import de.lsem.simulation.transformation.ed.xtext.MainGenerator;
+import de.lsem.simulation.transformation.ed.generator.MainGenerator;
 import de.lsem.simulation.validation.SimulationValidator;
+import de.lsem.simulation.validation.ValidationStatus;
 
 public class TransformToEDJob extends Job {
 
@@ -48,13 +49,15 @@ public class TransformToEDJob extends Job {
 		// TASK 1 - Execute transformation and open file
 		IEditorPart editor = getActiveEditor(monitor);
 
-		if (!preCheckBusinessObjects(editor)) {
+		ValidationStatus status = preCheckBusinessObjects(editor);
+		if (status.compareTo(ValidationStatus.STATUS_ERROR) == 0
+				|| status.compareTo(ValidationStatus.VALIDATION_IMPOSSIBLE) == 0) {
 			return new Status(
 					Status.ERROR,
 					Activator.PLUGIN_ID,
 					"Transformation can not be started. Please check the error-log for more information.");
 		}
-		
+
 		try {
 			// Execute Enterprise Dynamics
 			File task = executeTransformationTask(monitor, editor);
@@ -69,8 +72,8 @@ public class TransformToEDJob extends Job {
 		monitor.done();
 		return Status.OK_STATUS;
 	}
-	
-	private boolean preCheckBusinessObjects(IEditorPart editor) {
+
+	private ValidationStatus preCheckBusinessObjects(IEditorPart editor) {
 		if (editor instanceof IDiagramContainer) {
 			IDiagramContainer container = (IDiagramContainer) editor;
 			EList<Resource> resources = container.getDiagramBehavior()
@@ -80,7 +83,7 @@ public class TransformToEDJob extends Job {
 					XMIResource xmiResource = (XMIResource) r;
 
 					ILog iLog = Activator.getDefault().getLog();
-					
+
 					SimulationValidator simulationValidator = new SimulationValidator(
 							xmiResource, iLog, Activator.PLUGIN_ID);
 
@@ -89,9 +92,9 @@ public class TransformToEDJob extends Job {
 			}
 		}
 		// Allow transformation even if pre-check is not possible.
-		return true;
+		return ValidationStatus.VALIDATION_IMPOSSIBLE;
 	}
-	
+
 	private File executeTransformationTask(IProgressMonitor monitor,
 			IEditorPart editor) throws Exception {
 		monitor.beginTask(Messages.TransformToED_3, IProgressMonitor.UNKNOWN);
@@ -107,11 +110,10 @@ public class TransformToEDJob extends Job {
 
 				MainGenerator gen = inj.getInstance(MainGenerator.class);
 				XMIResource resource = getSourceResource(editor);
-				
+
 				StringInputStream stream = gen.getStream(resource);
-				
-				targetFile.create(stream, true,
-						new NullProgressMonitor());
+
+				targetFile.create(stream, true, new NullProgressMonitor());
 
 				return createFileFromIFile(targetFile);
 			}
@@ -144,7 +146,7 @@ public class TransformToEDJob extends Job {
 
 		IDiagramContainer container = (IDiagramContainer) editor;
 
-		return (XMIResource)getResourcesFrom(container).get(0);
+		return (XMIResource) getResourcesFrom(container).get(0);
 	}
 
 	private IFolder getTargetFolderFor(IFile iFile) {

@@ -4,7 +4,8 @@ import de.lsem.repository.model.simulation.Beta
 import de.lsem.repository.model.simulation.Erlang
 import de.lsem.repository.model.simulation.Gamma
 import de.lsem.repository.model.simulation.IBeta
-import de.lsem.repository.model.simulation.IDistributionFunction
+import de.lsem.repository.model.simulation.IConstant
+import de.lsem.repository.model.simulation.IDistribution
 import de.lsem.repository.model.simulation.IErlang
 import de.lsem.repository.model.simulation.IGamma
 import de.lsem.repository.model.simulation.ILogNormal
@@ -25,40 +26,44 @@ import de.lsem.repository.model.simulation.Weibull
 
 class DistributionFunctionLabelGenerator {
 
-	def String getDistributionFunctionLabelForComboViewer(IDistributionFunction it) '''
-		
-		«IF it instanceof IWeibull»
-			«val w = it as IWeibull»
-			«class.getSimpleName()» ( «w.beta», «w.alpha» )
-		«ELSEIF it instanceof IBeta»
-			«val w = it as IBeta»
-			«class.getSimpleName()» ( «w.beta», «w.alpha» )
-		«ELSEIF it instanceof INormal»
-			«val w = it as INormal»
-			«class.getSimpleName()» ( «w.mean», «w.stdDev» )
-		«ELSEIF it instanceof ITriangular»
-			«val w = it as ITriangular»
-			«class.getSimpleName()» ( «w.min», «w.mode», «w.max» )
-		«ELSEIF it instanceof ILogNormal»
-			«val w = it as ILogNormal»
-			«class.getSimpleName()» ( «w.logMean», «w.logStd» )
-		«ELSEIF it instanceof IUniform»
-			«val w = it as IUniform»
-			«class.getSimpleName()» ( «w.min», «w.max» )
-		«ELSEIF it instanceof IPoisson»
-			«val w = it as IPoisson»
-			«class.getSimpleName()» ( «w.mean» )
-		«ELSEIF it instanceof INegExp»
-			«val w = it as INegExp»
-			«class.getSimpleName()» ( «w.mean» )
-		«ELSEIF it instanceof IErlang»
-			«val w = it as IErlang»
-			«class.getSimpleName()» ( «w.expMean», «w.k» )
-		«ELSEIF it instanceof IGamma»
-			«val w = it as IGamma»
-			«class.getSimpleName()» ( «w.beta», «w.alpha» )
-		«ENDIF»	
-	'''
+	private def className(IDistribution it) {
+		class.simpleName
+	}
+
+	def dispatch String getDistributionFunctionFor(IWeibull it) '''
+	Â«classNameÂ» ( Â«betaÂ», Â«alphaÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(IBeta it) '''
+	Â«classNameÂ» ( Â«betaÂ», Â«alphaÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(INormal it) '''
+	Â«classNameÂ» ( Â«meanÂ», Â«stdDevÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(ITriangular it) '''
+	Â«classNameÂ» ( Â«minÂ», Â«modeÂ», Â«maxÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(IUniform it) '''
+	Â«classNameÂ»( Â«minÂ», Â«maxÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(ILogNormal it) '''
+	Â«classNameÂ» ( Â«logMeanÂ», Â«logStdÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(IPoisson it) '''
+	Â«classNameÂ» ( Â«meanÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(INegExp it) '''
+	Â«classNameÂ» ( Â«meanÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(IErlang it) '''
+	Â«classNameÂ» ( Â«expMeanÂ», Â«kÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(IGamma it) '''
+	Â«classNameÂ» ( Â«betaÂ», Â«alphaÂ» )'''
+
+	def dispatch String getDistributionFunctionFor(IConstant it) '''
+	Â«Math.round(value).toStringÂ»'''
+
+	def dispatch String getDistributionFunctionFor(Void it) ''''''
 
 	def getDistributionFunctionForLSEMElement(String text) {
 		try {
@@ -127,7 +132,8 @@ class DistributionFunctionLabelGenerator {
 					fct.alpha = attributeArray.get(1)
 					fct
 				}
-				default: SimulationFactory.eINSTANCE.createBeta
+				default:
+					SimulationFactory.eINSTANCE.createBeta
 			}
 		} catch (IndexOutOfBoundsException e) {
 			e.printStackTrace

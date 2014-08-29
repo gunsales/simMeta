@@ -1,11 +1,8 @@
 package de.lsem.simulation.transformation.mdb.xtend
 
 import com.healthmarketscience.jackcess.Database
-import de.lsem.repository.model.simulation.IActivity
 import de.lsem.repository.model.simulation.IConditionalRelation
 import de.lsem.repository.model.simulation.ISimulationElement
-import de.lsem.repository.model.simulation.ISink
-import de.lsem.repository.model.simulation.ISource
 import de.lsem.simulation.transformation.mdb.Activator
 import java.io.File
 import java.io.IOException
@@ -77,7 +74,7 @@ class ArenaTransformer implements ArenaTransformationConstants {
 		templateURL.path
 	}
 
-	public def File start(XMIResource _resource) throws IOException, ParserConfigurationException,
+	def File start(XMIResource _resource) throws IOException, ParserConfigurationException,
 			SAXException, TransformerFactoryConfigurationError,
 			TransformerException {
 
@@ -100,17 +97,9 @@ class ArenaTransformer implements ArenaTransformationConstants {
 
 		// Relevant are only top-level-elements (Activity, Source, Sink)
 		var int idDummy = 0
-		for (ISimulationElement e : filterSimulationElementsFromXMIResource.toList.filterSubActivities) {
-			if (e instanceof IActivity) {
-				idDummy = createProcess(e as IActivity)
+		for (ISimulationElement e : filterSimulationElementsFromXMIResource.filterSubActivities) {
+				idDummy = createElement(e)
 				lookupTable.put(e, idDummy)
-			} else if (e instanceof ISource) {
-				idDummy = createCreate(e as ISource)
-				lookupTable.put(e, idDummy)
-			} else if (e instanceof ISink) {
-				idDummy = createDispose(e as ISink)
-				lookupTable.put(e, idDummy)
-			}
 		}
 	}
 

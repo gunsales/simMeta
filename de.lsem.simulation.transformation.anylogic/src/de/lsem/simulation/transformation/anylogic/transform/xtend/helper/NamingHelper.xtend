@@ -1,62 +1,38 @@
 package de.lsem.simulation.transformation.anylogic.transform.xtend.helper
 
-import de.lsem.repository.model.simulation.Activity
-import de.lsem.repository.model.simulation.ISimulationElement
-import de.lsem.repository.model.simulation.Sink
-import de.lsem.repository.model.simulation.Source
-import javax.inject.Inject
+import de.lsem.repository.model.simulation.IActivity
+import de.lsem.repository.model.simulation.ISink
+import de.lsem.repository.model.simulation.ISource
 
 class NamingHelper {
 
-	@Inject extension Variables
+	static private def String getSelectOutputNameInternal(int selectOutputCounter) '''SelectOutput«selectOutputCounter»'''
 
-	def getSelectOutputName() {
-		("SelectOutput" + selectOutputCounter).wrapCDATA
+	static def getSelectOutputName(int selectOutputCounter) {
+		getSelectOutputNameInternal(selectOutputCounter).wrapCDATA
 	}
 
-	def createEntityTypeDeclaration(Class<? extends ISimulationElement> _class) {
-		switch _class {
-			case Activity: "Service"
-			case Source: "Source"
-			case Sink: "Sink"
-			default: ""
-		}
+	static def dispatch String createEntityTypeDeclaration(IActivity it) '''Service'''
+
+	static def dispatch String createEntityTypeDeclaration(ISource it) '''Source'''
+
+	static def dispatch String createEntityTypeDeclaration(ISink it) '''Sink'''
+
+	static def dispatch String createEntityTypeDeclaration(Void it) ''''''
+
+	static def String wrapCDATA(String stringToWrap) '''<![CDATA[«stringToWrap»]]>'''
+
+	static def dispatch String makeValidForAnylogic(String name) '''«FOR s : name.split(" ")»«s.stripFirstInteger.
+		replaceUmlaute.toFirstUpper.replace(" ", "").replaceAll("[^a-zA-Z0-9]", "").trim»«ENDFOR»'''
+
+	static def dispatch String makeValidForAnylogic(Void it) ''''''
+
+	static private def replaceUmlaute(String k) {
+		k.replace("ü", "ue").replace("ö", "oe").replace("ä", "ae").replace("Ü", "Ue").replace("Ö", "Oe").replace("Ä",
+			"Ae")
 	}
 
-	def wrapCDATA(String stringToWrap) {
-		"<![CDATA[" + stringToWrap + "]]>"
-	}
-
-	def makeValidForAnyLogic(String name) {
-
-		var retVal = ""
-
-		if (name == null) {
-			retVal
-		} else {
-
-			// Anylogic does not allow empty spaces in names,
-			// because it uses those names as Class-Names.
-			// --> return camel-cased words without special-chars
-			val words = name.split(" ");
-
-			for (String s : words) {
-				var k = s;
-				k.stripFirstInteger
-				k.replaceUmlaute
-				retVal = retVal + k.toFirstUpper.replace(" ", "").replaceAll("[^a-zA-Z0-9]", "").trim;
-			}
-			
-			
-			retVal
-		}
-	}
-	
-	private def replaceUmlaute(String k) {
-		k.replace("�", "ue").replace("�", "oe").replace("�", "ae").replace("�", "Ue").replace("�", "Oe").replace("�", "Ae")
-	}
-	
-	private def stripFirstInteger(String k) {
+	static private def stripFirstInteger(String k) {
 		try {
 			Integer.parseInt(k.charAt(0).toString)
 			return k.substring(1, k.length)

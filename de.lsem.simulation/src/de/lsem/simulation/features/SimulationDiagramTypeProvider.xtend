@@ -14,13 +14,12 @@ class SimulationDiagramTypeProvider extends AbstractDiagramTypeProvider {
 	override isAutoUpdateAtRuntime() {
 		true
 	}
+
 	
 	override getAvailableToolBehaviorProviders() {
-
 		if(toolBehaviorProviders == null) {
 			toolBehaviorProviders = #[ new SimulationToolBehaviorProvider(this) ]
 		}
-		
 		toolBehaviorProviders
 	}
 	

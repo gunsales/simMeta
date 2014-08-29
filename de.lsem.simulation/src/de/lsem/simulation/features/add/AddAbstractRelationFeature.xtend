@@ -26,6 +26,7 @@ class AddAbstractRelationFeature extends AbstractAddFeature {
 	}
 
 	override canAdd(IAddContext it) {
+		println(isAddContext && isNewObjectRelation)
 		isAddContext && isNewObjectRelation
 	}
 

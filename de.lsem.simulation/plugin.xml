@@ -348,7 +348,7 @@
      <image
            icon="icons/simLogo2_16_16_32Bit.png"
            id="de.lsem.simulation.images.projectNature"
-           natureId="de.lsem.simulation.id2">
+           natureId="de.lsem.simulation.nature">
      </image>
   </extension>
 </plugin>

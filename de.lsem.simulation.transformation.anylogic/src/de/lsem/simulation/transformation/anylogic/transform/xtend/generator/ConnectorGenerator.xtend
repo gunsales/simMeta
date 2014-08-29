@@ -6,17 +6,17 @@ import de.lsem.simulation.transformation.anylogic.generator.persistant.EmbeddedO
 import de.lsem.simulation.transformation.anylogic.generator.persistant.Label
 import de.lsem.simulation.transformation.anylogic.transform.helper.Costants
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.CreateHelper
-import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.NamingHelper
+import static de.lsem.simulation.transformation.anylogic.transform.xtend.helper.NamingHelper.*
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.PositionHelper
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.Variables
 import javax.inject.Inject
 
 import static de.lsem.simulation.transformation.anylogic.transform.helper.IDGenerator.*
+import static java.lang.Math.*
 
 class ConnectorGenerator implements Costants {
 
 	@Inject extension CreateHelper
-	@Inject extension NamingHelper
 	@Inject extension PositionHelper
 	@Inject extension Variables
 
@@ -34,52 +34,62 @@ class ConnectorGenerator implements Costants {
 		setCommonConnectorValues(transformedSource, transformedTarget, xValue, yValue, retVal)
 
 	}
-	
+
 	def create retVal:new Connector() transformRelation(IRelation it, EmbeddedObject transformedSource,
 		EmbeddedObject transformedTarget) {
 		transformRelation(transformedSource, transformedTarget, OUT_STRING)
 	}
 
-	def create retVal:new Connector createConnector(EmbeddedObject source, EmbeddedObject target,
+	def create it:new Connector createConnector(EmbeddedObject source, EmbeddedObject target,
 		String sourceConnectableName, String targetConnectableName) {
-		setCommonConnectorValues(source, target, source.x, source.y, retVal)
-		retVal.setSourceConnectableName(sourceConnectableName)
-		retVal.setTargetConnectableName(targetConnectableName)
+		setCommonConnectorValues(source, target, source.x, source.y, it)
+		setSourceConnectableName(sourceConnectableName)
+		setTargetConnectableName(targetConnectableName)
 	}
 
 	private def setCommonConnectorValues(EmbeddedObject source, EmbeddedObject target, int xValue, int yValue,
-		Connector retVal) {
+		Connector it) {
 
-		retVal.setId(generateID)
-		retVal.setName(("connector" + connectorCounter).wrapCDATA)
+		id = generateID
+		name = createConnectorNameCleared
 
-		retVal.x = xValue
-		retVal.y = yValue
+		x = xValue
+		y = yValue
 
-		val startPoint = point(0, 0) //getX(source), getY(source))
-
-		val correctedTargetX = Math::abs(target.x - xValue)
-		val correctedTargetY = Math::abs(target.y - yValue)
+		val startPoint = point
 
 		// points graphical information - target
-		val targetPoint = point(correctedTargetX, correctedTargetY)
+		val targetPoint = point(correctedTargetX(target, xValue), correctedTargetY(target, yValue))
 
 		// Wrapper for graphical-point-items
 		val points = createPoints(startPoint, targetPoint)
-		retVal.setPoints(points)
+		setPoints(points)
 
 		// set source and target depending on connection starting from source
-		retVal.setTargetEmbeddedObject(target.id)
-		retVal.setSourceEmbeddedObject(source.id)
+		targetEmbeddedObject = target.id
+		sourceEmbeddedObject = source.id
 
 		val Label label = createLabel(0, 0)
-		retVal.setLabel(label)
+		setLabel(label)
 
-		retVal.setPublicFlag(F)
-		retVal.setPresentationFlag(T)
-		retVal.setShowLabel(F)
+		setPublicFlag(F)
+		setPresentationFlag(T)
+		setShowLabel(F)
+	}
+	
+	private def correctedTargetY(EmbeddedObject target, int yValue) {
+		abs(target.y - yValue)
+	}
+	
+	private def correctedTargetX(EmbeddedObject target, int xValue) {
+		abs(target.x - xValue)
 	}
 
+	private def createConnectorNameCleared() {
+		wrapCDATA(createConnectorName)
+	}
+
+	private def String createConnectorName() '''connector«connectorCounter»'''
 
 	private def setConnectionSourceAndTargetName(Connector it, String sourceConnectable, String targetConnectable) {
 		setSourceConnectableName(sourceConnectable)

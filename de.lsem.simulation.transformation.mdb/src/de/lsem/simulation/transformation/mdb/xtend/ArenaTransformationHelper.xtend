@@ -1,40 +1,17 @@
 package de.lsem.simulation.transformation.mdb.xtend
 
 import com.healthmarketscience.jackcess.Database
-import de.lsem.repository.model.simulation.Beta
-import de.lsem.repository.model.simulation.Constant
-import de.lsem.repository.model.simulation.Erlang
-import de.lsem.repository.model.simulation.Gamma
 import de.lsem.repository.model.simulation.IActivity
-import de.lsem.repository.model.simulation.IBeta
 import de.lsem.repository.model.simulation.IConditionalRelation
-import de.lsem.repository.model.simulation.IConstant
-import de.lsem.repository.model.simulation.IDistribution
-import de.lsem.repository.model.simulation.IErlang
-import de.lsem.repository.model.simulation.IGamma
-import de.lsem.repository.model.simulation.ILogNormal
-import de.lsem.repository.model.simulation.INegExp
-import de.lsem.repository.model.simulation.INormal
-import de.lsem.repository.model.simulation.IPoisson
 import de.lsem.repository.model.simulation.ISimulationElement
-import de.lsem.repository.model.simulation.ITriangular
-import de.lsem.repository.model.simulation.IUniform
-import de.lsem.repository.model.simulation.IWeibull
-import de.lsem.repository.model.simulation.LogNormal
-import de.lsem.repository.model.simulation.NegExp
-import de.lsem.repository.model.simulation.Normal
-import de.lsem.repository.model.simulation.Poisson
 import de.lsem.repository.model.simulation.ServiceType
-import de.lsem.repository.model.simulation.Triangular
-import de.lsem.repository.model.simulation.Uniform
 import de.lsem.repository.model.simulation.UnitOfTime
-import de.lsem.repository.model.simulation.Weibull
 import de.lsem.simulation.transformation.mdb.commands.Messages
 import java.util.ArrayList
 import java.util.HashMap
+import java.util.Iterator
 import java.util.List
 import java.util.Map
-import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
@@ -47,14 +24,11 @@ import org.eclipse.emf.ecore.xmi.XMIResource
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramLink
 
-import static de.lsem.repository.model.simulation.UnitOfTime.*
 import static de.lsem.repository.model.simulation.ServiceType.*
+import static de.lsem.repository.model.simulation.UnitOfTime.*
 
 @Singleton
 class ArenaTransformationHelper implements ArenaTransformationConstants {
-
-	@Inject
-	extension DistributionStringGenerator
 
 	int counter = 0
 	Diagram diagram
@@ -83,39 +57,6 @@ class ArenaTransformationHelper implements ArenaTransformationConstants {
 				SERVICE_TYPE_ARENA_VALUE_ADDED
 			default:
 				SERVICE_TYPE_ARENA_HANDLING
-		}
-	}
-
-	/*
-	 * Generates IDistributionFunction or IConstant
-	 */
-	def createDistributionTypeString(IDistribution dist) {
-
-		switch dist {
-			Weibull:
-				createWeibull(dist as IWeibull)
-			Beta:
-				createBeta(dist as IBeta)
-			Normal:
-				createNormal(dist as INormal)
-			Triangular:
-				createTriangle(dist as ITriangular)
-			LogNormal:
-				createLogN(dist as ILogNormal)
-			Uniform:
-				createUniform(dist as IUniform)
-			Poisson:
-				createPoisson(dist as IPoisson)
-			NegExp:
-				createNegativeExpo(dist as INegExp)
-			Erlang:
-				createErlang(dist as IErlang)
-			Gamma:
-				createGamma(dist as IGamma)
-			Constant:
-				createConstant(dist as IConstant)
-			default:
-				""
 		}
 	}
 
@@ -254,16 +195,15 @@ class ArenaTransformationHelper implements ArenaTransformationConstants {
 			}
 		}
 	}
+	
 
 	def filterSimulationElementsFromXMIResource() {
-
-		resource.allContents.filter(typeof(ISimulationElement)).toIterable
-
+		resource.allContents.filter(typeof(ISimulationElement))
 	}
 
-	def filterSubActivities(List<ISimulationElement> list) {
-		val List<ISimulationElement> retList = new ArrayList<ISimulationElement>(list)
-		list.filter(typeof(IActivity)).forEach [ e1 |
+	def filterSubActivities(Iterator<ISimulationElement> iterator) {
+		val List<ISimulationElement> retList = new ArrayList<ISimulationElement>(iterator.toList)
+		iterator.filter(typeof(IActivity)).forEach [ e1 |
 			e1.subActivities.forEach [ e2 |
 				retList.remove(e2)
 			]

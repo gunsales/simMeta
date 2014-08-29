@@ -37,6 +37,7 @@ public class TransformToArenaChangeListener implements IJobChangeListener {
 					msg.setMessage(Messages.TransformToArena_11);
 					msg.open();
 				}
+				// Other situations will be handled by transformation-job itself.
 			}
 		});
 	}

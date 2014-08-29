@@ -29,17 +29,6 @@ public class UpdateConditionalRelationFeature extends AbstractUpdateFeature {
 
 	}
 
-//	private boolean isNameUnique(IConditionalRelation cr) {
-//		for (IRelation r : LSEMElementHelper
-//				.getRelationsFromDiagram(getDiagram().eResource().getContents())) {
-//			if (r.getName() != null && cr.getName() != null
-//					&& cr.getName().equals(r.getName())) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-
 	@Override
 	public IReason updateNeeded(IUpdateContext context) {
 		return Reason.createTrueReason();

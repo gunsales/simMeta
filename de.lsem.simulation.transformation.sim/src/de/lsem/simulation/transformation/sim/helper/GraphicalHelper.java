@@ -11,7 +11,7 @@ import org.eclipse.bpmn2.di.BPMNShape;
 import org.eclipse.dd.di.DiagramElement;
 
 import de.lsem.process.model.ProcessNode;
-import de.lsem.simulation.transformation.sim.xtext.CommonTransformation;
+import de.lsem.simulation.transformation.sim.xtend.CommonTransformation;
 
 public class GraphicalHelper {
 

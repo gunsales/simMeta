@@ -61,15 +61,16 @@ import de.lsem.simulation.transformation.sim.Activator;
 import de.lsem.simulation.transformation.sim.generator.GeneratorModule;
 import de.lsem.simulation.transformation.sim.helper.GraphicalHelper;
 import de.lsem.simulation.transformation.sim.helper.Position;
-import de.lsem.simulation.transformation.sim.xtext.GenericTransformation;
-import de.lsem.simulation.transformation.sim.xtext.TransformBPMN2ToSimulation;
+import de.lsem.simulation.transformation.sim.xtend.GenericTransformation;
+import de.lsem.simulation.transformation.sim.xtend.TransformBPMN2ToSimulation;
 import de.lsem.simulation.validation.SimulationValidator;
+import de.lsem.simulation.validation.ValidationStatus;
 
 public class TransformToSimulationJob extends Job {
 
 	private static final String SIMULATION_DIAGRAM_TYPE_ID = "de.lsem.simulation";
-//	private static final Logger log = Logger
-//			.getLogger(TransformToSimulationJob.class.getSimpleName());
+	// private static final Logger log = Logger
+	// .getLogger(TransformToSimulationJob.class.getSimpleName());
 
 	private List<FlowElement> bpmnElementList;
 	private IFile saveFile;
@@ -157,7 +158,7 @@ public class TransformToSimulationJob extends Job {
 				"Transformation done.");
 	}
 
-	private boolean preCheckBusinessObjects(IEditorPart editor) {
+	private ValidationStatus preCheckBusinessObjects(IEditorPart editor) {
 		if (editor instanceof IDiagramContainer) {
 			IDiagramContainer container = (IDiagramContainer) editor;
 			EList<Resource> resources = container.getDiagramBehavior()
@@ -175,7 +176,7 @@ public class TransformToSimulationJob extends Job {
 			}
 		}
 		// Allow transformation even if pre-check is not possible.
-		return true;
+		return ValidationStatus.VALIDATION_IMPOSSIBLE;
 	}
 
 	private void addSimulationElementsToResource(final Resource resource,
@@ -208,14 +209,6 @@ public class TransformToSimulationJob extends Job {
 					}
 				}
 
-				// IValidator validator =
-				// ModelValidationService.getInstance().newValidator(EvaluationMode.BATCH);
-				// IStatus results = validator.validate(resource.getContents());
-				//
-				// if(!results.isOK()){
-				// ErrorDialog.openError(null, "Validation",
-				// "Validation failed", results);
-				// }
 				try {
 					resource.save(null);
 				} catch (IOException e) {
@@ -326,7 +319,15 @@ public class TransformToSimulationJob extends Job {
 					// Check process-structure
 					monitor.beginTask("Validating elements...",
 							IProgressMonitor.UNKNOWN);
-					preCheckBusinessObjects(editor);
+
+					ValidationStatus validationStatus = preCheckBusinessObjects(editor);
+
+					if (validationStatus
+							.compareTo(ValidationStatus.STATUS_ERROR) == 0
+							|| validationStatus
+									.compareTo(ValidationStatus.VALIDATION_IMPOSSIBLE) == 0) {
+						// Blablubb
+					}
 
 					monitor.done();
 				} catch (PartInitException e) {
@@ -383,7 +384,7 @@ public class TransformToSimulationJob extends Job {
 					AddContext addContext = initAddContext(diagram2, s);
 
 					// When transforming, key special chars are replaced by
-					// usual chars (e.g. ä --> ae)
+					// usual chars (e.g. ï¿½ --> ae)
 					key = s.getName();
 					// System.out.println(key);
 					// Add x-/y-coordinates

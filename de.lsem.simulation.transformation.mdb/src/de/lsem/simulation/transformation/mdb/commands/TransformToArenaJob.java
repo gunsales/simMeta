@@ -33,17 +33,21 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.xml.sax.SAXException;
 
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.lsem.simulation.transformation.mdb.Activator;
-import de.lsem.simulation.transformation.mdb.generator.GeneratorInjector;
+import de.lsem.simulation.transformation.mdb.generator.GeneratorModule;
 import de.lsem.simulation.transformation.mdb.xtend.ArenaTransformer;
 import de.lsem.simulation.validation.SimulationValidator;
+import de.lsem.simulation.validation.ValidationStatus;
 
 public class TransformToArenaJob extends Job {
 
 	private IWorkbenchWindow workbench;
-//	private static final Logger log = Logger.getLogger(TransformToArenaJob.class.getSimpleName());
+
+	// private static final Logger log =
+	// Logger.getLogger(TransformToArenaJob.class.getSimpleName());
 
 	public TransformToArenaJob(String name, final IWorkbenchWindow workbench) {
 		super(name);
@@ -57,7 +61,7 @@ public class TransformToArenaJob extends Job {
 
 		monitor.beginTask("Validating elements...", IProgressMonitor.UNKNOWN);
 		preCheckBusinessObjects(editor);
-		
+
 		Status retVal = new Status(Status.INFO, Activator.PLUGIN_ID, "");
 
 		monitor.beginTask(Messages.TransformToArena_4, IProgressMonitor.UNKNOWN);
@@ -68,14 +72,15 @@ public class TransformToArenaJob extends Job {
 				XMIResourceImpl xmiResource = getXMIResource(diagContainer);
 
 				if (xmiResource != null) {
-					
-					if (!preCheckBusinessObjects(editor)) {
+
+					ValidationStatus status = preCheckBusinessObjects(editor);
+					if (errorStatusExists(status)) {
 						return new Status(
 								Status.ERROR,
 								Activator.PLUGIN_ID,
 								"Transformation can not be started. Please check the error-log for more information.");
 					}
-					
+
 					monitor.beginTask(Messages.TransformToArena_8,
 							IProgressMonitor.UNKNOWN);
 
@@ -96,7 +101,6 @@ public class TransformToArenaJob extends Job {
 				monitor.setCanceled(true);
 				retVal = new Status(Status.ERROR, Activator.PLUGIN_ID,
 						"An error occured when transforming to ARENA.", e1);
-
 			}
 		}
 		monitor.done();
@@ -104,7 +108,13 @@ public class TransformToArenaJob extends Job {
 		return retVal;
 	}
 
-	private boolean preCheckBusinessObjects(IEditorPart editor) {
+	private boolean errorStatusExists(ValidationStatus status) {
+		return status.compareTo(ValidationStatus.STATUS_ERROR) == 0
+				|| status
+						.compareTo(ValidationStatus.VALIDATION_IMPOSSIBLE) == 0;
+	}
+
+	private ValidationStatus preCheckBusinessObjects(IEditorPart editor) {
 		if (editor instanceof IDiagramContainer) {
 			IDiagramContainer container = (IDiagramContainer) editor;
 			EList<Resource> resources = container.getDiagramBehavior()
@@ -113,7 +123,7 @@ public class TransformToArenaJob extends Job {
 				if (r instanceof XMIResource) {
 
 					ILog iLog = Activator.getDefault().getLog();
-					
+
 					XMIResource xmiResource = (XMIResource) r;
 
 					SimulationValidator simulationValidator = new SimulationValidator(
@@ -124,7 +134,7 @@ public class TransformToArenaJob extends Job {
 			}
 		}
 		// Allow transformation even if pre-check is not possible.
-		return true;
+		return ValidationStatus.VALIDATION_IMPOSSIBLE;
 	}
 
 	private void updateProject(XMIResourceImpl xmiResource)
@@ -144,8 +154,7 @@ public class TransformToArenaJob extends Job {
 			XMIResourceImpl xmiResource) throws IOException,
 			ParserConfigurationException, SAXException,
 			TransformerFactoryConfigurationError, TransformerException {
-		GeneratorInjector gen = new GeneratorInjector();
-		Injector injector = gen.createInjectorAndDoEMFRegistration();
+		Injector injector = Guice.createInjector(new GeneratorModule());
 		ArenaTransformer transformer = injector
 				.getInstance(ArenaTransformer.class);
 		return transformer.start(xmiResource);

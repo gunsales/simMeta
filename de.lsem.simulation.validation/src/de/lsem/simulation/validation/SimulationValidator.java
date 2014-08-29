@@ -85,32 +85,36 @@ public class SimulationValidator {
 	 *         is thrown, validation fails and method returns false. If only
 	 *         Status.Warning/Everything fine, method returns true.
 	 */
-	public boolean validate() {
+	public ValidationStatus validate() {
 		List<ValidationException> retVal = new ArrayList<ValidationException>();
 		retVal = checkElements(retVal);
 		retVal = checkProcessStructure(retVal);
 
-		return setLog(retVal);
+		return setLogAndDisplayProblemMessage(retVal);
 	}
 
-	private boolean setLog(List<ValidationException> foundProblems) {
-		boolean hasNoError = true;
+	private ValidationStatus setLogAndDisplayProblemMessage(
+			List<ValidationException> foundProblems) {
+		ValidationStatus hasNoError = ValidationStatus.STATUS_OK;
 
 		if (log == null) {
-			return true;
+			return ValidationStatus.VALIDATION_IMPOSSIBLE;
 		}
 
 		for (ValidationException e : foundProblems) {
 			log.log(e.getStatus());
 			if (e.getStatus().getSeverity() == Status.ERROR) {
-				hasNoError = false;
+				hasNoError = ValidationStatus.STATUS_ERROR;
 			}
 			logger.log(Level.WARNING, e.getMessage());
 		}
 
 		// Errors should aboard transformation, so that the containing job gives
-		// the user information about aborting the transformation
-		if (foundProblems.size() > 0 && hasNoError) {
+		// the user information about aborting the transformation. Problems lead
+		// to a message box.
+		if (foundProblems.size() > 0
+				&& (hasNoError.equals(ValidationStatus.STATUS_OK) || hasNoError
+						.equals(ValidationStatus.STATUS_PROBLEM))) {
 			displayProblemsExistMessage();
 		}
 		return hasNoError;

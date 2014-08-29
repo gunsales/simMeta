@@ -99,7 +99,7 @@ LSEMElementGeneralPropertySection {
 						// System.out.println(s + " vs. " +
 						// period.getClass().getSimpleName());
 						if (s.startsWith(period.getClass().getSimpleName())) {
-							String label = getLabelGenerator().getDistributionFunctionLabelForComboViewer((IDistributionFunction) period);
+							String label = getLabelGenerator().getDistributionFunctionFor((IDistributionFunction) period).toString();
 							distCC.add(label, distCC.indexOf(s));
 							distCC.setData(label, period);
 							distCC.remove(s);

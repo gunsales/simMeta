@@ -1,6 +1,5 @@
 package de.lsem.simulation.validation.validators;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.lsem.repository.model.simulation.ISimulationObject;

@@ -47,7 +47,12 @@ class Variables {
 	}
 
 	def setResource(XMIResource r){
+		if(resource == null){
 		resource = r	
+		
+		} else {
+			throw new Exception("Resource set multiple times", null)
+		}
 	}
 	
 	def getResource() {

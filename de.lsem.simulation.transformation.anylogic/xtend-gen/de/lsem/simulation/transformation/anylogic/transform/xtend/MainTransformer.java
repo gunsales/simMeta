@@ -12,7 +12,6 @@ import de.lsem.simulation.transformation.anylogic.transform.xtend.generator.Obje
 import de.lsem.simulation.transformation.anylogic.transform.xtend.generator.SelectOutputGenerator;
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.Variables;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +21,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
@@ -41,45 +41,50 @@ public class MainTransformer implements Costants {
   @Extension
   private Variables v;
   
+  /**
+   * @param r - xmiresource that holds the graphical and object-based information to be transformed. The resource must be unique in injection-scope, meaning only one transformation allowed per injection.
+   */
   public ArrayList<EmbeddedObject> transform(final XMIResource r) throws NullPointerException {
-    final ArrayList<?> _cacheKey = CollectionLiterals.newArrayList(r);
-    final ArrayList<EmbeddedObject> _result;
-    synchronized (_createCache_transform) {
-      if (_createCache_transform.containsKey(_cacheKey)) {
-        return _createCache_transform.get(_cacheKey);
-      }
-      ArrayList<EmbeddedObject> _arrayList = new ArrayList<EmbeddedObject>();
-      _result = _arrayList;
-      _createCache_transform.put(_cacheKey, _result);
-    }
-    _init_transform(_result, r);
-    return _result;
-  }
-  
-  private final HashMap<ArrayList<? extends Object>,ArrayList<EmbeddedObject>> _createCache_transform = CollectionLiterals.newHashMap();
-  
-  private void _init_transform(final ArrayList<EmbeddedObject> retVal, final XMIResource r) throws NullPointerException {
-    boolean _equals = Objects.equal(r, null);
-    if (_equals) {
-      NullPointerException _nullPointerException = new NullPointerException("Error. Resource must not be null.");
-      throw _nullPointerException;
-    }
-    this.v.setResource(r);
-    List<ISimulationElement> _simulationElementsWithoutSubActivities = this.simulationElementsWithoutSubActivities();
-    final Procedure1<ISimulationElement> _function = new Procedure1<ISimulationElement>() {
-      public void apply(final ISimulationElement it) {
-        EmbeddedObjectGeneric _transformGeneralObject = MainTransformer.this._objectTransformer.transformGeneralObject(it);
-        retVal.add(_transformGeneralObject);
-        ArrayList<EmbeddedObjectGeneric> _dispatchOut = MainTransformer.this._selectOutputGenerator.dispatchOut(it);
-        final Procedure1<EmbeddedObjectGeneric> _function = new Procedure1<EmbeddedObjectGeneric>() {
-          public void apply(final EmbeddedObjectGeneric it) {
-            retVal.add(it);
+    try {
+      ArrayList<EmbeddedObject> _xblockexpression = null;
+      {
+        ArrayList<EmbeddedObject> _arrayList = new ArrayList<EmbeddedObject>();
+        final ArrayList<EmbeddedObject> retVal = _arrayList;
+        boolean _equals = Objects.equal(r, null);
+        if (_equals) {
+          NullPointerException _nullPointerException = new NullPointerException("Error. Resource must not be null.");
+          throw _nullPointerException;
+        } else {
+          XMIResource _resource = this.v.getResource();
+          boolean _notEquals = (!Objects.equal(_resource, null));
+          if (_notEquals) {
+            Exception _exception = new Exception(
+              "Transformation can not be started, as the xmi-resource is not unique. Please use a new injector.");
+            throw _exception;
+          }
+        }
+        this.v.setResource(r);
+        List<ISimulationElement> _simulationElementsWithoutSubActivities = this.simulationElementsWithoutSubActivities();
+        final Procedure1<ISimulationElement> _function = new Procedure1<ISimulationElement>() {
+          public void apply(final ISimulationElement it) {
+            EmbeddedObjectGeneric _transformGeneralObject = MainTransformer.this._objectTransformer.transformGeneralObject(it);
+            retVal.add(_transformGeneralObject);
+            ArrayList<EmbeddedObjectGeneric> _dispatchOut = MainTransformer.this._selectOutputGenerator.dispatchOut(it);
+            final Procedure1<EmbeddedObjectGeneric> _function = new Procedure1<EmbeddedObjectGeneric>() {
+              public void apply(final EmbeddedObjectGeneric it) {
+                retVal.add(it);
+              }
+            };
+            IterableExtensions.<EmbeddedObjectGeneric>forEach(_dispatchOut, _function);
           }
         };
-        IterableExtensions.<EmbeddedObjectGeneric>forEach(_dispatchOut, _function);
+        IterableExtensions.<ISimulationElement>forEach(_simulationElementsWithoutSubActivities, _function);
+        _xblockexpression = (retVal);
       }
-    };
-    IterableExtensions.<ISimulationElement>forEach(_simulationElementsWithoutSubActivities, _function);
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
   
   public Set<Connector> getConnectorSet() {

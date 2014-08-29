@@ -52,7 +52,7 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 		newObject instanceof IActivity
 	}
 
-	def createActivityGraphicalRepresentation(IAddContext it) {
+	private def createActivityGraphicalRepresentation(IAddContext it) {
 		val width = 100
 		val height = 50
 		val colapsed_width = 120
@@ -78,7 +78,7 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 		containerShape
 	}
 
-	def setRoundedRectangle(ContainerShape containerShape, IAddContext it, int width, int height) {
+	private def setRoundedRectangle(ContainerShape containerShape, IAddContext it, int width, int height) {
 		val roundedRectangle = gaService.createRoundedRectangle(containerShape, 5, 5)
 		roundedRectangle.foreground = manageColor(E_CLASS_FOREGROUND)
 		roundedRectangle.background = manageColor(E_CLASS_BACKGROUND)
@@ -92,14 +92,14 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 		gaService.setLocationAndSize(roundedRectangle, x, y, width, height)
 	}
 
-	def setPictogramMiddleLine(ContainerShape containerShape, int colapsed_width) {
+	private def setPictogramMiddleLine(ContainerShape containerShape, int colapsed_width) {
 		val shapeForLine = peCreateService.createShape(containerShape, false)
 		val polyline = gaService.createPolyline(shapeForLine, #[0, 20, colapsed_width, 20])
 		polyline.foreground = manageColor(E_CLASS_FOREGROUND)
 		polyline.lineWidth = LINE_WIDTH
 	}
 
-	def setPictogramText(ContainerShape containerShape, IActivity newActivity, int width) {
+	private def setPictogramText(ContainerShape containerShape, IActivity newActivity, int width) {
 		val nameShape = peCreateService.createShape(containerShape, false)
 		val text = gaService.createText(nameShape, newActivity.name ?: newActivity.serviceType.literal)
 		text.foreground = manageColor(E_CLASS_TEXT_FOREGROUND)
@@ -108,7 +108,7 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 		gaService.setLocationAndSize(text, 0, 0, width, 20)
 	}
 
-	def positionOnActivity(IAddContext it, RoundedRectangle roundedRectangle, int width, int height) {
+	private def positionOnActivity(IAddContext it, RoundedRectangle roundedRectangle, int width, int height) {
 		val topActivity = getBusinessObjectForPictogramElement(targetContainer) as IActivity
 
 		var y = 25
@@ -120,7 +120,7 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 
 	}
 
-	def calculateYCoordinate(IActivity newActivity, IActivity topActivity) {
+	private def calculateYCoordinate(IActivity newActivity, IActivity topActivity) {
 		// Drop from palate
 		if (topActivity.getSubActivities().contains(newActivity)) {
 			// Drop from activity existing in editor
@@ -132,7 +132,7 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 		}
 	}
 
-	def getActivityTargetContainer(IAddContext it) {
+	private def getActivityTargetContainer(IAddContext it) {
 		if (targetContainer instanceof Diagram) {
 			return targetContainer as Diagram
 		}
@@ -140,7 +140,7 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 		targetContainer
 	}
 	
-	def collapseTopActivity(ContainerShape shape) {
+	private def collapseTopActivity(ContainerShape shape) {
 		val cc = new CustomContext
 		cc.innerPictogramElement = shape
 		val customFeatures = featureProvider.getCustomFeatures(cc)
@@ -152,7 +152,7 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 			val isCollapsed = Boolean.parseBoolean(collapsed)
 			
 			if(!isCollapsed) {
-				collapseFeature.createColapseKlapse(shape)
+				collapseFeature.createCollapsedPictogramElement(shape)
 			}
 		}
 

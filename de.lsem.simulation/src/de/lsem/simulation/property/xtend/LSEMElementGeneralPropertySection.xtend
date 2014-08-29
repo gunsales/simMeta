@@ -22,7 +22,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage
 
 class LSEMElementGeneralPropertySection extends GFPropertySection implements ITabbedPropertyConstants, ElementConstants {
 
-	val Logger logger = Logger.getLogger(LSEMElementGeneralPropertySection.getClass.simpleName)
+	val Logger logger = Logger.getLogger(typeof(LSEMElementGeneralPropertySection).simpleName)
 
 	var DistributionFunctionLabelGenerator labelGenerator
 
@@ -48,7 +48,7 @@ class LSEMElementGeneralPropertySection extends GFPropertySection implements ITa
 		val labelProvider = new LabelProvider
 		labelProvider.getText() [ Object element |
 			if (element instanceof IDistributionFunction) {
-				getLabelGenerator.getDistributionFunctionLabelForComboViewer(element as IDistributionFunction)
+				getLabelGenerator.getDistributionFunctionFor(element as IDistributionFunction)
 			} else if (element instanceof String) {
 				element.toString
 			}
@@ -77,9 +77,9 @@ class LSEMElementGeneralPropertySection extends GFPropertySection implements ITa
 		for (v : valueSet) {
 			if (v instanceof IDistributionFunction) {
 				val d = v as IDistributionFunction
-				val label = getLabelGenerator.getDistributionFunctionLabelForComboViewer(d)
-				cc.add(label)
-				cc.setData(label, d)
+				val label = getLabelGenerator.getDistributionFunctionFor(d)
+				cc.add(label.toString)
+				cc.setData(label.toString, d)
 			} else {
 				cc.add(v.toString)
 				cc.setData(v.toString, v)

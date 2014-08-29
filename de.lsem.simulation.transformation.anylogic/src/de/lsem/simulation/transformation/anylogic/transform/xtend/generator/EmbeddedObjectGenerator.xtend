@@ -5,6 +5,7 @@ import de.lsem.repository.model.simulation.IActivity
 import de.lsem.repository.model.simulation.ISimulationElement
 import de.lsem.repository.model.simulation.ISink
 import de.lsem.repository.model.simulation.ISource
+import de.lsem.repository.model.simulation.ServiceType
 import de.lsem.repository.model.simulation.Sink
 import de.lsem.repository.model.simulation.Source
 import de.lsem.simulation.transformation.anylogic.generator.persistant.Parameters
@@ -12,7 +13,7 @@ import de.lsem.simulation.transformation.anylogic.transform.preparedObjects.Acti
 import de.lsem.simulation.transformation.anylogic.transform.preparedObjects.EmbeddedObjectGeneric
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.CreateHelper
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.DistributionFunctionHelper
-import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.NamingHelper
+import static de.lsem.simulation.transformation.anylogic.transform.xtend.helper.NamingHelper.*
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.PositionHelper
 import de.lsem.simulation.transformation.anylogic.transform.xtend.helper.Variables
 import javax.inject.Inject
@@ -20,13 +21,11 @@ import javax.inject.Singleton
 
 import static de.lsem.simulation.transformation.anylogic.transform.helper.IDGenerator.*
 import static de.lsem.simulation.transformation.anylogic.transform.preparedObjects.EmbeddedObjectGeneric.*
-import de.lsem.repository.model.simulation.ServiceType
 
 @Singleton
 class ObjectTransformer {
 	
 	@Inject extension CreateHelper
-	@Inject extension NamingHelper
 	@Inject extension PositionHelper
 	@Inject extension Variables
 	@Inject extension DistributionFunctionHelper
@@ -35,11 +34,11 @@ class ObjectTransformer {
 
 		var eo = dispatchForTransformation
 
-		eo.name = name.makeValidForAnyLogic
+		eo.name = makeValidForAnylogic(name)
 		eo.x = x
 		eo.y = y
 
-		eo.activeObjectClassInner = new ActiveObjectClassInnerImpl(class.createEntityTypeDeclaration)
+		eo.activeObjectClassInner = new ActiveObjectClassInnerImpl(createEntityTypeDeclaration(it))
 
 		eo.label = createLabel(-2, -11)
 
@@ -66,8 +65,7 @@ class ObjectTransformer {
 		p.addParameter(createEmptyParameter("onEnter"))
 		p.addParameter(createEmptyParameter("onEnterDelay"))
 		p.addParameter(createEmptyParameter("onExit"))
-//		p.addParameter(createEmptyParameter("queueCapacity"))
-		p.addParameter(queueCapacity)
+		p.addParameter(queueCapacity)//		p.addParameter(createEmptyParameter("queueCapacity"))
 		p.addParameter(createEmptyParameter("maximumCapacity"))
 		p.addParameter(createEmptyParameter("enableTimeout"))
 		p.addParameter(createEmptyParameter("timeout"))
@@ -120,7 +118,7 @@ class ObjectTransformer {
 		p.addParameter(createEmptyParameter("arrivalTable"))
 		p.addParameter(createEmptyParameter("modifyRate"))
 		p.addParameter(createEmptyParameter("rateExpression"))
-		p.addParameter(createParameter("entitiesPerArrival", newEntities.period.distributionFunctionFor))
+		p.addParameter(entitiesPerArrival)
 		
 		setLimitAndMaxArrivals(p)
 		
@@ -134,6 +132,10 @@ class ObjectTransformer {
 		retVal.setParameters(p)
 		
 		retVal.name = "SourceA" + sourceCounter
+	}
+	
+	private def entitiesPerArrival(ISource it) {
+		createParameter("entitiesPerArrival", newEntities.period.distributionFunctionFor)
 	}
 	
 	def setLimitAndMaxArrivals(ISource it, Parameters p) {
