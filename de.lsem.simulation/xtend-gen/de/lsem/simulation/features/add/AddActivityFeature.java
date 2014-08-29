@@ -110,7 +110,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
     return _xblockexpression;
   }
   
-  public ContainerShape createActivityGraphicalRepresentation(final IAddContext it) {
+  private ContainerShape createActivityGraphicalRepresentation(final IAddContext it) {
     ContainerShape _xblockexpression = null;
     {
       final int width = 100;
@@ -135,7 +135,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
     return _xblockexpression;
   }
   
-  public void setRoundedRectangle(final ContainerShape containerShape, final IAddContext it, final int width, final int height) {
+  private void setRoundedRectangle(final ContainerShape containerShape, final IAddContext it, final int width, final int height) {
     IGaService _gaService = Graphiti.getGaService();
     final RoundedRectangle roundedRectangle = _gaService.createRoundedRectangle(containerShape, 5, 5);
     Color _manageColor = this.manageColor(AddActivityFeature.E_CLASS_FOREGROUND);
@@ -154,7 +154,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
     _gaService_1.setLocationAndSize(roundedRectangle, _x, _y, width, height);
   }
   
-  public void setPictogramMiddleLine(final ContainerShape containerShape, final int colapsed_width) {
+  private void setPictogramMiddleLine(final ContainerShape containerShape, final int colapsed_width) {
     IPeCreateService _peCreateService = Graphiti.getPeCreateService();
     final Shape shapeForLine = _peCreateService.createShape(containerShape, false);
     IGaService _gaService = Graphiti.getGaService();
@@ -164,7 +164,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
     polyline.setLineWidth(Integer.valueOf(this.LINE_WIDTH));
   }
   
-  public void setPictogramText(final ContainerShape containerShape, final IActivity newActivity, final int width) {
+  private void setPictogramText(final ContainerShape containerShape, final IActivity newActivity, final int width) {
     IPeCreateService _peCreateService = Graphiti.getPeCreateService();
     final Shape nameShape = _peCreateService.createShape(containerShape, false);
     IGaService _gaService = Graphiti.getGaService();
@@ -189,7 +189,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
     _gaService_2.setLocationAndSize(text, 0, 0, width, 20);
   }
   
-  public void positionOnActivity(final IAddContext it, final RoundedRectangle roundedRectangle, final int width, final int height) {
+  private void positionOnActivity(final IAddContext it, final RoundedRectangle roundedRectangle, final int width, final int height) {
     ContainerShape _targetContainer = it.getTargetContainer();
     Object _businessObjectForPictogramElement = this.getBusinessObjectForPictogramElement(_targetContainer);
     final IActivity topActivity = ((IActivity) _businessObjectForPictogramElement);
@@ -204,7 +204,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
     _gaService.setLocationAndSize(roundedRectangle, 10, y, width, height);
   }
   
-  public int calculateYCoordinate(final IActivity newActivity, final IActivity topActivity) {
+  private int calculateYCoordinate(final IActivity newActivity, final IActivity topActivity) {
     EList<IActivity> _subActivities = topActivity.getSubActivities();
     boolean _contains = _subActivities.contains(newActivity);
     if (_contains) {
@@ -220,7 +220,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
     }
   }
   
-  public ContainerShape getActivityTargetContainer(final IAddContext it) {
+  private ContainerShape getActivityTargetContainer(final IAddContext it) {
     ContainerShape _xblockexpression = null;
     {
       ContainerShape _targetContainer = it.getTargetContainer();
@@ -236,7 +236,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
     return _xblockexpression;
   }
   
-  public void collapseTopActivity(final ContainerShape shape) {
+  private void collapseTopActivity(final ContainerShape shape) {
     CustomContext _customContext = new CustomContext();
     final CustomContext cc = _customContext;
     cc.setInnerPictogramElement(shape);
@@ -251,7 +251,7 @@ public class AddActivityFeature extends AbstractAddShapeFeature {
       final boolean isCollapsed = Boolean.parseBoolean(collapsed);
       boolean _not = (!isCollapsed);
       if (_not) {
-        collapseFeature.createColapseKlapse(shape);
+        collapseFeature.createCollapsedPictogramElement(shape);
       }
     }
   }

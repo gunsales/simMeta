@@ -1,6 +1,7 @@
 package de.lsem.simulation.features;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
 import de.lsem.repository.model.simulation.IActivity;
 import de.lsem.simulation.features.custom.CollapseActivityFeature;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -15,7 +16,12 @@ import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
 @SuppressWarnings("all")
 public class SimulationToolBehaviorProvider extends DefaultToolBehaviorProvider {
@@ -30,38 +36,38 @@ public class SimulationToolBehaviorProvider extends DefaultToolBehaviorProvider 
       final PictogramElement picto = context.getPictogramElement();
       IFeatureProvider _featureProvider = this.getFeatureProvider();
       final Object bo = _featureProvider.getBusinessObjectForPictogramElement(picto);
+      int _defaultGenericButtons = this.defaultGenericButtons();
+      this.setGenericContextButtons(cbp, picto, _defaultGenericButtons);
       CustomContext _customContext = new CustomContext(new PictogramElement[] { picto });
       final CustomContext cc = _customContext;
       IFeatureProvider _featureProvider_1 = this.getFeatureProvider();
       final ICustomFeature[] cfs = _featureProvider_1.getCustomFeatures(cc);
-      this.setGenericContextButtons(cbp, picto, DefaultToolBehaviorProvider.CONTEXT_BUTTON_DELETE);
-      for (final ICustomFeature cf : cfs) {
-        boolean _and = false;
-        if (!(cf instanceof CollapseActivityFeature)) {
-          _and = false;
-        } else {
-          boolean _canExecute = cf.canExecute(cc);
-          _and = ((cf instanceof CollapseActivityFeature) && _canExecute);
+      Iterable<CollapseActivityFeature> _filter = Iterables.<CollapseActivityFeature>filter(((Iterable<? extends Object>)Conversions.doWrapArray(cfs)), CollapseActivityFeature.class);
+      final Function1<CollapseActivityFeature,Boolean> _function = new Function1<CollapseActivityFeature,Boolean>() {
+        public Boolean apply(final CollapseActivityFeature it) {
+          boolean _canExecute = it.canExecute(cc);
+          return Boolean.valueOf(_canExecute);
         }
-        if (_and) {
+      };
+      Iterable<CollapseActivityFeature> _filter_1 = IterableExtensions.<CollapseActivityFeature>filter(_filter, _function);
+      final Procedure1<CollapseActivityFeature> _function_1 = new Procedure1<CollapseActivityFeature>() {
+        public void apply(final CollapseActivityFeature it) {
           String image = IPlatformImageConstants.IMG_EDIT_EXPAND;
-          String collapseExpand = "Collapse";
-          IPeService _peService = Graphiti.getPeService();
-          String _propertyValue = _peService.getPropertyValue(picto, "isCollapsed");
-          boolean _parseBoolean = Boolean.parseBoolean(_propertyValue);
-          if (_parseBoolean) {
+          String collapseExpand = CollapseActivityFeature.COLLAPSE;
+          boolean _isPictogramElementCollapsed = SimulationToolBehaviorProvider.this.isPictogramElementCollapsed(picto);
+          if (_isPictogramElementCollapsed) {
             image = IPlatformImageConstants.IMG_EDIT_COLLAPSE;
-            collapseExpand = "Expand";
+            collapseExpand = CollapseActivityFeature.EXPAND;
           }
           String name = "";
-          boolean _and_1 = false;
+          boolean _and = false;
           if (!(bo instanceof IActivity)) {
-            _and_1 = false;
+            _and = false;
           } else {
             boolean _notEquals = (!Objects.equal(bo, null));
-            _and_1 = ((bo instanceof IActivity) && _notEquals);
+            _and = ((bo instanceof IActivity) && _notEquals);
           }
-          if (_and_1) {
+          if (_and) {
             String _elvis = null;
             String _name = ((IActivity) bo).getName();
             if (_name != null) {
@@ -71,19 +77,47 @@ public class SimulationToolBehaviorProvider extends DefaultToolBehaviorProvider 
             }
             name = _elvis;
           }
-          ContextButtonEntry _contextButtonEntry = new ContextButtonEntry(cf, cc);
-          final ContextButtonEntry collapseButton = _contextButtonEntry;
-          String _plus = (collapseExpand + " ");
-          String _plus_1 = (_plus + name);
-          collapseButton.setDescription(_plus_1);
-          collapseButton.setText(collapseExpand);
-          collapseButton.setIconId(image);
-          cbp.setCollapseContextButton(collapseButton);
-          return cbp;
+          ContextButtonEntry _createCollapseButton = SimulationToolBehaviorProvider.this.createCollapseButton(it, cc, collapseExpand, name, image);
+          cbp.setCollapseContextButton(_createCollapseButton);
         }
-      }
+      };
+      IterableExtensions.<CollapseActivityFeature>forEach(_filter_1, _function_1);
       _xblockexpression = (cbp);
     }
     return _xblockexpression;
+  }
+  
+  private int defaultGenericButtons() {
+    int _bitwiseOr = (DefaultToolBehaviorProvider.CONTEXT_BUTTON_UPDATE | DefaultToolBehaviorProvider.CONTEXT_BUTTON_DELETE);
+    return _bitwiseOr;
+  }
+  
+  public ContextButtonEntry createCollapseButton(final CollapseActivityFeature it, final CustomContext cc, final String collapseExpand, final String name, final String image) {
+    ContextButtonEntry _xblockexpression = null;
+    {
+      ContextButtonEntry _contextButtonEntry = new ContextButtonEntry(it, cc);
+      final ContextButtonEntry collapseButton = _contextButtonEntry;
+      String _collapseButtonDescription = this.collapseButtonDescription(collapseExpand, name);
+      collapseButton.setDescription(_collapseButtonDescription);
+      collapseButton.setText(collapseExpand);
+      collapseButton.setIconId(image);
+      _xblockexpression = (collapseButton);
+    }
+    return _xblockexpression;
+  }
+  
+  public String collapseButtonDescription(final String collapseExpand, final String name) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append(collapseExpand, "");
+    _builder.append(" ");
+    _builder.append(name, "");
+    return _builder.toString();
+  }
+  
+  public boolean isPictogramElementCollapsed(final PictogramElement picto) {
+    IPeService _peService = Graphiti.getPeService();
+    String _propertyValue = _peService.getPropertyValue(picto, CollapseActivityFeature.IS_COLLAPSED);
+    boolean _parseBoolean = Boolean.parseBoolean(_propertyValue);
+    return _parseBoolean;
   }
 }

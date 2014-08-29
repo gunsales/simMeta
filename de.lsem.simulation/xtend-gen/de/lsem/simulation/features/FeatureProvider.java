@@ -6,8 +6,6 @@ import de.lsem.repository.model.simulation.ConditionalRelation;
 import de.lsem.repository.model.simulation.IActivity;
 import de.lsem.repository.model.simulation.IConditionalRelation;
 import de.lsem.repository.model.simulation.ISimulationElement;
-import de.lsem.repository.model.simulation.ISink;
-import de.lsem.repository.model.simulation.ISource;
 import de.lsem.repository.model.simulation.Relation;
 import de.lsem.repository.model.simulation.Sink;
 import de.lsem.repository.model.simulation.Source;
@@ -29,7 +27,7 @@ import de.lsem.simulation.features.delete.DeleteSinkFeature;
 import de.lsem.simulation.features.delete.DeleteSourceFeature;
 import de.lsem.simulation.features.update.RelationReconnectionFeature;
 import de.lsem.simulation.features.update.UpdateConditionalRelationFeature;
-import de.lsem.simulation.features.update.UpdateLSEMElementFeature;
+import de.lsem.simulation.features.update.UpdateSimulationElementFeature;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -61,53 +59,53 @@ public class FeatureProvider extends DefaultFeatureProvider {
     return _relationReconnectionFeature;
   }
   
-  public IAddFeature getAddFeature(final IAddContext context) {
+  public IAddFeature getAddFeature(final IAddContext it) {
     IAddFeature _switchResult = null;
-    Object _newObject = context.getNewObject();
-    final Object _switchValue = _newObject;
+    Object _newObject = it.getNewObject();
+    final Object getNewObject = _newObject;
     boolean _matched = false;
     if (!_matched) {
-      if (_switchValue instanceof Activity) {
-        final Activity _activity = (Activity)_switchValue;
+      if (getNewObject instanceof Activity) {
+        final Activity _activity = (Activity)getNewObject;
         _matched=true;
         AddActivityFeature _addActivityFeature = new AddActivityFeature(this);
         _switchResult = _addActivityFeature;
       }
     }
     if (!_matched) {
-      if (_switchValue instanceof ConditionalRelation) {
-        final ConditionalRelation _conditionalRelation = (ConditionalRelation)_switchValue;
+      if (getNewObject instanceof ConditionalRelation) {
+        final ConditionalRelation _conditionalRelation = (ConditionalRelation)getNewObject;
         _matched=true;
         AddConditionalRelationFeature _addConditionalRelationFeature = new AddConditionalRelationFeature(this);
         _switchResult = _addConditionalRelationFeature;
       }
     }
     if (!_matched) {
-      if (_switchValue instanceof Relation) {
-        final Relation _relation = (Relation)_switchValue;
+      if (getNewObject instanceof Relation) {
+        final Relation _relation = (Relation)getNewObject;
         _matched=true;
         AddRelationFeature _addRelationFeature = new AddRelationFeature(this);
         _switchResult = _addRelationFeature;
       }
     }
     if (!_matched) {
-      if (_switchValue instanceof Sink) {
-        final Sink _sink = (Sink)_switchValue;
+      if (getNewObject instanceof Sink) {
+        final Sink _sink = (Sink)getNewObject;
         _matched=true;
         AddSinkFeature _addSinkFeature = new AddSinkFeature(this);
         _switchResult = _addSinkFeature;
       }
     }
     if (!_matched) {
-      if (_switchValue instanceof Source) {
-        final Source _source = (Source)_switchValue;
+      if (getNewObject instanceof Source) {
+        final Source _source = (Source)getNewObject;
         _matched=true;
         AddSourceFeature _addSourceFeature = new AddSourceFeature(this);
         _switchResult = _addSourceFeature;
       }
     }
     if (!_matched) {
-      IAddFeature _addFeature = super.getAddFeature(context);
+      IAddFeature _addFeature = super.getAddFeature(it);
       _switchResult = _addFeature;
     }
     return _switchResult;
@@ -120,55 +118,59 @@ public class FeatureProvider extends DefaultFeatureProvider {
     return new ICreateFeature[] { _createActivityFeature, _createSinkFeature, _createSourceFeature };
   }
   
-  public IUpdateFeature getUpdateFeature(final IUpdateContext context) {
+  public IUpdateFeature getUpdateFeature(final IUpdateContext it) {
+    IUpdateFeature _xifexpression = null;
+    PictogramElement _pictogramElement = it.getPictogramElement();
+    if ((_pictogramElement instanceof FreeFormConnection)) {
+      IUpdateFeature _updateConnectionFeature = this.getUpdateConnectionFeature(it);
+      _xifexpression = _updateConnectionFeature;
+    } else {
+      IUpdateFeature _xifexpression_1 = null;
+      PictogramElement _pictogramElement_1 = it.getPictogramElement();
+      if ((_pictogramElement_1 instanceof ContainerShape)) {
+        IUpdateFeature _updateSimulationElement = this.updateSimulationElement(it);
+        _xifexpression_1 = _updateSimulationElement;
+      } else {
+        IUpdateFeature _updateFeature = super.getUpdateFeature(it);
+        _xifexpression_1 = _updateFeature;
+      }
+      _xifexpression = _xifexpression_1;
+    }
+    return _xifexpression;
+  }
+  
+  private IUpdateFeature updateSimulationElement(final IUpdateContext it) {
     IUpdateFeature _xblockexpression = null;
     {
-      final PictogramElement pe = context.getPictogramElement();
-      IUpdateFeature _switchResult = null;
-      boolean _matched = false;
-      if (!_matched) {
-        if (Objects.equal(pe,FreeFormConnection.class)) {
-          _matched=true;
-          IUpdateFeature _xblockexpression_1 = null;
-          {
-            final Object element = this.getBusinessObjectForPictogramElement(((FreeFormConnection) pe));
-            IUpdateFeature _xifexpression = null;
-            if ((element instanceof IConditionalRelation)) {
-              UpdateConditionalRelationFeature _updateConditionalRelationFeature = new UpdateConditionalRelationFeature(this);
-              _xifexpression = _updateConditionalRelationFeature;
-            } else {
-              IUpdateFeature _updateFeature = super.getUpdateFeature(context);
-              _xifexpression = _updateFeature;
-            }
-            _xblockexpression_1 = (_xifexpression);
-          }
-          _switchResult = _xblockexpression_1;
-        }
+      PictogramElement _pictogramElement = it.getPictogramElement();
+      final Object element = this.getBusinessObjectForPictogramElement(_pictogramElement);
+      IUpdateFeature _xifexpression = null;
+      if ((element instanceof ISimulationElement)) {
+        UpdateSimulationElementFeature _updateSimulationElementFeature = new UpdateSimulationElementFeature(this);
+        _xifexpression = _updateSimulationElementFeature;
+      } else {
+        IUpdateFeature _updateFeature = super.getUpdateFeature(it);
+        _xifexpression = _updateFeature;
       }
-      if (!_matched) {
-        if (Objects.equal(pe,ContainerShape.class)) {
-          _matched=true;
-          IUpdateFeature _xblockexpression_2 = null;
-          {
-            final Object element = this.getBusinessObjectForPictogramElement(pe);
-            IUpdateFeature _xifexpression = null;
-            if ((element instanceof ISimulationElement)) {
-              UpdateLSEMElementFeature _updateLSEMElementFeature = new UpdateLSEMElementFeature(this);
-              _xifexpression = _updateLSEMElementFeature;
-            } else {
-              IUpdateFeature _updateFeature = super.getUpdateFeature(context);
-              _xifexpression = _updateFeature;
-            }
-            _xblockexpression_2 = (_xifexpression);
-          }
-          _switchResult = _xblockexpression_2;
-        }
+      _xblockexpression = (_xifexpression);
+    }
+    return _xblockexpression;
+  }
+  
+  private IUpdateFeature getUpdateConnectionFeature(final IUpdateContext it) {
+    IUpdateFeature _xblockexpression = null;
+    {
+      PictogramElement _pictogramElement = it.getPictogramElement();
+      final Object element = this.getBusinessObjectForPictogramElement(((FreeFormConnection) _pictogramElement));
+      IUpdateFeature _xifexpression = null;
+      if ((element instanceof IConditionalRelation)) {
+        UpdateConditionalRelationFeature _updateConditionalRelationFeature = new UpdateConditionalRelationFeature(this);
+        _xifexpression = _updateConditionalRelationFeature;
+      } else {
+        IUpdateFeature _updateFeature = super.getUpdateFeature(it);
+        _xifexpression = _updateFeature;
       }
-      if (!_matched) {
-        IUpdateFeature _updateFeature = super.getUpdateFeature(context);
-        _switchResult = _updateFeature;
-      }
-      _xblockexpression = (_switchResult);
+      _xblockexpression = (_xifexpression);
     }
     return _xblockexpression;
   }
@@ -218,21 +220,24 @@ public class FeatureProvider extends DefaultFeatureProvider {
       IDeleteFeature _switchResult = null;
       boolean _matched = false;
       if (!_matched) {
-        if (Objects.equal(element,IActivity.class)) {
+        if (element instanceof Activity) {
+          final Activity _activity = (Activity)element;
           _matched=true;
           DeleteActivityFeature _deleteActivityFeature = new DeleteActivityFeature(this);
           _switchResult = _deleteActivityFeature;
         }
       }
       if (!_matched) {
-        if (Objects.equal(element,ISink.class)) {
+        if (element instanceof Sink) {
+          final Sink _sink = (Sink)element;
           _matched=true;
           DeleteSinkFeature _deleteSinkFeature = new DeleteSinkFeature(this);
           _switchResult = _deleteSinkFeature;
         }
       }
       if (!_matched) {
-        if (Objects.equal(element,ISource.class)) {
+        if (element instanceof Source) {
+          final Source _source = (Source)element;
           _matched=true;
           DeleteSourceFeature _deleteSourceFeature = new DeleteSourceFeature(this);
           _switchResult = _deleteSourceFeature;
