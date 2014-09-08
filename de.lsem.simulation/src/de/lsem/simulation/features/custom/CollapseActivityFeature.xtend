@@ -1,5 +1,6 @@
 package de.lsem.simulation.features.custom
 
+import com.google.inject.Inject
 import de.lsem.repository.model.simulation.IActivity
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICustomContext
@@ -7,12 +8,15 @@ import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
+import org.eclipse.graphiti.services.IPeService
 
 import static de.lsem.simulation.util.LSEMElementHelper.*
-import static org.eclipse.graphiti.services.Graphiti.*
 
 class CollapseActivityFeature extends AbstractCustomFeature {
 
+	@Inject
+	extension IPeService peService
+	
 	public static val COLLAPSE = "Collapse"
 	public static val EXPAND = "Expand"
 
@@ -31,7 +35,8 @@ class CollapseActivityFeature extends AbstractCustomFeature {
 	override canExecute(ICustomContext it) {
 		if (pictogramElements != null && pictogramElements.length == 1) {
 			val bo = getBusinessObjectForPictogramElement(pictogramElements.get(0))
-			return bo instanceof IActivity
+			
+			return bo instanceof IActivity && !isSubActivity(contents, bo as IActivity)
 		}
 		return false
 	}
@@ -63,14 +68,14 @@ class CollapseActivityFeature extends AbstractCustomFeature {
 		// If expand
 		if (!activityCollapsed) {
 			setPictoHeightAndWidth(it, width, height)
-			peService.setPropertyValue(it, IS_COLLAPSED, String.valueOf(true))
+			peService.setPropertyValue(it, IS_COLLAPSED, Boolean.TRUE.toString)
 		} 
 		// If collapse
 		else {
 			changeWidth = it.initialWidth
 			changeHeight = it.initialHeight
 
-			peService.setPropertyValue(it, IS_COLLAPSED, String.valueOf(false))
+			peService.setPropertyValue(it, IS_COLLAPSED, Boolean.FALSE.toString)
 		}
 
 		val resizeContext = createResizeShapeContext(cs, changeWidth, changeHeight)

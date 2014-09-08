@@ -1,5 +1,8 @@
 package de.lsem.simulation.property;
 
+import static de.lsem.simulation.util.LSEMElementHelper.getElementsFromDiagram;
+import static de.lsem.simulation.util.LSEMElementHelper.getRelationsFromDiagram;
+
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
@@ -32,9 +35,7 @@ import de.lsem.repository.model.simulation.IConditionalRelation;
 import de.lsem.repository.model.simulation.IRelation;
 import de.lsem.repository.model.simulation.ISimulationElement;
 import de.lsem.simulation.util.ElementConstants;
-import de.lsem.simulation.util.LSEMElementHelper;
 import de.lsem.simulation.util.NameValidator;
-
 public class ConditionalRelationMainSection extends GFPropertySection implements
 		ITabbedPropertyConstants {
 
@@ -205,15 +206,13 @@ public class ConditionalRelationMainSection extends GFPropertySection implements
 
 		EList<EObject> contents = getDiagram().eResource().getContents();
 
-		List<ISimulationElement> elements = LSEMElementHelper
-				.getElementsFromDiagram(contents);
+		List<ISimulationElement> elements = getElementsFromDiagram(contents);
 		for (ISimulationElement element : elements) {
 			if (element.getName().equals(name)) {
 				return false;
 			}
 		}
-		List<IRelation> relations = LSEMElementHelper
-				.getRelationsFromDiagram(contents);
+		List<IRelation> relations = getRelationsFromDiagram(contents);
 		for (IRelation element : relations) {
 			if (element.getName() == null || element.getName().equals(name)) {
 				return false;

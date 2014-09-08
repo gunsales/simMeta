@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Composite
 import org.eclipse.swt.widgets.Control
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage
+import de.lsem.simulation.property.modifyListener.CComboToolTipSelectionListener
 
 class LSEMElementGeneralPropertySection extends GFPropertySection implements ITabbedPropertyConstants, ElementConstants {
 

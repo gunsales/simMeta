@@ -59,9 +59,7 @@ public class TransformToArenaJob extends Job {
 		IWorkbenchPage page = workbench.getActivePage();
 		IEditorPart editor = page.getActiveEditor();
 
-		monitor.beginTask("Validating elements...", IProgressMonitor.UNKNOWN);
-		preCheckBusinessObjects(editor);
-
+		
 		Status retVal = new Status(Status.INFO, Activator.PLUGIN_ID, "");
 
 		monitor.beginTask(Messages.TransformToArena_4, IProgressMonitor.UNKNOWN);
@@ -73,6 +71,7 @@ public class TransformToArenaJob extends Job {
 
 				if (xmiResource != null) {
 
+					monitor.beginTask("Validating elements...", IProgressMonitor.UNKNOWN);
 					ValidationStatus status = preCheckBusinessObjects(editor);
 					if (errorStatusExists(status)) {
 						return new Status(

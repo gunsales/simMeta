@@ -81,9 +81,9 @@ public class SimulationValidator {
 	 * The user will be informed via a pop-up-message and the warnings will be
 	 * displayed in error-view.
 	 * 
-	 * @return Returns whether a model is transformable or not. If Status.Error
-	 *         is thrown, validation fails and method returns false. If only
-	 *         Status.Warning/Everything fine, method returns true.
+	 * @return Returns whether a model is transformable or not. If it is
+	 *         transformable, the method differentiates between a fully
+	 *         successful validation or if warnings do exist.
 	 */
 	public ValidationStatus validate() {
 		List<ValidationException> retVal = new ArrayList<ValidationException>();
@@ -122,15 +122,15 @@ public class SimulationValidator {
 	}
 
 	private void displayProblemsExistMessage() {
-		Display.getDefault().syncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 
 			@Override
 			public void run() {
-				MessageBox messageBox = new MessageBox(Display.getDefault()
+				MessageBox messageBox = new MessageBox(Display.getCurrent()
 						.getActiveShell(), SWT.ICON_INFORMATION);
 				messageBox
-						.setMessage("Your model contains errors or warnings. Please check the error log.");
-				messageBox.setText("Errors found in model");
+						.setMessage("Your model contains warnings. Please check the error log.");
+				messageBox.setText("Warnings found in model");
 				messageBox.open();
 			}
 		});

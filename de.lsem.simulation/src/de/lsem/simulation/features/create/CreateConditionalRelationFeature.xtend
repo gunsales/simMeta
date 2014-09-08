@@ -15,10 +15,6 @@ import static de.lsem.simulation.util.RelationHelper.*
 
 class CreateConditionalRelationFeature extends AbstractCreateConnectionFeature {
 
-	new(IFeatureProvider fp, String name, String description) {
-		super(fp, name, description)
-	}
-
 	new(IFeatureProvider fp) {
 		super(fp, "Conditional Relation", "Connection depending on its call condition")
 	}

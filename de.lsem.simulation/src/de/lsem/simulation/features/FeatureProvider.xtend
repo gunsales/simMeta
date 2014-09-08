@@ -1,5 +1,6 @@
 package de.lsem.simulation.features
 
+import com.google.inject.Inject
 import de.lsem.repository.model.simulation.Activity
 import de.lsem.repository.model.simulation.ConditionalRelation
 import de.lsem.repository.model.simulation.IActivity
@@ -40,6 +41,7 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
 
 class FeatureProvider extends DefaultFeatureProvider {
 
+	@Inject
 	new(IDiagramTypeProvider dtp) {
 		super(dtp)
 	}

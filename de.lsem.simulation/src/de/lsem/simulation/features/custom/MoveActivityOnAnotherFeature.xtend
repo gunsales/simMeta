@@ -2,23 +2,23 @@ package de.lsem.simulation.features.custom
 
 import de.lsem.repository.model.simulation.IActivity
 import de.lsem.repository.model.simulation.ISimulationElement
+import java.util.ArrayList
 import java.util.logging.Level
 import java.util.logging.Logger
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IMoveShapeContext
-import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
-import org.eclipse.graphiti.mm.pictograms.Diagram
-
-import static de.lsem.simulation.util.LSEMElementHelper.*
-import static de.lsem.simulation.features.custom.CustomActivityHelper.*
-import org.eclipse.graphiti.mm.pictograms.PictogramElement
-import java.util.ArrayList
-import org.eclipse.graphiti.features.context.impl.RemoveContext
-import org.eclipse.graphiti.features.context.impl.AreaContext
 import org.eclipse.graphiti.features.context.impl.AddContext
-import org.eclipse.graphiti.mm.pictograms.ContainerShape
+import org.eclipse.graphiti.features.context.impl.AreaContext
 import org.eclipse.graphiti.features.context.impl.DeleteContext
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo
+import org.eclipse.graphiti.features.context.impl.RemoveContext
+import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
+import org.eclipse.graphiti.mm.pictograms.ContainerShape
+import org.eclipse.graphiti.mm.pictograms.Diagram
+import org.eclipse.graphiti.mm.pictograms.PictogramElement
+
+import static de.lsem.simulation.features.custom.CustomActivityHelper.*
+import static de.lsem.simulation.util.LSEMElementHelper.*
 
 /**
  * This is a workaround-feature for realizing a drag&drop-feature from one

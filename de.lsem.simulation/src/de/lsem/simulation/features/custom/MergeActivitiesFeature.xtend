@@ -12,7 +12,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 
 import static de.lsem.simulation.util.LSEMElementHelper.*
-
 class MergeActivitiesFeature extends AbstractCustomFeature {
 
 	new(IFeatureProvider fp) {
@@ -28,7 +27,7 @@ class MergeActivitiesFeature extends AbstractCustomFeature {
 			return false
 		}
 
-		areAllSelectedPictosActivities(it)
+		areAllSelectedPictosActivities
 	}
 
 	private def areAllSelectedPictosActivities(ICustomContext it) {
@@ -81,16 +80,17 @@ class MergeActivitiesFeature extends AbstractCustomFeature {
 			
 			// Case 3 : initial and comparing are not atomic
 			else {
-				initialActivity = moveActivityFeature.notAtomarOnNotAtomarCase(sourcePictogramElement, initialActivity, sp.activityForPicto)
+				initialActivity = moveActivityFeature.notAtomarOnNotAtomarCase(sourcePictogramElement, initialActivity,
+					sp.activityForPicto)
 			}
 
-			if(sp != null && sp.graphicsAlgorithm != null){
+			if (sp != null && sp.graphicsAlgorithm != null) {
 				val newPicto = featureProvider.getPictogramElementForBusinessObject(initialActivity)
 				sourcePictogramElement = setXandY(newPicto, sp)
-			}			
+			}
 		}
 	}
-	
+
 	def setXandY(PictogramElement element, PictogramElement element2) {
 		element2.graphicsAlgorithm.x = element.graphicsAlgorithm.x
 		element2.graphicsAlgorithm.y = element.graphicsAlgorithm.y

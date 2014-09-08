@@ -7,7 +7,7 @@ import org.eclipse.graphiti.features.context.IAddContext
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.util.IColorConstant
 
-import static de.lsem.simulation.features.ConditionalRelationLabelHelper.*
+import static de.lsem.simulation.util.ConditionalRelationLabelHelper.*
 import static org.eclipse.graphiti.services.Graphiti.*
 
 class AddConditionalRelationFeature extends AddAbstractRelationFeature {

@@ -19,10 +19,11 @@ import de.lsem.repository.model.simulation.LogNormal
 import de.lsem.repository.model.simulation.NegExp
 import de.lsem.repository.model.simulation.Normal
 import de.lsem.repository.model.simulation.Poisson
-import de.lsem.repository.model.simulation.SimulationFactory
 import de.lsem.repository.model.simulation.Triangular
 import de.lsem.repository.model.simulation.Uniform
 import de.lsem.repository.model.simulation.Weibull
+
+import static de.lsem.repository.model.simulation.SimulationFactory.*
 
 class DistributionFunctionLabelGenerator {
 
@@ -65,86 +66,81 @@ class DistributionFunctionLabelGenerator {
 
 	def dispatch String getDistributionFunctionFor(Void it) ''''''
 
-	def getDistributionFunctionForLSEMElement(String text) {
-		try {
-
-			val attributeArray = generateAttributeValueArray(text);
-
-			switch (text) {
-				case null:
-					SimulationFactory.eINSTANCE.createBeta
-				case text.startsWith(typeof(Weibull).simpleName) && attributeArray.length == 2: {
-					val fct = SimulationFactory.eINSTANCE.createWeibull
-					fct.beta = attributeArray.get(0)
-					fct.alpha = attributeArray.get(1)
-					fct
-				}
-				case text.startsWith(typeof(Beta).simpleName) && attributeArray.length == 2: {
-					val fct = SimulationFactory.eINSTANCE.createBeta
-					fct.beta = attributeArray.get(0)
-					fct.alpha = attributeArray.get(1)
-					fct
-				}
-				case text.startsWith(typeof(Normal).simpleName) && attributeArray.length == 2: {
-					val fct = SimulationFactory.eINSTANCE.createNormal
-					fct.mean = attributeArray.get(0)
-					fct.stdDev = attributeArray.get(1)
-					fct
-				}
-				case text.startsWith(typeof(Triangular).simpleName) && attributeArray.length == 3: {
-					val fct = SimulationFactory.eINSTANCE.createTriangular
-					fct.min = attributeArray.get(0)
-					fct.mode = attributeArray.get(1)
-					fct.max = attributeArray.get(2)
-					fct
-				}
-				case text.startsWith(typeof(LogNormal).simpleName) && attributeArray.length == 2: {
-					val fct = SimulationFactory.eINSTANCE.createLogNormal
-					fct.logMean = attributeArray.get(0)
-					fct.logStd = attributeArray.get(1)
-					fct
-				}
-				case text.startsWith(typeof(Uniform).simpleName) && attributeArray.length == 2: {
-					val fct = SimulationFactory.eINSTANCE.createUniform
-					fct.min = attributeArray.get(0)
-					fct.max = attributeArray.get(1)
-					fct
-				}
-				case text.startsWith(typeof(Poisson).simpleName) && attributeArray.length == 1: {
-					val fct = SimulationFactory.eINSTANCE.createPoisson
-					fct.mean = attributeArray.get(0)
-					fct
-				}
-				case text.startsWith(typeof(NegExp).simpleName) && attributeArray.length == 1: {
-					val fct = SimulationFactory.eINSTANCE.createNegExp
-					fct.mean = attributeArray.get(0)
-					fct
-				}
-				case text.startsWith(typeof(Erlang).simpleName) && attributeArray.length == 2: {
-					val fct = SimulationFactory.eINSTANCE.createErlang
-					fct.expMean = attributeArray.get(0)
-					fct.k = attributeArray.get(1)
-					fct
-				}
-				case text.startsWith(typeof(Gamma).simpleName) && attributeArray.length == 2: {
-					val fct = SimulationFactory.eINSTANCE.createGamma
-					fct.beta = attributeArray.get(0)
-					fct.alpha = attributeArray.get(1)
-					fct
-				}
-				default:
-					SimulationFactory.eINSTANCE.createBeta
-			}
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace
-			SimulationFactory.eINSTANCE.createBeta
-		} catch (Exception e) {
-			e.printStackTrace
-			SimulationFactory.eINSTANCE.createBeta
+	def getDistributionFunctionForLSEMElement(String text){
+		if(text == null){
+			return null
 		}
-
+		
+		val attributeArray = generateAttributeValueArray(text)
+		
+		switch(text){
+			case text.startsWith(typeof(Weibull).simpleName) && attributeArray.length == 2:{
+				sim.createWeibull => [
+					beta = attributeArray.get(0)
+					alpha = attributeArray.get(1)
+				]
+			}
+			case text.startsWith(typeof(Beta).simpleName) && attributeArray.length == 2:{
+				sim.createBeta => [
+					beta = attributeArray.get(0)
+					alpha = attributeArray.get(1)
+				]
+			}
+			case text.startsWith(typeof(Normal).simpleName) && attributeArray.length == 2:{
+				sim.createNormal => [
+					mean = attributeArray.get(0)
+					stdDev = attributeArray.get(1)
+				]
+			}
+			case text.startsWith(typeof(Triangular).simpleName) && attributeArray.length == 3:{
+				return sim.createTriangular => [
+					min = attributeArray.get(0)
+					mode = attributeArray.get(1)
+					max = attributeArray.get(2)
+				]
+			}
+			case text.startsWith(typeof(LogNormal).simpleName) && attributeArray.length == 2:{
+				sim.createLogNormal => [
+					logMean = attributeArray.get(0)
+					logStd = attributeArray.get(1)
+				]
+			}
+			case text.startsWith(typeof(Uniform).simpleName) && attributeArray.length == 2:{
+				sim.createUniform => [
+					min = attributeArray.get(0)
+					max = attributeArray.get(1)
+				]
+			}
+			case text.startsWith(typeof(Poisson).simpleName) && attributeArray.length == 1:{
+				return sim.createPoisson => [
+					mean = attributeArray.get(0)
+				]
+			}
+			case text.startsWith(typeof(NegExp).simpleName) && attributeArray.length == 1:{
+				sim.createNegExp => [
+					mean = attributeArray.get(0)
+				]
+			}
+			case text.startsWith(typeof(Erlang).simpleName) && attributeArray.length == 2:{
+				sim.createErlang => [
+					expMean = attributeArray.get(0)
+					k = attributeArray.get(1)
+				]
+			}
+			case text.startsWith(typeof(Gamma).simpleName) && attributeArray.length == 2:{
+				sim.createGamma => [
+					beta = attributeArray.get(0)
+					alpha = attributeArray.get(1)
+				]
+			}
+			default: return null
+		}
 	}
-
+	
+	private def getSim(){
+		eINSTANCE
+	}
+	
 	/**
 	 * Generates a cleared attribute-array only containing values, so that:
 	 * 

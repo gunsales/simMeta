@@ -1,4 +1,4 @@
-package de.lsem.simulation.features
+package de.lsem.simulation.util
 
 import de.lsem.repository.model.simulation.IConditionalRelation
 

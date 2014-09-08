@@ -1,17 +1,21 @@
 package de.lsem.simulation.features.add
 
-import de.lsem.repository.model.simulation.IRelation
-import org.eclipse.graphiti.features.IFeatureProvider
-import org.eclipse.graphiti.features.context.IAddContext
-import de.lsem.repository.model.simulation.ISimulationElement
+import com.google.inject.Inject
 import de.lsem.repository.model.simulation.IActivity
+import de.lsem.repository.model.simulation.IRelation
+import de.lsem.repository.model.simulation.ISimulationElement
+import org.eclipse.graphiti.features.IFeatureProvider
+import org.eclipse.graphiti.features.context.IAddConnectionContext
+import org.eclipse.graphiti.features.context.IAddContext
+import org.eclipse.graphiti.services.IGaService
+import org.eclipse.graphiti.services.IPeCreateService
 
 import static de.lsem.simulation.util.LSEMElementHelper.*
-import org.eclipse.graphiti.features.context.IAddConnectionContext
-
-import static org.eclipse.graphiti.services.Graphiti.*
 
 class AddRelationFeature extends AddAbstractRelationFeature {
+
+	@Inject extension IPeCreateService peCreateService
+	@Inject extension IGaService gaService
 
 	new(IFeatureProvider fp) {
 		super(fp)

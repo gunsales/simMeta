@@ -7,18 +7,15 @@ import de.lsem.repository.model.simulation.ISource
 import de.lsem.repository.model.simulation.SimulationFactory
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICreateConnectionContext
+import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature
+import org.eclipse.graphiti.mm.pictograms.Connection
 
 import static de.lsem.simulation.util.LSEMElementHelper.*
 import static de.lsem.simulation.util.RelationHelper.*
-import org.eclipse.graphiti.features.context.impl.AddConnectionContext
-import org.eclipse.graphiti.mm.pictograms.Connection
 
 class CreateRelationFeature extends AbstractCreateConnectionFeature {
 
-//	new(IFeatureProvider fp, String name, String description) {
-//		super(fp, name, description)
-//	}
 
 	new(IFeatureProvider fp) {
 		super(fp, "Relation", "Regular Connection");
@@ -76,17 +73,18 @@ class CreateRelationFeature extends AbstractCreateConnectionFeature {
 	override create(ICreateConnectionContext it) {
 		val source = sourceAnchor.parent.businessObjectForPictogramElement as ISimulationElement
 		val target = targetAnchor.parent.businessObjectForPictogramElement as ISimulationElement
-		
-		if(source != null && target != null){
+
+		if (source != null && target != null) {
 			val rel = createRelation(source, target)
-			
+
 			val addCC = new AddConnectionContext(sourceAnchor, targetAnchor)
 			addCC.newObject = rel
 			return featureProvider.addIfPossible(addCC) as Connection
 		}
 	}
-	
-	private def create it:SimulationFactory.eINSTANCE.createRelation() createRelation(ISimulationElement _source, ISimulationElement _target){
+
+	private def create it:SimulationFactory.eINSTANCE.createRelation() createRelation(ISimulationElement _source,
+		ISimulationElement _target) {
 		name = createRelationName(diagram)
 		source = _source
 		target = _target

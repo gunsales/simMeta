@@ -13,8 +13,7 @@ import de.lsem.repository.model.simulation.ISimulationElement;
 
 public class LSEMElementHelper {
 
-	public static boolean isSubActivity(EList<EObject> contents,
-			IActivity activity) {
+	public static boolean isSubActivity(EList<EObject> contents, IActivity activity) {
 		for (Iterator<IActivity> iter = getActivitiesFromDiagram(contents)
 				.iterator(); iter.hasNext();) {
 			IActivity e = iter.next();
@@ -27,7 +26,7 @@ public class LSEMElementHelper {
 	public static List<IActivity> getActivitiesFromDiagram(EList<EObject> contents) {
 		List<IActivity> retVal = new ArrayList<IActivity>();
 
-		for (EObject e : contents ){
+		for (EObject e : contents) {
 			if (e instanceof IActivity) {
 				retVal.add((IActivity) e);
 			}
@@ -36,10 +35,11 @@ public class LSEMElementHelper {
 		return retVal;
 	}
 
-	public static List<ISimulationElement> getElementsFromDiagram(EList<EObject> contents) {
+	public static List<ISimulationElement> getElementsFromDiagram(
+			EList<EObject> contents) {
 		List<ISimulationElement> retVal = new ArrayList<ISimulationElement>();
 
-		for (EObject e : contents ){
+		for (EObject e : contents) {
 			if (e instanceof ISimulationElement) {
 				retVal.add((ISimulationElement) e);
 			}
@@ -49,14 +49,13 @@ public class LSEMElementHelper {
 
 	}
 
-
-	public static List<IRelation> getIncommingConnections(
-			EList<EObject> contents, IActivity activity) {
+	public static List<IRelation> getIncommingConnections(EList<EObject> contents,
+			IActivity activity) {
 
 		List<IRelation> retVal = new ArrayList<IRelation>();
 
-		for (Iterator<ISimulationElement> iter = getElementsFromDiagram(contents)
-				.iterator(); iter.hasNext();) {
+		for (Iterator<ISimulationElement> iter = getElementsFromDiagram(
+				contents).iterator(); iter.hasNext();) {
 			ISimulationElement dummy = iter.next();
 			for (IRelation r : dummy.getOutgoing()) {
 				if (r.getTarget().equals(activity)) {
@@ -72,8 +71,8 @@ public class LSEMElementHelper {
 
 		List<ISimulationElement> retVal = new ArrayList<ISimulationElement>();
 
-		for (Iterator<ISimulationElement> iter = getElementsFromDiagram(contents)
-				.iterator(); iter.hasNext();) {
+		for (Iterator<ISimulationElement> iter = getElementsFromDiagram(
+				contents).iterator(); iter.hasNext();) {
 			ISimulationElement source = iter.next();
 			for (Iterator<IRelation> iter2 = source.getOutgoing().iterator(); iter2
 					.hasNext();) {
@@ -128,16 +127,17 @@ public class LSEMElementHelper {
 		}
 		return null;
 	}
+
 	
 	public static List<IRelation> getRelationsFromDiagram(EList<EObject> contents) {
 		List<IRelation> retVal = new ArrayList<IRelation>();
-		
-		for ( ISimulationElement e : getElementsFromDiagram(contents)) {
-			for ( IRelation r : e.getOutgoing() ) {
+
+		for (ISimulationElement e : getElementsFromDiagram(contents)) {
+			for (IRelation r : e.getOutgoing()) {
 				retVal.add(r);
 			}
 		}
-		
+
 		return retVal;
 	}
 }
