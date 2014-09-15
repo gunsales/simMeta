@@ -4,9 +4,8 @@ import com.google.inject.Inject
 import de.lsem.repository.model.simulation.Activity
 import de.lsem.repository.model.simulation.ConditionalRelation
 import de.lsem.repository.model.simulation.IActivity
-import de.lsem.repository.model.simulation.IConditionalRelation
-import de.lsem.repository.model.simulation.ISimulationElement
 import de.lsem.repository.model.simulation.Relation
+import de.lsem.repository.model.simulation.SimulationElement
 import de.lsem.repository.model.simulation.Sink
 import de.lsem.repository.model.simulation.Source
 import de.lsem.simulation.features.add.AddActivityFeature
@@ -72,35 +71,28 @@ class FeatureProvider extends DefaultFeatureProvider {
 
 	override getUpdateFeature(IUpdateContext it) {
 
-		//Connections
-		if (pictogramElement instanceof FreeFormConnection) {
-			updateConnectionFeature
-		}
-		// Activity-, Start-, End-Event
-		else if (pictogramElement instanceof	ContainerShape) {
-			updateSimulationElement
-		} else {
-			super.getUpdateFeature(it)
+		switch pictogramElement {
+			case pictogramElement instanceof FreeFormConnection: updateConnectionFeature
+			case pictogramElement instanceof ContainerShape: updateSimulationElement
+			default: super.getUpdateFeature(it)
 		}
 	}
 
 	private def updateSimulationElement(IUpdateContext it) {
-		val element = getBusinessObjectForPictogramElement(pictogramElement)
-		if (element instanceof ISimulationElement) {
-			new UpdateSimulationElementFeature(this)
-		} else {
-			super.getUpdateFeature(it)
+		val element = pictogramElement.businessObjectForPictogramElement
+
+		switch element {
+			SimulationElement: new UpdateSimulationElementFeature(this)
+			default: super.getUpdateFeature(it)
 		}
 	}
 
 	private def getUpdateConnectionFeature(IUpdateContext it) {
 		val element = getBusinessObjectForPictogramElement(pictogramElement as FreeFormConnection)
 
-		// ConditionalRelation
-		if (element instanceof IConditionalRelation) {
-			new UpdateConditionalRelationFeature(this)
-		} else {
-			super.getUpdateFeature(it)
+		switch element {
+			ConditionalRelation: new UpdateConditionalRelationFeature(this)
+			default: super.getUpdateFeature(it)
 		}
 	}
 

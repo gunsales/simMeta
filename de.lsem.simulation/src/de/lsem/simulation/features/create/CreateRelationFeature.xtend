@@ -13,9 +13,9 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 
 import static de.lsem.simulation.util.LSEMElementHelper.*
 import static de.lsem.simulation.util.RelationHelper.*
+import static de.lsem.simulation.util.NamingHelper.*
 
 class CreateRelationFeature extends AbstractCreateConnectionFeature {
-
 
 	new(IFeatureProvider fp) {
 		super(fp, "Relation", "Regular Connection");
@@ -85,9 +85,13 @@ class CreateRelationFeature extends AbstractCreateConnectionFeature {
 
 	private def create it:SimulationFactory.eINSTANCE.createRelation() createRelation(ISimulationElement _source,
 		ISimulationElement _target) {
-		name = createRelationName(diagram)
+		name = createName(contents, it)
 		source = _source
 		target = _target
+	}
+
+	private def getContents() {
+		diagram.eResource.contents
 	}
 
 }

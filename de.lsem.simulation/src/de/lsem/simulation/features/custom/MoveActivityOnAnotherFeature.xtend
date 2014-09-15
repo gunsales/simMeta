@@ -45,7 +45,7 @@ class MoveActivityOnAnotherFeature extends DefaultMoveShapeFeature {
 
 		//moving-bo is a single activity --> enable move if it is not a sub-activity
 		if (dropTargetBO == null && movingBO instanceof IActivity) {
-			return isSubActivity(contents, movingBO as IActivity)
+			return !isSubActivity(contents, movingBO as IActivity)
 		}
 
 		//multiple selected elements
@@ -172,12 +172,12 @@ class MoveActivityOnAnotherFeature extends DefaultMoveShapeFeature {
 	 * @return the mother-activity
 	 */
 	def notAtomarOnAtomarCase(IActivity motherActivity, IActivity atomarActivity) {
-		removeConnections(atomarActivity)
+		atomarActivity.removeConnections
 		
-		val motherPic = getPictogramElementForBO(motherActivity)
-		val subPic = getPictogramElementForBO(atomarActivity)
+		val motherPic = motherActivity.pictogramElementForBO
+		val subPic = atomarActivity.pictogramElementForBO
 		
-		removePictogramElement(subPic)
+		subPic.removePictogramElement
 		
 		motherActivity.subActivities.add(atomarActivity)
 		
@@ -249,8 +249,8 @@ class MoveActivityOnAnotherFeature extends DefaultMoveShapeFeature {
 		outgoing.clear
 	}
 	
-	private def removeIncommingConnections(IActivity it){
-		val sources = getSourcesForIncommingConnections(contents, it).iterator
+	private def removeIncommingConnections(IActivity a){
+		val sources = getSourcesForIncommingConnections(contents, a).iterator
 		
 		while(sources.hasNext){
 			val simElement = sources.next
@@ -258,7 +258,7 @@ class MoveActivityOnAnotherFeature extends DefaultMoveShapeFeature {
 			while(outgoing.hasNext){
 				val relation = outgoing.next
 				
-				if(relation.target.equals(it)){
+				if(relation.target.equals(a)){
 					outgoing.remove
 				}
 			}

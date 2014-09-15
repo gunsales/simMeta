@@ -25,7 +25,7 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 	public static val IColorConstant E_CLASS_BACKGROUND = new ColorConstant(229, 229, 229)
 
 	val LINE_WIDTH = 1
-	static val INITIAL_DISTANCE_TO_TOP = 40
+	static val INITIAL_DISTANCE_TO_TOP = 30
 	static val logger = Logger.getLogger(typeof(AddActivityFeature).simpleName)
 
 	new(IFeatureProvider fp) {
@@ -62,18 +62,18 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 		val containerShape = peCreateService.createContainerShape(activityTargetContainer, true)
 
 		// Surrounding rectangle
-		setRoundedRectangle(containerShape, it, width, height)
+		containerShape.setRoundedRectangle(it, width, height)
 
 		// line underlining the name of element
-		setPictogramMiddleLine(containerShape, colapsed_width)
+		containerShape.setPictogramMiddleLine(colapsed_width)
 
 		// element-name
-		setPictogramText(containerShape, newActivity, width)
+		containerShape.setPictogramText(newActivity, width)
 
 		logger.log(Level.INFO, "Fully added activity " + newActivity)
 
 		// set as collapsed element
-		peService.setPropertyValue(containerShape, "isCollapsed", String.valueOf(Boolean.FALSE))
+		peService.setPropertyValue(containerShape, CollapseActivityFeature.IS_COLLAPSED, String.valueOf(Boolean.FALSE))
 		link(containerShape, newActivity)
 		containerShape
 	}
@@ -150,19 +150,18 @@ class AddActivityFeature extends AbstractAddShapeFeature {
 	private def collapseTopActivity(ContainerShape shape) {
 		val cc = new CustomContext
 		cc.innerPictogramElement = shape
+		cc.setPictogramElements(#[shape])
 		val customFeatures = featureProvider.getCustomFeatures(cc)
-		val collapseFeature = customFeatures.filter(typeof(CollapseActivityFeature)).head
+		val collapseFeature = customFeatures.findFirst[it instanceof CollapseActivityFeature]
 
-		val collapsed = peService.getPropertyValue(shape, "isCollapsed")
-
+		val collapsed = peService.getPropertyValue(shape, CollapseActivityFeature.IS_COLLAPSED)
 		if (collapsed != null) {
 			val isCollapsed = Boolean.parseBoolean(collapsed)
 
-			if (!isCollapsed) {
-				collapseFeature.createCollapsedPictogramElement(shape)
+			if (!isCollapsed && collapseFeature.canExecute(cc)) {
+				collapseFeature.execute(cc)
 			}
 		}
-
 	}
 
 }

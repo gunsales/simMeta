@@ -87,7 +87,7 @@
         >
         <propertySection
               class="de.lsem.simulation.property.ActivityAndSinkMainSection"
-              filter="de.lsem.simulation.property.ActivityAndSinkFilter"
+              filter="de.lsem.simulation.property.filter.ActivityAndSinkFilter"
               id="simulation.main.tab.activity"
               tab="simulation.main.tab">
         </propertySection>
@@ -95,40 +95,40 @@
               afterSection="simulation.main.tab.activity"
               class="de.lsem.simulation.property.ActivityServiceSection"
               enablesFor="1"
-              filter="de.lsem.simulation.property.ActivityServiceSectionFilter"
+              filter="de.lsem.simulation.property.filter.ActivityServiceSectionFilter"
               id="simulation.service.tab.service"
               tab="simulation.service.tab">
         </propertySection>
         <propertySection
               class="de.lsem.simulation.property.ConditionalRelationMainSection"
-              filter="de.lsem.simulation.property.ConditionalRelationFilter"
+              filter="de.lsem.simulation.property.filter.ConditionalRelationFilter"
               id="simulation.main.tab.conditionalRelation"
               tab="simulation.main.tab">
         </propertySection>
         <propertySection
               class="de.lsem.simulation.property.SourceMainSection"
-              filter="de.lsem.simulation.property.SourceFilter"
+              filter="de.lsem.simulation.property.filter.SourceFilter"
               id="simulation.source.tab.main"
               tab="simulation.main.tab">
         </propertySection>
         <propertySection
               afterSection="simulation.source.tab.main"
               class="de.lsem.simulation.property.SourceFirstEntitySection"
-              filter="de.lsem.simulation.property.SourceFilter"
+              filter="de.lsem.simulation.property.filter.SourceFilter"
               id="simulation.source.first.tab.section"
               tab="simulation.source.first.tab">
         </propertySection>
         <propertySection
               afterSection="simulation.source.first.tab.section"
               class="de.lsem.simulation.property.SourceFollowingEntitiesSection"
-              filter="de.lsem.simulation.property.SourceFilter"
+              filter="de.lsem.simulation.property.filter.SourceFilter"
               id="simulation.source.following.tab.section"
               tab="simulation.source.following.tab">
         </propertySection>
         <propertySection
               afterSection="simulation.source.tab.new"
               class="de.lsem.simulation.property.SourceGoodSection"
-              filter="de.lsem.simulation.property.SourceFilter"
+              filter="de.lsem.simulation.property.filter.SourceFilter"
               id="simulation.source.good.tab.section"
               tab="simulation.source.good.tab">
         </propertySection>

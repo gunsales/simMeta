@@ -53,30 +53,33 @@ class AddSinkSourceCommonFeature extends AbstractAddShapeFeature {
 
 	private def createDecoratorText(ContainerShape conShape, ISimulationElement object, int full_width) {
 		val shape = peCreateService.createShape(conShape, false)
-		val text = gaCreateService.createText(shape, object.name)
-		text.foreground = manageColor(textForeground)
-		text.horizontalAlignment = Orientation.ALIGNMENT_CENTER
-		text.font = gaService.manageDefaultFont(diagram, false, true)
+		val text = gaCreateService.createText(shape, object.name) => [
+			foreground = manageColor(textForeground)
+			horizontalAlignment = Orientation.ALIGNMENT_CENTER
+			font = gaService.manageDefaultFont(diagram, false, true)
+		]
 		gaService.setLocationAndSize(text, 0, 35, full_width, 20)
 	}
 
 	private def createCircle(ContainerShape conShape, int full_width, int width, int full_height, int height) {
 		val shape = peCreateService.createShape(conShape, false)
-		val ellipse = gaService.createEllipse(shape)
-		ellipse.foreground = manageColor(outerCircle)
-		ellipse.background = manageColor(innerCircle)
-		ellipse.lineWidth = lineWidth
+		val ellipse = gaService.createEllipse(shape) => [
+			foreground = manageColor(outerCircle)
+			background = manageColor(innerCircle)
+			lineWidth = lineWidth
+		]
 		val startX = (full_width / 2) - (width / 2)
 		val startY = (full_height / 2) - (height / 2)
 		gaService.setLocationAndSize(ellipse, startX, startY, width, height)
 	}
 
 	private def createRectangle(ContainerShape conShape, IAddContext it, int full_width, int full_height) {
-		val rect = gaCreateService.createRectangle(conShape)
-		rect.lineWidth = 0
-		rect.lineStyle = LineStyle.DOT
-		rect.lineVisible = true
-		rect.filled = false
+		val rect = gaCreateService.createRectangle(conShape) => [
+			lineWidth = 0
+			lineStyle = LineStyle.DOT
+			lineVisible = true
+			filled = false
+		]
 
 		gaService.setLocationAndSize(rect, x, y, full_width, full_height)
 	}

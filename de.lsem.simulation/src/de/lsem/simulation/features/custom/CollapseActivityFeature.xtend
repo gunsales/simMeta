@@ -1,6 +1,5 @@
 package de.lsem.simulation.features.custom
 
-import com.google.inject.Inject
 import de.lsem.repository.model.simulation.IActivity
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICustomContext
@@ -8,15 +7,12 @@ import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
-import org.eclipse.graphiti.services.IPeService
 
 import static de.lsem.simulation.util.LSEMElementHelper.*
+import static org.eclipse.graphiti.services.Graphiti.*
 
 class CollapseActivityFeature extends AbstractCustomFeature {
 
-	@Inject
-	extension IPeService peService
-	
 	public static val COLLAPSE = "Collapse"
 	public static val EXPAND = "Expand"
 
@@ -44,7 +40,7 @@ class CollapseActivityFeature extends AbstractCustomFeature {
 	override execute(ICustomContext it) {
 		if (pictogramElements != null && pictogramElements.length == 1) {
 			val picto = pictogramElements.get(0)
-			val bo = getBusinessObjectForPictogramElement(picto)
+			val bo = picto.businessObjectForPictogramElement
 
 			if (bo instanceof IActivity) {
 				val activity = bo as IActivity
@@ -55,7 +51,7 @@ class CollapseActivityFeature extends AbstractCustomFeature {
 		}
 	}
 
-	def createCollapsedPictogramElement(PictogramElement it) {
+	private def createCollapsedPictogramElement(PictogramElement it) {
 
 		val width = graphicsAlgorithm.width
 		val height = graphicsAlgorithm.height
@@ -88,51 +84,9 @@ class CollapseActivityFeature extends AbstractCustomFeature {
 		children.filter(typeof(ContainerShape)).forEach [ child |
 			makeChildrenInvisible(child, visible)
 			child.setVisible(visible)
-			//Check whether the child-shape is visible or not
-//			if (hasInOrOutAnchors) {
-//				changeIncommingConnectionVisibility(firstAnchor, visible)
-//				changeOutgoingConnectionVisibility(firstAnchor, visible)
-//			}
 		]
 	}
 
-//	private def changeOutgoingConnectionVisibility(Anchor it, boolean visible) {
-//		outgoingConnections.forEach [ con |
-//			con.visible = visible
-//			setDecoratorVisibility(con, visible)
-//		]
-//	}
-//
-//	private def changeIncommingConnectionVisibility(Anchor it, boolean visible) {
-//		incomingConnections.forEach [ con |
-//			con.visible = visible
-//			setDecoratorVisibility(con, visible)
-//		]
-//	}
-//
-//	private def setDecoratorVisibility(Connection con, boolean visible) {
-//		con.connectionDecorators.forEach [ dec |
-//			dec.visible = visible
-//		]
-//	}
-//
-//	private def getFirstAnchor(ContainerShape it) {
-//		anchors.get(0)
-//	}
-
-//	private def hasInOrOutAnchors(ContainerShape shape) {
-//		shape.anchors.size > 0
-//	}
-
-	//	private def isChildVisible(ContainerShape parent) {
-	//		for(shape:parent.children){
-	//			if(shape.graphicsAlgorithm instanceof Ellipse){
-	//				return shape.visible
-	//			}
-	//		}
-	//		return false
-	////		parent.children.findFirst(e|e.graphicsAlgorithm instanceof Ellipse).visible
-	//	}
 	private def executeResizeFeature(ResizeShapeContext resizeContext) {
 		featureProvider.getResizeShapeFeature(resizeContext).execute(resizeContext)
 	}

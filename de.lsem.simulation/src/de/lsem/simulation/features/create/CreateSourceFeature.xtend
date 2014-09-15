@@ -9,7 +9,7 @@ import org.eclipse.graphiti.features.context.ICreateContext
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature
 import org.eclipse.graphiti.mm.pictograms.Diagram
 
-import static de.lsem.simulation.util.SourceHelper.*
+import static de.lsem.simulation.util.NamingHelper.*
 
 class CreateSourceFeature extends AbstractCreateFeature {
 
@@ -33,7 +33,7 @@ class CreateSourceFeature extends AbstractCreateFeature {
 
 	private def createFullSource(ICreateContext context) {
 		val it = instance.createSource
-		name = "Source_" + createInitialSourceNumber
+		name = createName(contents, it)
 
 		val first = instance.createTime
 		val following = instance.createTime
@@ -64,8 +64,5 @@ class CreateSourceFeature extends AbstractCreateFeature {
 		SimulationFactory.eINSTANCE
 	}
 
-	def createInitialSourceNumber() {
-		getISourcesFromDiagram(diagram.eResource.contents).size + 1
-	}
 
 }

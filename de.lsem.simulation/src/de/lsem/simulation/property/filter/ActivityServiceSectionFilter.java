@@ -1,4 +1,4 @@
-package de.lsem.simulation.property;
+package de.lsem.simulation.property.filter;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;

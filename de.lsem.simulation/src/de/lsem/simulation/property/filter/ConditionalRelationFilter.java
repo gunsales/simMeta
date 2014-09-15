@@ -1,19 +1,19 @@
-package de.lsem.simulation.property;
+package de.lsem.simulation.property.filter;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 
-import de.lsem.repository.model.simulation.ISource;
+import de.lsem.repository.model.simulation.IConditionalRelation;
 
-public class SourceFilter extends AbstractPropertySectionFilter {
-	
+public class ConditionalRelationFilter extends AbstractPropertySectionFilter {
+
 	@Override
 	protected boolean accept(PictogramElement pictogramElement) {
 		EObject obj = Graphiti.getLinkService()
 				.getBusinessObjectForLinkedPictogramElement(pictogramElement);
-		if(obj instanceof ISource)
+		if(obj instanceof IConditionalRelation)
 			return true;		
 		return false;
 	}

@@ -38,7 +38,6 @@ import de.lsem.repository.model.simulation.ServiceType;
 import de.lsem.repository.model.simulation.SimulationFactory;
 import de.lsem.repository.model.simulation.UnitOfTime;
 import de.lsem.simulation.DistributionFunctionProvider;
-import de.lsem.simulation.property.xtend.LSEMElementGeneralPropertySection;
 
 /**
  * Even though generating origin, destination, startDate and endDate values are
@@ -60,7 +59,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 	private ComboViewer timeCV;
 	private CCombo distCV;
 
-//	private CLabel serviceLabel;
+	// private CLabel serviceLabel;
 	private CLabel durationLabel;
 	private CLabel amountLabel;
 	private CLabel maxCapacityLabel;
@@ -135,15 +134,11 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 
 	@Override
 	public void refresh() {
-		try {
-			resetValuesOfElements();
-		} catch (Exception e) {
-		}
-
 		removeModifyListeners();
+		resetValuesOfElements();
 
 		if (getSelectedPictogramElement() != null) {
-			final Object bo = getPictogramElement();
+			final Object bo = getSelectedBusinessObject();
 
 			if (bo == null && !(bo instanceof Activity))
 				return;
@@ -188,8 +183,8 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 					try {
 						if (distCV != null) {
 							for (String s : distCV.getItems()) {
-//								 System.out.println(s + " vs. " +
-//								 period.getClass().getSimpleName());
+								// System.out.println(s + " vs. " +
+								// period.getClass().getSimpleName());
 								if (s.contains(period.getClass()
 										.getSimpleName())) {
 									String label = getLabelGenerator()
@@ -208,7 +203,8 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 					}
 				} else if (period instanceof IConstant) {
 					try {
-//						logger.log(Level.INFO, " Period INSTANCE OF CONSTANT");
+						// logger.log(Level.INFO,
+						// " Period INSTANCE OF CONSTANT");
 						constText.setText("" + ((IConstant) period).getValue());
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -216,7 +212,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 				}
 
 				// Timeunit
-				String unit = activity.getTimePeriod().getUnit() == null ? TIME_VALUES[0]
+				String unit = activity.getTimePeriod().getUnit() == null ? TIME_VALUES.get(0)
 						: activity.getTimePeriod().getUnit().getLiteral();
 				StructuredSelection ss = new StructuredSelection(unit);
 				if (timeCV != null)
@@ -264,7 +260,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 			@Override
 			protected void doExecute() {
 
-				Activity activity = (Activity) getPictogramElement();
+				Activity activity = (Activity) getSelectedBusinessObject();
 
 				ITime time = createTime();
 				IConstant timePeriod = createConstant();
@@ -298,7 +294,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 			@Override
 			protected void doExecute() {
 
-				Activity activity = (Activity) getPictogramElement();
+				Activity activity = (Activity) getSelectedBusinessObject();
 
 				// IService service =
 				// MetamodelFactory.eINSTANCE.createService();
@@ -314,21 +310,24 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 		return getDiagramContainer().getDiagramBehavior().getEditingDomain();
 	}
 
-	private EObject getPictogramElement() {
+	private EObject getSelectedBusinessObject() {
 		return Graphiti.getLinkService()
 				.getBusinessObjectForLinkedPictogramElement(
 						getSelectedPictogramElement());
 	}
 
-	private void resetValuesOfElements() throws Exception {
-		serviceCV.setSelection(new StructuredSelection());
-		timeCV.setSelection(new StructuredSelection());
-		queueCV.setSelection(new StructuredSelection());
-		distCV.select(-1);
-		durationText.setText("");
-		amountText.setText("");
-		maxCapacityText.setText("");
-		constText.setText("");
+	private void resetValuesOfElements() {
+		try {
+			serviceCV.setSelection(new StructuredSelection());
+			timeCV.setSelection(new StructuredSelection());
+			queueCV.setSelection(new StructuredSelection());
+			distCV.select(-1);
+			durationText.setText("");
+			amountText.setText("");
+			maxCapacityText.setText("");
+			constText.setText("");
+		} catch (Exception e) {
+		}
 	}
 
 	private ModifyListener modifyConstantListener = new ModifyListener() {
@@ -428,7 +427,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 
 				@Override
 				protected void doExecute() {
-					Activity activity = (Activity) getPictogramElement();
+					Activity activity = (Activity) getSelectedBusinessObject();
 
 					// ############# Function Type (Picking, Transport ...)
 					IStructuredSelection sel = (IStructuredSelection) serviceCV
@@ -497,7 +496,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 				@Override
 				protected void doExecute() {
 
-					Activity activity = (Activity) getPictogramElement();
+					Activity activity = (Activity) getSelectedBusinessObject();
 
 					String text = distCV.getText().trim();
 					logger.log(Level.INFO, text);
@@ -528,7 +527,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 				@Override
 				protected void doExecute() {
 
-					Activity activity = (Activity) getPictogramElement();
+					Activity activity = (Activity) getSelectedBusinessObject();
 
 					String text = distCV.getText().trim();
 					logger.log(Level.INFO, text);
@@ -560,7 +559,7 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 
 				@Override
 				protected void doExecute() {
-					Activity activity = (Activity) getPictogramElement();
+					Activity activity = (Activity) getSelectedBusinessObject();
 
 					// System.out.println("********** " + timeCV.getSelection()
 					// + " ********* ");
@@ -637,44 +636,41 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 	};
 
 	private void createServiceComboAndLabel() {
-		serviceCV = createComboViewer(getComposite(), ServiceType.values(),
-				getComposite(), SWT.READ_ONLY);
+		serviceCV = createComboViewer(ServiceType.values(), SWT.READ_ONLY);
 		createCLabel(serviceCV.getControl(), SERVICE_TYPE);
 	}
 
 	private void createKommisionierungSection() {
-		durationText = createText(getComposite());
+		durationText = createText("");
 		durationText.addModifyListener(modifyPickingListener);
 		durationLabel = createCLabel(durationText, DAUER_LABEL);
-		amountText = createText(getComposite());
+		amountText = createText(durationText, "");
 		amountLabel = createCLabel(amountText, MENGE_LABEL);
 	}
 
 	private void createStorageSection() {
-		queueCV = createComboViewer(getComposite(), QueuingStrategy.values(),
+		queueCV = createComboViewer(QueuingStrategy.values(),
 				serviceCV.getControl(), SWT.READ_ONLY);
 		queueLabel = createCLabel(queueCV.getControl(), QUEUETYPE_STRING);
 
-		maxCapacityText = createText(queueCV.getControl());
+		maxCapacityText = createText(queueCV.getControl(), "");
 		maxCapacityLabel = createCLabel(maxCapacityText, MAX_CAPACITY);
 	}
 
 	private void createTransportSection() {
 
 		// Time section when Transport is chosen
-		distCV = createCCombo(getComposite(),
-				DistributionFunctionProvider.INSTANCE
-						.getDistributionFunctions().toArray(),
-				serviceCV.getControl(), SWT.NONE);
+		distCV = createCCombo(DistributionFunctionProvider.INSTANCE
+				.getDistributionFunctions().toArray(), serviceCV.getControl(),
+				SWT.NONE);
 		distCVLabel = createCLabel(distCV, DEVIATION_TYPE);
 
 		// 2.1 const-value
-		constText = createText(distCV);
+		constText = createText(distCV, "");
 		// 2.2 Label
 		constTextLabel = createCLabel(constText, CONSTANT_CONSTANT);
 
-		timeCV = createComboViewer(getComposite(), TIME_VALUES, constText,
-				SWT.READ_ONLY);
+		timeCV = createComboViewer(TIME_VALUES.toArray(), constText, SWT.READ_ONLY);
 
 		timeCVLabel = createCLabel(timeCV.getControl(), ZEITEINHEIT_CONSTANT);
 	}
@@ -748,4 +744,352 @@ public class ActivityServiceSection extends LSEMElementGeneralPropertySection {
 		timeCVLabel.setVisible(true);
 	}
 
+	class Listeners {
+		
+		void addModifyListeners() {
+			if (maxCapacityText != null)
+				maxCapacityText.addModifyListener(modifyStorageListener);
+			if (constText != null)
+				constText.addModifyListener(modifyConstantListener);
+			if (distCV != null)
+				distCV.addModifyListener(modifyComboDistributionListener);
+			if (timeCV != null)
+				timeCV.addSelectionChangedListener(comboTimeSelectionListener);
+			if (serviceCV != null)
+				serviceCV
+						.addSelectionChangedListener(comboServiceSelectionListener);
+			if (queueCV != null)
+				queueCV.addSelectionChangedListener(comboQueueStrategySelectionListener);
+			if (distCV != null)
+				distCV.addSelectionListener(comboDistributionFunctionSelectionChangedListener);
+			if (timeCV != null)
+				timeCV.addSelectionChangedListener(comboTimeSelectionListener);
+			if (durationText != null) {
+				durationText.addModifyListener(modifyPickingListener);
+			}
+
+		}
+
+		void removeModifyListeners() {
+			if (maxCapacityText != null)
+				maxCapacityText.removeModifyListener(modifyStorageListener);
+			if (constText != null)
+				constText.removeModifyListener(modifyConstantListener);
+			if (distCV != null)
+				distCV.removeModifyListener(modifyComboDistributionListener);
+			if (durationText != null) {
+				durationText.removeModifyListener(modifyPickingListener);
+			}
+			if (serviceCV != null)
+				serviceCV
+						.removeSelectionChangedListener(comboServiceSelectionListener);
+			if (queueCV != null)
+				queueCV.removeSelectionChangedListener(comboQueueStrategySelectionListener);
+			if (distCV != null)
+				distCV.removeSelectionListener(comboDistributionFunctionSelectionChangedListener);
+			if (timeCV != null)
+				timeCV.removeSelectionChangedListener(comboTimeSelectionListener);
+
+		}
+		
+		protected ISelectionChangedListener comboQueueStrategySelectionListener = new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				TransactionalEditingDomain ted = getEditDomain();
+				ted.getCommandStack().execute(new RecordingCommand(ted) {
+
+					@Override
+					protected void doExecute() {
+						ILinkService linkService = Graphiti.getLinkService();
+						EObject eObject = linkService
+								.getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
+
+						Activity activity = (Activity) eObject;
+
+						IStructuredSelection sel = (IStructuredSelection) queueCV
+								.getSelection();
+						Object firstElement = sel.getFirstElement();
+						if (firstElement == null)
+							return;
+
+						String textString = firstElement.toString();
+
+						for (QueuingStrategy qs : QueuingStrategy.VALUES) {
+							if (qs.getLiteral().equals(textString)) {
+								activity.getCapacity().setQueueStrategy(qs);
+								break;
+							}
+						}
+
+					}
+				});
+
+			}
+		};
+
+		protected ModifyListener modifyComboDistributionListener = new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent arg0) {
+				TransactionalEditingDomain ted = getEditDomain();
+				ted.getCommandStack().execute(new RecordingCommand(ted) {
+
+					@Override
+					protected void doExecute() {
+
+						Activity activity = (Activity) getSelectedBusinessObject();
+
+						String text = distCV.getText().trim();
+						logger.log(Level.INFO, text);
+						if (text != null && !text.isEmpty()) {
+							IDistributionFunction fct = getLabelGenerator()
+									.getDistributionFunctionForLSEMElement(text);
+							logger.log(Level.INFO, fct.toString());
+							if (fct != null) {
+								ITime distributionItem = switchDistributionItem(
+										activity.getTimePeriod(), fct);
+								activity.setTimePeriod(distributionItem);
+								logger.log(Level.INFO,
+										"distribution function switched");
+							}
+						}
+					}
+				});
+			}
+		};
+
+		protected SelectionListener comboDistributionFunctionSelectionChangedListener = new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				TransactionalEditingDomain ted = getEditDomain();
+				ted.getCommandStack().execute(new RecordingCommand(ted) {
+
+					@Override
+					protected void doExecute() {
+
+						Activity activity = (Activity) getSelectedBusinessObject();
+
+						String text = distCV.getText().trim();
+						logger.log(Level.INFO, text);
+						if (text != null && !text.isEmpty()) {
+							IDistributionFunction fct = getLabelGenerator()
+									.getDistributionFunctionForLSEMElement(text);
+							if (fct != null) {
+								activity.setTimePeriod(switchDistributionItem(
+										activity.getTimePeriod(), fct));
+							}
+						}
+
+					}
+				});
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
+		};
+
+		protected ISelectionChangedListener comboTimeSelectionListener = new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				TransactionalEditingDomain ted = getEditDomain();
+
+				ted.getCommandStack().execute(new RecordingCommand(ted) {
+
+					@Override
+					protected void doExecute() {
+						Activity activity = (Activity) getSelectedBusinessObject();
+
+						// System.out.println("********** " +
+						// timeCV.getSelection()
+						// + " ********* ");
+						// ################### Time-Values (Hour, Minute ...)
+						// ############
+						IStructuredSelection sel = (IStructuredSelection) timeCV
+								.getSelection();
+
+						Object firstElement = sel.getFirstElement();
+
+						if (firstElement == null)
+							return;
+
+						if (activity.getTimePeriod() == null) {
+							ITime time = SimulationFactory.eINSTANCE
+									.createTime();
+							getDiagram().eResource().getContents().add(time);
+							activity.setTimePeriod(time);
+						}
+
+						String textString = firstElement.toString();
+						if (textString.equals(TIME_SECOND)) {
+							activity.getTimePeriod().setUnit(
+									UnitOfTime.get(TIME_SECOND));
+						} else if (textString.equals(TIME_MINUTE)) {
+							activity.getTimePeriod().setUnit(
+									UnitOfTime.get(TIME_MINUTE));
+						} else if (textString.equals(TIME_HOUR)) {
+							activity.getTimePeriod().setUnit(
+									UnitOfTime.get(TIME_HOUR));
+						} else if (textString.equals(TIME_DAY)) {
+							activity.getTimePeriod().setUnit(
+									UnitOfTime.get(TIME_DAY));
+						}
+					}
+				});
+
+			}
+		};
+
+		protected ModifyListener modifyConstantListener = new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				TransactionalEditingDomain ted = getEditDomain();
+				ted.getCommandStack().execute(new RecordingCommand(ted) {
+
+					@Override
+					protected void doExecute() {
+						PictogramElement pe = getSelectedPictogramElement();
+						Activity activity = (Activity) Graphiti
+								.getLinkService()
+								.getBusinessObjectForLinkedPictogramElement(pe);
+
+						if (constText.getText() != null
+								&& !constText.getText().equals("")) {
+							// Before it was a constant
+							IConstant constant = null;
+							if (activity.getTimePeriod().getPeriod() instanceof IConstant) {
+								constant = ((IConstant) activity
+										.getTimePeriod().getPeriod());
+							}
+							// Before it was a DistributionFunction
+							else if (activity.getTimePeriod().getPeriod() instanceof IDistributionFunction) {
+								constant = SimulationFactory.eINSTANCE
+										.createConstant();
+								activity.setTimePeriod(switchDistributionItem(
+										activity.getTimePeriod(), constant));
+							}
+							if (constant != null) {
+								try {
+									float l = Float.parseFloat(constText
+											.getText());
+									constant.setValue(l);
+									activity.getTimePeriod()
+											.setPeriod(constant);
+								} catch (Exception e) {
+								}// Empty String or not a figure
+							}
+						}
+					}
+				});
+			}
+		};
+
+		protected ModifyListener modifyStorageListener = new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				TransactionalEditingDomain ted = getEditDomain();
+				ted.getCommandStack().execute(new RecordingCommand(ted) {
+
+					@Override
+					protected void doExecute() {
+						PictogramElement pe = getSelectedPictogramElement();
+						Activity activity = (Activity) Graphiti
+								.getLinkService()
+								.getBusinessObjectForLinkedPictogramElement(pe);
+
+						String maxCapString = maxCapacityText.getText();
+						try {
+							int value = Integer.parseInt(maxCapString);
+							activity.getCapacity().setMaxCapacity(value);
+						} catch (Exception e1) {
+						}
+					}
+				});
+			}
+		};
+
+		protected ModifyListener modifyPickingListener = new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				try {
+					TransactionalEditingDomain ted = getEditDomain();
+					ted.getCommandStack().execute(new RecordingCommand(ted) {
+
+						@Override
+						protected void doExecute() {
+							// Activity activity =
+							// (Activity)Graphiti.getLinkService()
+							// .getBusinessObjectForLinkedPictogramElement(
+							// getSelectedPictogramElement());
+						}
+					});
+				} catch (Exception e1) {
+				}
+
+			}
+		};
+
+		protected ISelectionChangedListener comboServiceSelectionListener = new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				TransactionalEditingDomain ted = getEditDomain();
+				ted.getCommandStack().execute(new RecordingCommand(ted) {
+
+					@Override
+					protected void doExecute() {
+						Activity activity = (Activity) getSelectedBusinessObject();
+
+						// ############# Function Type (Picking, Transport ...)
+						IStructuredSelection sel = (IStructuredSelection) serviceCV
+								.getSelection();
+						Object firstElement = sel.getFirstElement();
+						// logger.log(Level.INFO, ""+firstElement);
+						if (firstElement == null)
+							return;
+
+						if (!activity.getServiceType().equals(firstElement)) {
+
+							if /* Picking */(firstElement
+									.equals(ServiceType.PICKING)) {
+								activity.setServiceType(ServiceType.PICKING);
+								changeServiceVisibility(ServiceType.PICKING);
+							} /* Value added */else if (firstElement
+									.equals(ServiceType.VALUE_ADDED)) {
+								activity.setServiceType(ServiceType.VALUE_ADDED);
+								changeServiceVisibility(ServiceType.VALUE_ADDED);
+							} /* Handling */else if (firstElement
+									.equals(ServiceType.HANDLING)) {
+								activity.setServiceType(ServiceType.HANDLING);
+								changeServiceVisibility(ServiceType.HANDLING);
+							} /* Storage */else if (firstElement
+									.equals(ServiceType.STORAGE)) {
+								activity.setServiceType(ServiceType.STORAGE);
+								changeServiceVisibility(ServiceType.STORAGE);
+							} /* Transport */else if (firstElement
+									.equals(ServiceType.TRANSPORT)) {
+								activity.setServiceType(ServiceType.TRANSPORT);
+								changeServiceVisibility(ServiceType.TRANSPORT);
+							} /* Default Service-Type */else if (firstElement
+									.equals(ServiceType.DEFAULT)) {
+								activity.setServiceType(ServiceType.DEFAULT);
+								changeServiceVisibility(ServiceType.DEFAULT);
+							} /* Default */else {
+								changeServiceVisibility(ServiceType.DEFAULT);
+							}
+
+						}// IF Equals
+					}
+					// }//End IF
+					// }//End For
+				});
+			}
+		};
+	} // End class Listeners
 }

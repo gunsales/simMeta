@@ -16,6 +16,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 
 import static de.lsem.repository.model.simulation.ISimulationFactory.*
 import static de.lsem.simulation.util.LSEMElementHelper.*
+import static de.lsem.simulation.util.NamingHelper.*
 
 class CreateActivityFeature extends AbstractCreateFeature {
 
@@ -31,21 +32,21 @@ class CreateActivityFeature extends AbstractCreateFeature {
 
 	override canCreate(ICreateContext it) {
 		if (targetContainer instanceof Diagram) {
-			true
-		} else {
-			try {
-				val parentContainer = targetContainer.link.pictogramElement
-				val parentBO = getBusinessObjectForPictogramElement(parentContainer)
-
-				// Parent element must not be a sub-activity. Allowed are only top-level-activities and the diagram itself
-				if (parentBO instanceof IActivity) {
-					return !isSubActivity(contents, parentBO as IActivity)
-				}
-			} catch (NullPointerException e) {
-				e.printStackTrace
-			}
-			false
+			return true
 		}
+
+		try {
+			val parentContainer = targetContainer.link.pictogramElement
+			val parentBO = getBusinessObjectForPictogramElement(parentContainer)
+
+			// Parent element must not be a sub-activity. Allowed are only top-level-activities and the diagram itself
+			if (parentBO instanceof IActivity) {
+				return !isSubActivity(contents, parentBO as IActivity)
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace
+		}
+		return false
 	}
 
 	override create(ICreateContext it) {
@@ -63,10 +64,8 @@ class CreateActivityFeature extends AbstractCreateFeature {
 		// Create Activity
 		val activity = createActivityWithDefaultParameters(capacity, time, unitOfTime, constant)
 
-		// Add top-element to model
-		if (!contents.contains(activity)) {
-			addElementsToContent(activity, capacity, time, constant)
-		}
+		// Add top-element to model		
+		addElementsToContent(activity, capacity, time, constant)
 
 		// Activity is added as a sub-activity
 		if (targetContainer != null && !(targetContainer instanceof Diagram)) {
@@ -93,32 +92,24 @@ class CreateActivityFeature extends AbstractCreateFeature {
 	}
 
 	private def addElementsToContent(IActivity activity, ICapacity capacity, ITime time, IConstant constant) {
+		contents => [
+			add(activity)
+			// Add sub-elements to model
+			add(capacity)
+			add(time)
+			add(constant)
+		]
 
-		contents.add(activity)
-
-		// Add sub-elements to model
-		contents.add(capacity)
-		contents.add(time)
-		contents.add(constant)
-	}
-
-	private def getInitialActivityNumber() {
-		val activities = getActivitiesFromDiagram(contents)
-
-		String.valueOf(activities.size + 1)
 	}
 
 	private def create it:eINSTANCE.createActivity createActivityWithDefaultParameters(ICapacity _capacity, ITime time,
 		UnitOfTime unitOfTime, IConstant constant) {
 		serviceType = ServiceType.DEFAULT
-		name = createActivityName(it, initialActivityNumber)
+		name = createName(contents, it)
 		capacity = _capacity
 		time.unit = unitOfTime
 		timePeriod = time
 		timePeriod.period = constant
 	}
-
-	private def String createActivityName(IActivity it, String activityNumber) '''
-	«serviceType.literal»-Service_«activityNumber»'''
 
 }

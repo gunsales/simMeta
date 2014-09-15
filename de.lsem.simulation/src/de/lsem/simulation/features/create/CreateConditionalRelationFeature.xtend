@@ -12,6 +12,7 @@ import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
 
 import static de.lsem.simulation.util.RelationHelper.*
+import static de.lsem.simulation.util.NamingHelper.*
 
 class CreateConditionalRelationFeature extends AbstractCreateConnectionFeature {
 
@@ -64,8 +65,12 @@ class CreateConditionalRelationFeature extends AbstractCreateConnectionFeature {
 		}
 	}
 	
+	private def getContents(){
+		diagram.eResource.contents
+	}
+	
 	private def create it:SimulationFactory.eINSTANCE.createConditionalRelation() createConditionalRelation(ISimulationElement _source, ISimulationElement _target){
-		name = createRelationName(diagram)
+		name = createName(contents, it)
 		condition = ""
 		probability = 50
 		source = _source

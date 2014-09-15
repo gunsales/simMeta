@@ -4,23 +4,17 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.ui.platform.GFPropertySection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 import de.lsem.repository.model.simulation.ISource;
 import de.lsem.simulation.util.ElementConstants;
 
-public class SourceMainSection extends GFPropertySection implements
+public class SourceMainSection extends LSEMElementGeneralPropertySection implements
 		ITabbedPropertyConstants, ElementConstants {
 
 	private Text maxNewEntitiesText;
@@ -31,37 +25,13 @@ public class SourceMainSection extends GFPropertySection implements
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
 
-		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		Composite composite = factory.createFlatFormComposite(parent);
-		FormData data;
+		nameText = createText(LABEL_EMPTY);
+		nameText.setLayoutData(getElementFormData());
+		createCLabel(nameText, LABEL_NAME).setLayoutData(getLabelFormData(nameText));
 
-		nameText = factory.createText(composite, LABEL_EMPTY);
-		data = new FormData();
-		data.left = new FormAttachment(0, 120);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, VSPACE);
-		nameText.setLayoutData(data);
-
-		CLabel valueLabel = factory.createCLabel(composite, LABEL_NAME);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(nameText, -HSPACE);
-		data.top = new FormAttachment(nameText, 0, SWT.CENTER);
-		valueLabel.setLayoutData(data);
-
-		maxNewEntitiesText = factory.createText(composite, LABEL_EMPTY);
-		data = new FormData();
-		data.left = new FormAttachment(0, 120);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(nameText, VSPACE);
-		maxNewEntitiesText.setLayoutData(data);
-
-		valueLabel = factory.createCLabel(composite, LABEL_MAX_ENTITIES);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(maxNewEntitiesText, -HSPACE);
-		data.top = new FormAttachment(maxNewEntitiesText, 0, SWT.CENTER);
-		valueLabel.setLayoutData(data);
+		maxNewEntitiesText = createText(nameText, LABEL_EMPTY);
+		maxNewEntitiesText.setLayoutData(getElementFormData(nameText));
+		createCLabel(maxNewEntitiesText, LABEL_MAX_ENTITIES).setLayoutData(getLabelFormData(maxNewEntitiesText));
 
 		addModifyListeners();
 	}

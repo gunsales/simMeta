@@ -1,17 +1,11 @@
 package de.lsem.simulation.property;
 
-import static de.lsem.simulation.util.LSEMElementHelper.getElementsFromDiagram;
-import static de.lsem.simulation.util.LSEMElementHelper.getRelationsFromDiagram;
-
-import java.util.List;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -34,9 +28,11 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import de.lsem.repository.model.simulation.IConditionalRelation;
 import de.lsem.repository.model.simulation.IRelation;
 import de.lsem.repository.model.simulation.ISimulationElement;
+import de.lsem.simulation.property.validators.NameValidator;
 import de.lsem.simulation.util.ElementConstants;
-import de.lsem.simulation.util.NameValidator;
-public class ConditionalRelationMainSection extends GFPropertySection implements
+import de.lsem.simulation.util.LSEMElementHelper;
+
+public class ConditionalRelationMainSection extends LSEMElementGeneralPropertySection implements
 		ITabbedPropertyConstants {
 
 	private Text probText;
@@ -198,21 +194,27 @@ public class ConditionalRelationMainSection extends GFPropertySection implements
 		Shell ac = Display.getDefault().getActiveShell();
 		InputDialog dialog = new InputDialog(ac, "Unique name needed.",
 				"Please insert a unique name", dummy.getName() + "_new",
-				new NameValidator(dummy, getDiagram()));
+				new NameValidator(dummy, getContents()));
 		return dialog;
+	}
+	
+	private EList<EObject> getContents() {
+		return getDiagram().eResource().getContents();
 	}
 
 	private boolean checkNameUnique(String name) {
 
 		EList<EObject> contents = getDiagram().eResource().getContents();
 
-		List<ISimulationElement> elements = getElementsFromDiagram(contents);
+		Iterable<ISimulationElement> elements = LSEMElementHelper
+				.getSimulationElements(contents);
 		for (ISimulationElement element : elements) {
 			if (element.getName().equals(name)) {
 				return false;
 			}
 		}
-		List<IRelation> relations = getRelationsFromDiagram(contents);
+		Iterable<IRelation> relations = LSEMElementHelper
+				.getRelations(contents);
 		for (IRelation element : relations) {
 			if (element.getName() == null || element.getName().equals(name)) {
 				return false;

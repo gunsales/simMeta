@@ -1,4 +1,4 @@
-package de.lsem.simulation.property.xtend
+package de.lsem.simulation.util
 
 import de.lsem.repository.model.simulation.Beta
 import de.lsem.repository.model.simulation.Erlang
@@ -19,11 +19,10 @@ import de.lsem.repository.model.simulation.LogNormal
 import de.lsem.repository.model.simulation.NegExp
 import de.lsem.repository.model.simulation.Normal
 import de.lsem.repository.model.simulation.Poisson
+import de.lsem.repository.model.simulation.SimulationFactory
 import de.lsem.repository.model.simulation.Triangular
 import de.lsem.repository.model.simulation.Uniform
 import de.lsem.repository.model.simulation.Weibull
-
-import static de.lsem.repository.model.simulation.SimulationFactory.*
 
 class DistributionFunctionLabelGenerator {
 
@@ -66,81 +65,122 @@ class DistributionFunctionLabelGenerator {
 
 	def dispatch String getDistributionFunctionFor(Void it) ''''''
 
-	def getDistributionFunctionForLSEMElement(String text){
-		if(text == null){
-			return null
+	def getDistributionFunctionForLSEMElement(String text) {
+		try {
+
+			val it = generateAttributeValueArray(text);
+
+			switch length {
+				case 1: {
+					return oneAttributeCases(text)
+				}
+				case 2: {
+					return twoAttributeCases(text)
+				}
+				case 3: {
+					return threeAttributeCases(text)
+				}
+				default: {
+					createDefaultBeta
+				}
+			}
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace
+		} catch (Exception e) {
+			e.printStackTrace
 		}
-		
-		val attributeArray = generateAttributeValueArray(text)
-		
-		switch(text){
-			case text.startsWith(typeof(Weibull).simpleName) && attributeArray.length == 2:{
-				sim.createWeibull => [
-					beta = attributeArray.get(0)
-					alpha = attributeArray.get(1)
+		createDefaultBeta
+
+	}
+
+	private def threeAttributeCases(Double[] aa, String text) {
+		switch text {
+			case text.startsWith(typeof(Triangular).simpleName): {
+				SimulationFactory.eINSTANCE.createTriangular => [
+					min = aa.get(0)
+					mode = aa.get(1)
+					max = aa.get(2)
 				]
 			}
-			case text.startsWith(typeof(Beta).simpleName) && attributeArray.length == 2:{
-				sim.createBeta => [
-					beta = attributeArray.get(0)
-					alpha = attributeArray.get(1)
-				]
-			}
-			case text.startsWith(typeof(Normal).simpleName) && attributeArray.length == 2:{
-				sim.createNormal => [
-					mean = attributeArray.get(0)
-					stdDev = attributeArray.get(1)
-				]
-			}
-			case text.startsWith(typeof(Triangular).simpleName) && attributeArray.length == 3:{
-				return sim.createTriangular => [
-					min = attributeArray.get(0)
-					mode = attributeArray.get(1)
-					max = attributeArray.get(2)
-				]
-			}
-			case text.startsWith(typeof(LogNormal).simpleName) && attributeArray.length == 2:{
-				sim.createLogNormal => [
-					logMean = attributeArray.get(0)
-					logStd = attributeArray.get(1)
-				]
-			}
-			case text.startsWith(typeof(Uniform).simpleName) && attributeArray.length == 2:{
-				sim.createUniform => [
-					min = attributeArray.get(0)
-					max = attributeArray.get(1)
-				]
-			}
-			case text.startsWith(typeof(Poisson).simpleName) && attributeArray.length == 1:{
-				return sim.createPoisson => [
-					mean = attributeArray.get(0)
-				]
-			}
-			case text.startsWith(typeof(NegExp).simpleName) && attributeArray.length == 1:{
-				sim.createNegExp => [
-					mean = attributeArray.get(0)
-				]
-			}
-			case text.startsWith(typeof(Erlang).simpleName) && attributeArray.length == 2:{
-				sim.createErlang => [
-					expMean = attributeArray.get(0)
-					k = attributeArray.get(1)
-				]
-			}
-			case text.startsWith(typeof(Gamma).simpleName) && attributeArray.length == 2:{
-				sim.createGamma => [
-					beta = attributeArray.get(0)
-					alpha = attributeArray.get(1)
-				]
-			}
-			default: return null
+			default:
+				createDefaultBeta
 		}
 	}
-	
-	private def getSim(){
-		eINSTANCE
+
+	private def twoAttributeCases(Double[] aa, String it) {
+
+		switch it {
+			case startsWith(typeof(Weibull).simpleName): {
+				SimulationFactory.eINSTANCE.createWeibull => [
+					beta = aa.get(0)
+					alpha = aa.get(1)
+				]
+			}
+			case startsWith(typeof(Beta).simpleName): {
+				SimulationFactory.eINSTANCE.createBeta => [
+					beta = aa.get(0)
+					alpha = aa.get(1)
+				]
+			}
+			case startsWith(typeof(Normal).simpleName): {
+				SimulationFactory.eINSTANCE.createNormal => [
+					mean = aa.get(0)
+					stdDev = aa.get(1)
+				]
+			}
+			case startsWith(typeof(LogNormal).simpleName): {
+				SimulationFactory.eINSTANCE.createLogNormal => [
+					logMean = aa.get(0)
+					logStd = aa.get(1)
+				]
+			}
+			case startsWith(typeof(Uniform).simpleName): {
+				SimulationFactory.eINSTANCE.createUniform => [
+					min = aa.get(0)
+					max = aa.get(1)
+				]
+			}
+			case startsWith(typeof(Erlang).simpleName): {
+				SimulationFactory.eINSTANCE.createErlang => [
+					expMean = aa.get(0)
+					k = aa.get(1)
+				]
+			}
+			case startsWith(typeof(Gamma).simpleName): {
+				SimulationFactory.eINSTANCE.createGamma => [
+					beta = aa.get(0)
+					alpha = aa.get(1)
+				]
+			}
+			default: {
+				createDefaultBeta
+			}
+		}
 	}
-	
+
+	private def oneAttributeCases(Double[] aa, String it) {
+		switch it {
+			case startsWith(typeof(Poisson).simpleName): {
+				SimulationFactory.eINSTANCE.createPoisson => [
+					mean = aa.get(0)
+				]
+			}
+			case startsWith(typeof(NegExp).simpleName): {
+				SimulationFactory.eINSTANCE.createNegExp => [
+					mean = aa.get(0)
+				]
+			}
+			default: createDefaultBeta
+		}
+	}
+
+	private def createDefaultBeta() {
+		SimulationFactory.eINSTANCE.createBeta => [
+			beta = 0
+			alpha = 0
+		]
+	}
+
 	/**
 	 * Generates a cleared attribute-array only containing values, so that:
 	 * 

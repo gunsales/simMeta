@@ -12,6 +12,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 
 import static de.lsem.simulation.util.LSEMElementHelper.*
+
 class MergeActivitiesFeature extends AbstractCustomFeature {
 
 	new(IFeatureProvider fp) {
@@ -47,7 +48,7 @@ class MergeActivitiesFeature extends AbstractCustomFeature {
 		}
 
 		val selectedPictos = newArrayList(Arrays.asList(pictogramElements)).flatten.toList
-		val businessObjects = getBusinessObjectsFor(selectedPictos)
+		val businessObjects = selectedPictos.businessObjects
 
 		if (businessObjects.empty) {
 			return
@@ -97,30 +98,30 @@ class MergeActivitiesFeature extends AbstractCustomFeature {
 		element2
 	}
 
-	def getActivityForPicto(PictogramElement sp) {
+	private def getActivityForPicto(PictogramElement sp) {
 		getBusinessObjectForPictogramElement(sp) as IActivity
 	}
 
-	def getMoveActivityFeature(ICustomContext it) {
+	private def getMoveActivityFeature(ICustomContext it) {
 		val firstShape = pictogramElements.get(0) as Shape
 		val moveShapeContext = new MoveShapeContext(firstShape)
 
 		featureProvider.getMoveShapeFeature(moveShapeContext) as MoveActivityOnAnotherFeature
 	}
 
-	def removeFirstActivity(List<PictogramElement> selectedPictos, ArrayList<IActivity> businessObjects) {
+	private def removeFirstActivity(List<PictogramElement> selectedPictos, ArrayList<IActivity> businessObjects) {
 		selectedPictos.remove(getPictogramElementForFirstActivity(businessObjects))
 	}
 
-	def getPictogramElementForFirstActivity(ArrayList<IActivity> businessObjects) {
+	private def getPictogramElementForFirstActivity(ArrayList<IActivity> businessObjects) {
 		featureProvider.getPictogramElementForBusinessObject(businessObjects.first)
 	}
 
-	def first(ArrayList<IActivity> activities) {
+	private def first(ArrayList<IActivity> activities) {
 		activities.get(0)
 	}
 
-	def getBusinessObjectsFor(List<PictogramElement> elements) {
+	private def getBusinessObjects(List<PictogramElement> elements) {
 		val retVal = newArrayList
 
 		elements.forEach [

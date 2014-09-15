@@ -29,7 +29,6 @@ import de.lsem.repository.model.simulation.ITime;
 import de.lsem.repository.model.simulation.SimulationFactory;
 import de.lsem.repository.model.simulation.UnitOfTime;
 import de.lsem.simulation.DistributionFunctionProvider;
-import de.lsem.simulation.property.xtend.LSEMElementGeneralPropertySection;
 import de.lsem.simulation.util.ElementConstants;
 
 public class SourceAbstractEntitySection extends
@@ -54,23 +53,29 @@ LSEMElementGeneralPropertySection {
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
 
-		distCC = createCCombo(getComposite(), DistributionFunctionProvider.INSTANCE
-				.getDistributionFunctions().toArray(), getComposite(), SWT.NONE);
-		distComboLabel = createCLabel(distCC, ElementConstants.DEVIATION_TYPE);
-
-		createDistSection_Constant();
-
-		timeCV = createComboViewer(getComposite(), UnitOfTime.values(), getComposite(), SWT.READ_ONLY);
-		timeLabel = createCLabel(timeCV.getControl(), ElementConstants.ZEITEINHEIT_CONSTANT);
+		createDeviationPart();
+		createConstantPart();
+		createTimePart();
 
 		addListeners();
 
 	}
 
-	private void createDistSection_Constant() {
+	private void createDeviationPart() {
+		distCC = createCCombo(DistributionFunctionProvider.INSTANCE
+				.getDistributionFunctions().toArray(), SWT.NONE);
+		distComboLabel = createCLabel(distCC, ElementConstants.DEVIATION_TYPE);
+	}
+
+	private void createTimePart() {
+		timeCV = createComboViewer(UnitOfTime.values(), constText, SWT.READ_ONLY);
+		timeLabel = createCLabel(timeCV.getControl(), ElementConstants.ZEITEINHEIT_CONSTANT);
+	}
+
+	private void createConstantPart() {
 		// ************** 2.Constant
 		// 2.1 value
-		constText = createText(distCC);
+		constText = createText(distCC, "");
 		// 2.2 Label
 		constantLabel = createCLabel(constText, ElementConstants.CONSTANT_CONSTANT);
 	}
@@ -86,7 +91,7 @@ LSEMElementGeneralPropertySection {
 		removeListeners();
 
 		if (entity == null) {
-			createEntity();
+			return;
 		}
 
 		IDistribution period = entity.getPeriod();
@@ -135,34 +140,34 @@ LSEMElementGeneralPropertySection {
 		addListeners();
 	}
 
-	private void createEntity() {
-		getDiagramContainer()
-		.getDiagramBehavior()
-		.getEditingDomain()
-		.getCommandStack()
-		.execute(
-				new RecordingCommand(getDiagramContainer()
-						.getDiagramBehavior().getEditingDomain()) {
-
-					@Override
-					protected void doExecute() {
-						entity = SimulationFactory.eINSTANCE
-								.createTime();
-						IConstant constantDummy = SimulationFactory.eINSTANCE
-								.createConstant();
-
-						constantDummy.setValue(0.0);
-
-						entity.setUnit(UnitOfTime.HOUR);
-						entity.setPeriod(constantDummy);
-
-						getDiagram().eResource().getContents()
-						.add(constantDummy);
-						getDiagram().eResource().getContents()
-						.add(entity);
-					}
-				});
-	}
+//	private void createEntity() {
+//		getDiagramContainer()
+//		.getDiagramBehavior()
+//		.getEditingDomain()
+//		.getCommandStack()
+//		.execute(
+//				new RecordingCommand(getDiagramContainer()
+//						.getDiagramBehavior().getEditingDomain()) {
+//
+//					@Override
+//					protected void doExecute() {
+//						entity = SimulationFactory.eINSTANCE
+//								.createTime();
+//						IConstant constantDummy = SimulationFactory.eINSTANCE
+//								.createConstant();
+//
+//						constantDummy.setValue(0.0);
+//
+//						entity.setUnit(UnitOfTime.HOUR);
+//						entity.setPeriod(constantDummy);
+//
+//						getDiagram().eResource().getContents()
+//						.add(constantDummy);
+//						getDiagram().eResource().getContents()
+//						.add(entity);
+//					}
+//				});
+//	}
 
 	private void resetValuesOfElements() {
 		constText.setText(LABEL_EMPTY);

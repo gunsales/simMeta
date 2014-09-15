@@ -18,7 +18,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-O974TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Activity"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-O974jfLEeOU6eGdRiBCGA" x="2325" y="480"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-O974jfLEeOU6eGdRiBCGA" x="1290" y="470"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WRdwjfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WRdxTfLEeOU6eGdRiBCGA" type="4001"/>
@@ -38,7 +38,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WRdwzfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Time"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WRdxDfLEeOU6eGdRiBCGA" x="1845" y="345"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WRdxDfLEeOU6eGdRiBCGA" x="810" y="335"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WRd0DfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WRd0zfLEeOU6eGdRiBCGA" type="4001"/>
@@ -62,7 +62,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WRd0TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Capacity"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WRd0jfLEeOU6eGdRiBCGA" x="2185" y="345"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WRd0jfLEeOU6eGdRiBCGA" x="1150" y="335"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WantDfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WantzfLEeOU6eGdRiBCGA" type="4001"/>
@@ -78,7 +78,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WantTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Simulation"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WantjfLEeOU6eGdRiBCGA" x="2365" y="640"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WantjfLEeOU6eGdRiBCGA" x="1330" y="630"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WanwDfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WanwzfLEeOU6eGdRiBCGA" type="4001"/>
@@ -106,7 +106,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WanwTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Good"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WanwjfLEeOU6eGdRiBCGA" x="2010" y="345"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WanwjfLEeOU6eGdRiBCGA" x="975" y="335"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-Wan0jfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-Wan1TfLEeOU6eGdRiBCGA" type="4001"/>
@@ -134,7 +134,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-Wan0zfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//ConditionalRelation"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wan1DfLEeOU6eGdRiBCGA" x="2595" y="300"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wan1DfLEeOU6eGdRiBCGA" x="1560" y="290"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-Wan5DfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-Wan5zfLEeOU6eGdRiBCGA" type="4001"/>
@@ -154,7 +154,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-Wan5TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Source"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wan5jfLEeOU6eGdRiBCGA" x="2030" y="505"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wan5jfLEeOU6eGdRiBCGA" x="995" y="495"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-Wan8jfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-Wan9TfLEeOU6eGdRiBCGA" type="4001"/>
@@ -170,7 +170,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-Wan8zfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Sink"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wan9DfLEeOU6eGdRiBCGA" x="2645" y="500"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wan9DfLEeOU6eGdRiBCGA" x="1610" y="490"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-Wan_jfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WaoATfLEeOU6eGdRiBCGA" type="4001"/>
@@ -186,7 +186,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-Wan_zfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Distribution"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WaoADfLEeOU6eGdRiBCGA" x="1410" y="340"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WaoADfLEeOU6eGdRiBCGA" x="375" y="330"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WaoCjfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WaoDTfLEeOU6eGdRiBCGA" type="4001"/>
@@ -206,7 +206,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WaoCzfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Constant"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WaoDDfLEeOU6eGdRiBCGA" x="1155" y="335"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WaoDDfLEeOU6eGdRiBCGA" x="120" y="325"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WkYsDfLEeOU6eGdRiBCGA" type="1005">
     <children xmi:type="notation:Node" xmi:id="_-WkYszfLEeOU6eGdRiBCGA" type="4010"/>
@@ -233,7 +233,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WkYsTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="simmeta.ecore#//UnitOfTime"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkYsjfLEeOU6eGdRiBCGA" x="2480" y="730"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkYsjfLEeOU6eGdRiBCGA" x="1445" y="720"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WkYwDfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WkYwzfLEeOU6eGdRiBCGA" type="4001"/>
@@ -249,31 +249,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WkYwTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//DistributionFunction"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkYwjfLEeOU6eGdRiBCGA" x="1395" y="450"/>
-  </children>
-  <children xmi:type="notation:Node" xmi:id="_-WkYzDfLEeOU6eGdRiBCGA" type="1001">
-    <children xmi:type="notation:Node" xmi:id="_-WkYzzfLEeOU6eGdRiBCGA" type="4001"/>
-    <children xmi:type="notation:Node" xmi:id="_-WkY0DfLEeOU6eGdRiBCGA" type="5001">
-      <children xmi:type="notation:Node" xmi:id="_-WkY2DfLEeOU6eGdRiBCGA" type="2001">
-        <element xmi:type="ecore:EAttribute" href="simmeta.ecore#//Weibul/beta"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_-WkY2TfLEeOU6eGdRiBCGA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_-WkY2jfLEeOU6eGdRiBCGA" type="2001">
-        <element xmi:type="ecore:EAttribute" href="simmeta.ecore#//Weibul/alpha"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_-WkY2zfLEeOU6eGdRiBCGA"/>
-      </children>
-      <styles xmi:type="notation:DrawerStyle" xmi:id="_-WkY0TfLEeOU6eGdRiBCGA"/>
-      <styles xmi:type="notation:SortingStyle" xmi:id="_-WkY0jfLEeOU6eGdRiBCGA"/>
-      <styles xmi:type="notation:FilteringStyle" xmi:id="_-WkY0zfLEeOU6eGdRiBCGA"/>
-    </children>
-    <children xmi:type="notation:Node" xmi:id="_-WkY1DfLEeOU6eGdRiBCGA" type="5002">
-      <styles xmi:type="notation:DrawerStyle" xmi:id="_-WkY1TfLEeOU6eGdRiBCGA"/>
-      <styles xmi:type="notation:SortingStyle" xmi:id="_-WkY1jfLEeOU6eGdRiBCGA"/>
-      <styles xmi:type="notation:FilteringStyle" xmi:id="_-WkY1zfLEeOU6eGdRiBCGA"/>
-    </children>
-    <styles xmi:type="notation:ShapeStyle" xmi:id="_-WkYzTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="simmeta.ecore#//Weibul"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkYzjfLEeOU6eGdRiBCGA" x="1564" y="526"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkYwjfLEeOU6eGdRiBCGA" x="360" y="440"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WkY3DfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WkY3zfLEeOU6eGdRiBCGA" type="4001"/>
@@ -297,7 +273,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WkY3TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Beta"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkY3jfLEeOU6eGdRiBCGA" x="1194" y="911"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkY3jfLEeOU6eGdRiBCGA" x="159" y="901"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WkY7DfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WkY7zfLEeOU6eGdRiBCGA" type="4001"/>
@@ -321,7 +297,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WkY7TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Gamma"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkY7jfLEeOU6eGdRiBCGA" x="1194" y="826"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkY7jfLEeOU6eGdRiBCGA" x="159" y="816"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WkY_DfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WkY_zfLEeOU6eGdRiBCGA" type="4001"/>
@@ -345,7 +321,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WkY_TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Normal"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkY_jfLEeOU6eGdRiBCGA" x="1194" y="731"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkY_jfLEeOU6eGdRiBCGA" x="159" y="721"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WkZDDfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WkZDzfLEeOU6eGdRiBCGA" type="4001"/>
@@ -373,7 +349,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WkZDTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Triangular"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkZDjfLEeOU6eGdRiBCGA" x="1194" y="616"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkZDjfLEeOU6eGdRiBCGA" x="159" y="606"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WkZHjfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WkZITfLEeOU6eGdRiBCGA" type="4001"/>
@@ -397,7 +373,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WkZHzfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//LogNormal"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkZIDfLEeOU6eGdRiBCGA" x="1194" y="526"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WkZIDfLEeOU6eGdRiBCGA" x="159" y="516"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WtirDfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WtirzfLEeOU6eGdRiBCGA" type="4001"/>
@@ -421,7 +397,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WtirTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Uniform"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtirjfLEeOU6eGdRiBCGA" x="1574" y="626"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtirjfLEeOU6eGdRiBCGA" x="539" y="616"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WtivDfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WtivzfLEeOU6eGdRiBCGA" type="4001"/>
@@ -441,7 +417,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WtivTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Poisson"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtivjfLEeOU6eGdRiBCGA" x="1574" y="736"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtivjfLEeOU6eGdRiBCGA" x="539" y="726"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WtiyjfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WtizTfLEeOU6eGdRiBCGA" type="4001"/>
@@ -461,7 +437,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WtiyzfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//NegExp"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtizDfLEeOU6eGdRiBCGA" x="1579" y="826"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtizDfLEeOU6eGdRiBCGA" x="544" y="816"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-Wti2DfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-Wti2zfLEeOU6eGdRiBCGA" type="4001"/>
@@ -485,7 +461,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-Wti2TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Erlang"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wti2jfLEeOU6eGdRiBCGA" x="1579" y="916"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wti2jfLEeOU6eGdRiBCGA" x="544" y="906"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-Wti6DfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-Wti6zfLEeOU6eGdRiBCGA" type="4001"/>
@@ -501,7 +477,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-Wti6TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//SimulationObject"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wti6jfLEeOU6eGdRiBCGA" x="2195" y="65"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wti6jfLEeOU6eGdRiBCGA" x="1160" y="55"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-Wti9DfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-Wti9zfLEeOU6eGdRiBCGA" type="4001"/>
@@ -521,7 +497,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-Wti9TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//SimulationElement"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wti9jfLEeOU6eGdRiBCGA" x="2325" y="210"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Wti9jfLEeOU6eGdRiBCGA" x="1290" y="200"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WtjAjfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WtjBTfLEeOU6eGdRiBCGA" type="4001"/>
@@ -537,7 +513,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WtjAzfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//SimulationParameter"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtjBDfLEeOU6eGdRiBCGA" x="2071" y="201"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtjBDfLEeOU6eGdRiBCGA" x="1036" y="191"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WtjDjfLEeOU6eGdRiBCGA" type="1001">
     <children xmi:type="notation:Node" xmi:id="_-WtjETfLEeOU6eGdRiBCGA" type="4001"/>
@@ -557,7 +533,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WtjDzfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="simmeta.ecore#//Relation"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtjEDfLEeOU6eGdRiBCGA" x="2630" y="205"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtjEDfLEeOU6eGdRiBCGA" x="1595" y="195"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-WtjHDfLEeOU6eGdRiBCGA" type="1005">
     <children xmi:type="notation:Node" xmi:id="_-WtjHzfLEeOU6eGdRiBCGA" type="4010"/>
@@ -592,7 +568,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-WtjHTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="simmeta.ecore#//ServiceType"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtjHjfLEeOU6eGdRiBCGA" x="2615" y="730"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-WtjHjfLEeOU6eGdRiBCGA" x="1580" y="720"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-W3TqDfLEeOU6eGdRiBCGA" type="1005">
     <children xmi:type="notation:Node" xmi:id="_-W3TqzfLEeOU6eGdRiBCGA" type="4010"/>
@@ -619,7 +595,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-W3TqTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="simmeta.ecore#//QueuingStrategy"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3TqjfLEeOU6eGdRiBCGA" x="2345" y="730"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3TqjfLEeOU6eGdRiBCGA" x="1310" y="720"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-W3TuDfLEeOU6eGdRiBCGA" type="1003">
     <children xmi:type="notation:Node" xmi:id="_-W3TuzfLEeOU6eGdRiBCGA" type="4007"/>
@@ -630,7 +606,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-W3TuTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
     <element xmi:type="ecore:EAnnotation" href="simmeta.ecore#//%Service%"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3TujfLEeOU6eGdRiBCGA" x="2195" y="730"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3TujfLEeOU6eGdRiBCGA" x="1160" y="720"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-W3TwDfLEeOU6eGdRiBCGA" type="1003">
     <children xmi:type="notation:Node" xmi:id="_-W3TwzfLEeOU6eGdRiBCGA" type="4007"/>
@@ -641,7 +617,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-W3TwTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
     <element xmi:type="ecore:EAnnotation" href="simmeta.ecore#//%Label%"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3TwjfLEeOU6eGdRiBCGA" x="2090" y="730"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3TwjfLEeOU6eGdRiBCGA" x="1055" y="720"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-W3TyDfLEeOU6eGdRiBCGA" type="1003">
     <children xmi:type="notation:Node" xmi:id="_-W3TyzfLEeOU6eGdRiBCGA" type="4007"/>
@@ -652,7 +628,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-W3TyTfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
     <element xmi:type="ecore:EAnnotation" href="simmeta.ecore#//%Conditional%"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3TyjfLEeOU6eGdRiBCGA" x="1985" y="730"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3TyjfLEeOU6eGdRiBCGA" x="950" y="720"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-W3T0DfLEeOU6eGdRiBCGA" type="1003">
     <children xmi:type="notation:Node" xmi:id="_-W3T0zfLEeOU6eGdRiBCGA" type="4007"/>
@@ -663,7 +639,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-W3T0TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
     <element xmi:type="ecore:EAnnotation" href="simmeta.ecore#//%SourceSink%"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3T0jfLEeOU6eGdRiBCGA" x="1985" y="770"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3T0jfLEeOU6eGdRiBCGA" x="950" y="760"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-W3T2DfLEeOU6eGdRiBCGA" type="1003">
     <children xmi:type="notation:Node" xmi:id="_-W3T2zfLEeOU6eGdRiBCGA" type="4007"/>
@@ -674,7 +650,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-W3T2TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
     <element xmi:type="ecore:EAnnotation" href="simmeta.ecore#//%Good%"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3T2jfLEeOU6eGdRiBCGA" x="2090" y="770"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3T2jfLEeOU6eGdRiBCGA" x="1055" y="760"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-W3T4DfLEeOU6eGdRiBCGA" type="1003">
     <children xmi:type="notation:Node" xmi:id="_-W3T4zfLEeOU6eGdRiBCGA" type="4007"/>
@@ -685,7 +661,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-W3T4TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
     <element xmi:type="ecore:EAnnotation" href="simmeta.ecore#//%Activity%"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3T4jfLEeOU6eGdRiBCGA" x="2195" y="770"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3T4jfLEeOU6eGdRiBCGA" x="1160" y="760"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_-W3T6DfLEeOU6eGdRiBCGA" type="1003">
     <children xmi:type="notation:Node" xmi:id="_-W3T6zfLEeOU6eGdRiBCGA" type="4007"/>
@@ -696,7 +672,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_-W3T6TfLEeOU6eGdRiBCGA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
     <element xmi:type="ecore:EAnnotation" href="simmeta.ecore#//%http:%2F%2Fwww.eclipse.org%2Femf%2F2002%2FEcore%"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3T6jfLEeOU6eGdRiBCGA" x="2000" y="815"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-W3T6jfLEeOU6eGdRiBCGA" x="965" y="805"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_-A9VETfLEeOU6eGdRiBCGA"/>
   <element xmi:type="ecore:EPackage" href="simmeta.ecore#/"/>
@@ -917,14 +893,6 @@
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-YDmozfLEeOU6eGdRiBCGA" points="[0, 0, 1, 89]$[0, -38, 1, 51]$[-1, -38, 0, 51]$[-1, -89, 0, 0]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_--NAfDfLEeOU6eGdRiBCGA" id="(0.4962962962962963,0.0)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_--NAfTfLEeOU6eGdRiBCGA" id="(0.5,1.0)"/>
-  </edges>
-  <edges xmi:type="notation:Edge" xmi:id="_-YDmpDfLEeOU6eGdRiBCGA" type="3003" source="_-WkYzDfLEeOU6eGdRiBCGA" target="_-WkYwDfLEeOU6eGdRiBCGA">
-    <styles xmi:type="notation:ConnectorStyle" xmi:id="_-YDmpTfLEeOU6eGdRiBCGA" routing="Rectilinear" lineColor="4210752"/>
-    <styles xmi:type="notation:FontStyle" xmi:id="_-YDmpjfLEeOU6eGdRiBCGA" fontName="Segoe UI"/>
-    <element xsi:nil="true"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-YDmpzfLEeOU6eGdRiBCGA" points="[-60, 24, 80, 61]$[-135, 24, 5, 61]$[-135, -30, 5, 7]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_--NAfjfLEeOU6eGdRiBCGA" id="(0.4959349593495935,0.0)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_--NAfzfLEeOU6eGdRiBCGA" id="(0.562962962962963,0.8372093023255814)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_-YDmqDfLEeOU6eGdRiBCGA" type="3003" source="_-WkY3DfLEeOU6eGdRiBCGA" target="_-WkYwDfLEeOU6eGdRiBCGA">
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_-YDmqTfLEeOU6eGdRiBCGA" routing="Rectilinear" lineColor="4210752"/>
