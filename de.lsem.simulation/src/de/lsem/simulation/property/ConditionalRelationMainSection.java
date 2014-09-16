@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 import de.lsem.repository.model.simulation.IConditionalRelation;
 import de.lsem.repository.model.simulation.IRelation;
@@ -32,8 +31,8 @@ import de.lsem.simulation.property.validators.NameValidator;
 import de.lsem.simulation.util.ElementConstants;
 import de.lsem.simulation.util.LSEMElementHelper;
 
-public class ConditionalRelationMainSection extends LSEMElementGeneralPropertySection implements
-		ITabbedPropertyConstants {
+public class ConditionalRelationMainSection extends
+		LSEMElementGeneralPropertySection implements ITabbedPropertyConstants {
 
 	private Text probText;
 	private Text condText;
@@ -44,7 +43,6 @@ public class ConditionalRelationMainSection extends LSEMElementGeneralPropertySe
 
 	private Button buttonBedingung;
 	private Button buttonWahrscheinlichkeit;
-	private TabbedPropertySheetWidgetFactory factory;
 	private Composite buttonCombo;
 
 	@Override
@@ -52,95 +50,65 @@ public class ConditionalRelationMainSection extends LSEMElementGeneralPropertySe
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
 
-		factory = getWidgetFactory();
-		Composite composite = factory.createFlatFormComposite(parent);
-
-		createNameSection(composite);
-		buttonCombo = createChoiseComposite(composite);
-		createChoosenSection(composite);
+		createNameSection();
+		createChoiseComposite();
+		createChoosenSection();
 
 		addModifyListeners();
 	}
 
-	private void createChoosenSection(Composite composite) {
-		condText = factory.createText(composite, "");
-		FormData data = new FormData();
-		data.left = new FormAttachment(0, 130);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(buttonCombo, VSPACE);
-		condText.setLayoutData(data);
+	private void createChoosenSection() {
+		// Condition text
+		condText = createText(buttonCombo, LABEL_EMPTY);
+		condText.setLayoutData(getElementFormData(buttonCombo));
 
-		condLabel = factory.createCLabel(composite,
-				ElementConstants.LABEL_CONDITION);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(condText, -HSPACE);
-		data.top = new FormAttachment(condText, 0, SWT.CENTER);
-		condLabel.setLayoutData(data);
+		//Condition label
+		condLabel = createCLabel(condText, ElementConstants.LABEL_CONDITION);
+		condLabel.setLayoutData(getLabelFormData(condText));
 
-		probText = factory.createText(composite, "");
-		data = new FormData();
-		data.left = new FormAttachment(0, 130);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(buttonCombo, VSPACE);
-		probText.setLayoutData(data);
+		//Probability text
+		probText = createText(buttonCombo, LABEL_EMPTY);
+		probText.setLayoutData(getElementFormData(buttonCombo));
 
-		probLabel = factory.createCLabel(composite,
+		//Probability label
+		probLabel = createCLabel(probText, 
 				ElementConstants.LABEL_PROBABILITY);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(probText, -HSPACE);
-		data.top = new FormAttachment(probText, 0, SWT.CENTER);
-		probLabel.setLayoutData(data);
+		probLabel.setLayoutData(getLabelFormData(probText));
 
 	}
 
-	private void createNameSection(Composite composite) {
-		nameText = factory.createText(composite, "");
-		FormData data = new FormData();
-		data.left = new FormAttachment(0, 130);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, VSPACE);
-		nameText.setLayoutData(data);
+	private void createNameSection() {
+		nameText = createText(LABEL_EMPTY);
+		nameText.setLayoutData(getElementFormData());
 
-		CLabel valueLabel = factory.createCLabel(composite,
+		CLabel valueLabel = createCLabel(nameText, 
 				ElementConstants.LABEL_DESCRIPTION);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(nameText, -HSPACE);
-		data.top = new FormAttachment(nameText, 0, SWT.CENTER);
-		valueLabel.setLayoutData(data);
+		valueLabel.setLayoutData(getLabelFormData(nameText));
 	}
 
-	private Composite createChoiseComposite(Composite parent) {
+	private void createChoiseComposite() {
 
-		Composite buttonCombo = factory.createComposite(parent);
+		buttonCombo = createComposite();
 		FormData data = new FormData();
 		data.left = new FormAttachment(0, 0);
 		data.right = new FormAttachment(400, 0);
 		data.top = new FormAttachment(nameText, VSPACE);
 		buttonCombo.setLayoutData(data);
 
-		buttonBedingung = factory.createButton(buttonCombo,
-				ElementConstants.LABEL_CONDITION, SWT.RADIO);
+		buttonBedingung = createButton(buttonCombo, ElementConstants.LABEL_CONDITION, SWT.RADIO);
 		buttonBedingung.setBounds(130, 0, 75, 30);
 		buttonBedingung.addSelectionListener(buttonSelectionListener);
 		buttonBedingung.setSelection(true);
 
-		buttonWahrscheinlichkeit = factory.createButton(buttonCombo,
-				ElementConstants.LABEL_PROBABILITY, SWT.RADIO);
+		buttonWahrscheinlichkeit = createButton(buttonCombo, ElementConstants.LABEL_PROBABILITY, SWT.RADIO);
 		buttonWahrscheinlichkeit.setBounds(210, 0, 150, 30);
 		buttonWahrscheinlichkeit.addSelectionListener(buttonSelectionListener);
 
-		CLabel cLabel = factory.createCLabel(buttonCombo,
+		CLabel cLabel = createCLabel(nameText,
 				ElementConstants.LABEL_BASED_ON);
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(buttonBedingung, -HSPACE);
-		data.top = new FormAttachment(buttonBedingung, 0, SWT.CENTER);
-		cLabel.setLayoutData(data);
+		cLabel.setLayoutData(getLabelFormData(buttonWahrscheinlichkeit));
 
-		return buttonCombo;
+//		return buttonCombo;
 	}
 
 	@Override
@@ -197,7 +165,7 @@ public class ConditionalRelationMainSection extends LSEMElementGeneralPropertySe
 				new NameValidator(dummy, getContents()));
 		return dialog;
 	}
-	
+
 	private EList<EObject> getContents() {
 		return getDiagram().eResource().getContents();
 	}

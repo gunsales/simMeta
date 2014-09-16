@@ -98,6 +98,15 @@ class LSEMElementGeneralPropertySection extends GFPropertySection implements ITa
 		text
 	}
 	
+	def createButton(String label, int style){
+		createButton(composite, label, style)
+	}
+	
+	def createButton(Composite composite, String label, int style){
+		val button = factory.createButton(composite, label, style)
+		button
+	}
+	
 	
 	def createText(Object controlElementAbove, String textValue) {
 		createText(controlElementAbove, textValue, SWT.NONE)
@@ -117,6 +126,10 @@ class LSEMElementGeneralPropertySection extends GFPropertySection implements ITa
 			right = new FormAttachment(control, -HSPACE)
 			top = new FormAttachment(control, 0, SWT.CENTER)
 		]
+	}
+	
+	def createComposite(){
+		factory.createComposite(composite)
 	}
 
 	def getElementFormData(Control topObject) {

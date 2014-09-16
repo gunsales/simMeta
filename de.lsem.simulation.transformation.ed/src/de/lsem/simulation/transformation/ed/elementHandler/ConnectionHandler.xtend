@@ -95,42 +95,42 @@ class ConnectionHandler {
 		}
 	}
 
-	//	/**
-	// * Writes the probability for each outgoing connection wrapped into "Bernoulli(probability, Bernoulli(probability, ...))", whereas probability is calculated as remaining probability 
-	// */
-	//	def String createBernoulli(Set<Connection> cons, int consListStartIndex, double remainingPercentage) {
-	//
-	//		if (consListStartIndex + 1 < cons.size() && cons.get(consListStartIndex).getPercentage != 0) {
-	//
-	//			//Probability depending on rest
-	//			val aktuelleWahrscheinlichkeit = ( (cons.get(consListStartIndex).getPercentage) / remainingPercentage * 100 ) as int
-	//
-	//			//Write beginning elements with probability of this specific element
-	//			"Bernoulli(" + aktuelleWahrscheinlichkeit + "," + (consListStartIndex + 1) + "," //recursive call
-	//			+ createBernoulli( //ConnectionList
-	//			cons, //new Index
-	//			(consListStartIndex + 1),
-	//				//Remaining percentage
-	//				(remainingPercentage - cons.get(consListStartIndex).getPercentage)) //Append Rest
-	//			+ ")"
-	//
-	//		} else {
-	//
-	//			//Append index+1 in case no following connection with probability is found
-	//			(consListStartIndex + 1).toString
-	//		}
-	//	}
 	/**
- * Writes the probability for each outgoing connection wrapped into "Bernoulli(probability, Bernoulli(probability, ...))", whereas probability is calculated as remaining probability 
- */
-	def String createBernoulli(Set<Connection> cons, int consListStartIndex, double remainingPercentage) '''
-		«IF consListStartIndex + 1 < cons.size && cons.get(consListStartIndex).percentage != 0»
-			«val aktuelleWahrscheinlichkeit = ( (cons.get(consListStartIndex).getPercentage) / remainingPercentage * 100 ) as int»
-			Bernoulli(«aktuelleWahrscheinlichkeit»,«consListStartIndex + 1»,«createBernoulli(cons, (consListStartIndex + 1),
-			(remainingPercentage - cons.get(consListStartIndex).getPercentage))»)
-		«ELSE»
-			«consListStartIndex + 1»
-		«ENDIF»
-	'''
+	 * Writes the probability for each outgoing connection wrapped into "Bernoulli(probability, Bernoulli(probability, ...))", whereas probability is calculated as remaining probability 
+	 */
+	def String createBernoulli(Set<Connection> cons, int consListStartIndex, double remainingPercentage) {
 
+		if (consListStartIndex + 1 < cons.size() && cons.get(consListStartIndex).getPercentage != 0) {
+
+			//Probability depending on rest
+			val aktuelleWahrscheinlichkeit = ( (cons.get(consListStartIndex).getPercentage) / remainingPercentage * 100 ) as int
+
+			//Write beginning elements with probability of this specific element
+			"Bernoulli(" + aktuelleWahrscheinlichkeit + "," + (consListStartIndex + 1) + "," //recursive call
+			+ createBernoulli( //ConnectionList
+			cons, //new Index
+			(consListStartIndex + 1),
+				//Remaining percentage
+				(remainingPercentage - cons.get(consListStartIndex).getPercentage)) //Append Rest
+			+ ")"
+
+		} else {
+
+			//Append index+1 in case no following connection with probability is found
+			(consListStartIndex + 1).toString
+		}
+	}
+
+///**
+// * Writes the probability for each outgoing connection wrapped into "Bernoulli(probability, Bernoulli(probability, ...))", whereas probability is calculated as remaining probability 
+// */
+//	def String createBernoulli(Set<Connection> cons, int consListStartIndex, double remainingPercentage) '''
+//		«IF consListStartIndex + 1 < cons.size && cons.get(consListStartIndex).percentage != 0»
+//			«val aktuelleWahrscheinlichkeit = ( (cons.get(consListStartIndex).getPercentage) / remainingPercentage * 100 ) as int»
+//			Bernoulli(«aktuelleWahrscheinlichkeit»,«consListStartIndex + 1»,«createBernoulli(cons, (consListStartIndex + 1),
+//			(remainingPercentage - cons.get(consListStartIndex).getPercentage))»)
+//		«ELSE»
+//			«consListStartIndex + 1»
+//		«ENDIF»
+//	'''
 }

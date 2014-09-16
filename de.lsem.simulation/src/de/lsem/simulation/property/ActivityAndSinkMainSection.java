@@ -28,6 +28,7 @@ public class ActivityAndSinkMainSection extends LSEMElementGeneralPropertySectio
 
 	private Text nameText;
 
+	
 	@Override
 	public void createControls(Composite parent,
 			TabbedPropertySheetPage tabbedPropertySheetPage) {

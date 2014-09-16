@@ -10,6 +10,7 @@ import de.lsem.repository.model.simulation.ISimulationObject;
 import de.lsem.repository.model.simulation.ISource;
 import de.lsem.simulation.validation.exception.ConditionalRelationException;
 import de.lsem.simulation.validation.exception.MissingOutgoingRelationException;
+import de.lsem.simulation.validation.exception.OutgoingCondRelationsExceedPercentage;
 import de.lsem.simulation.validation.exception.SingleOutgoingRelationIsConditionalException;
 import de.lsem.simulation.validation.exception.OutgoingNotConditionalRelationException;
 import de.lsem.simulation.validation.exception.ValidationException;
@@ -37,9 +38,11 @@ public class OutgoingRelationValidator implements IValidator {
 					"There must be outgoing relations."));
 		}
 
-		// if multiple relations --> all must be ConditionalRelations
+		// if multiple relations --> all must be ConditionalRelations and their
+		// probabilities must be added less or equal than 100%
 		if (outgoing.size() > 1) {
 			retVal.addAll(checkAllRelationsAreConditional(outgoing));
+			retVal.addAll(checkProbabilityExceedsPercentage(outgoing));
 		} else if (outgoing.size() == 1) {
 			retVal.addAll(checkOnlyRelationIsUsual(outgoing));
 		}
@@ -52,6 +55,25 @@ public class OutgoingRelationValidator implements IValidator {
 
 		return retVal;
 
+	}
+
+	private List<ValidationException> checkProbabilityExceedsPercentage(
+			List<IRelation> outgoing) {
+		List<ValidationException> retVal = new ArrayList<ValidationException>();
+		double percentageCounter = 0.0;
+
+		for (IRelation r : outgoing) {
+			IConditionalRelation cr = (IConditionalRelation) r;
+			percentageCounter += cr.getProbability();
+		}
+
+		if (percentageCounter > 100) {
+			OutgoingCondRelationsExceedPercentage exceedPercentage = new OutgoingCondRelationsExceedPercentage(
+					outgoing.get(0).getSource(),
+					"Outgoing relations exceed 100%");
+			retVal.add(exceedPercentage);
+		}
+		return retVal;
 	}
 
 	private List<ValidationException> checkOnlyRelationIsUsual(
