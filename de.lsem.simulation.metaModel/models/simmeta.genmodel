@@ -5,7 +5,7 @@
     modelName="Simmeta" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
     publicConstructors="true" editPluginID="de.lsem.repository.model.edit" editorPluginID="de.lsem.repository.model.simulation.editor"
-    interfaceNamePattern="I{0}" classNamePattern="{0}" operationReflection="true"
+    language="de" interfaceNamePattern="I{0}" classNamePattern="{0}" operationReflection="true"
     importOrganizing="true">
   <foreignModel>simmeta.ecore</foreignModel>
   <genPackages prefix="Simulation" basePackage="de.lsem.repository.model" disposableProviderFactory="true"
