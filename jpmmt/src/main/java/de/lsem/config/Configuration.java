@@ -33,8 +33,10 @@ public final class Configuration {
 	private List<String> stopWords;
 	private String wordNetFolder;
 	private IDictionary dictionary;
-	private static String configurationFile = "D:/EclipseWorkspace/simulation/jpmmt/src/main/resources/config.xml";
-
+	private static String configurationFile = "C:/Dokumente und Einstellungen/mutke.GRIDTERMINAL/Desktop/Lewin_Temp/simMeta/jpmmt/src/main/resources/config.xml";
+	
+	//"D:/EclipseWorkspace/simulation/jpmmt/src/main/resources/config.xml"
+	
 	public static final Configuration INSTANCE = new Configuration();
 
 	private Configuration() {

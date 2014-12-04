@@ -56,11 +56,11 @@ class SourceHandler {
 «««		SetExprAtt(2, [LogNormal(hr(1), hr(0.5))]);
 		«createTargetText»
 «««		time between products --> following entities
-		«getDistributionFor(newEntities.period, "2")»
+		«getDistributionFor(newEntities, "2")»
 		SetExprAtt(3, [{.0|10. Do Nothing .}0]);
 		SetExprAtt(4, 0);
 «««time till first product --> new entities
-		«getDistributionFor(firstEntity.period, "5")»
+		«getDistributionFor(firstEntity, "5")»
 		SetExprAtt(6, [{. -1 |1. Unlimited .} -1 ]);
 		SetAtt(7, 4);
 		int024;

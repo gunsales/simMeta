@@ -100,3 +100,4 @@ Export-Package: assemblies,
  org.junit.runners,
  org.sqlite,
  resources.lib
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

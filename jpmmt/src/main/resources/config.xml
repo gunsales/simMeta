@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <Configuration>
-	<WordNet dictionaryFolder="D:/EclipseWorkspace/simulation/wordnet/dict"/>
+
+	<WordNet dictionaryFolder="/src/main/resources/dict"/>
 	<StopWords>
 		<StopWord>they</StopWord>
 		<StopWord>said</StopWord>

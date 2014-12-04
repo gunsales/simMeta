@@ -25,7 +25,7 @@ class ActivityTransportHandler {
 		«log(Level::INFO, lsemName(it) + ", " + activityServiceName)»
 		
 		«commonParamters(x, y, numberOfIncommingElements, int013, embeddSinUp)»
-		«getDistributionFor(timePeriod.period, "1")»
+		«getDistributionFor(timePeriod, "1")»
 		«createTargetText»
 		SetExprAtt(3, [1]);
 		SetAtt(4, 1);

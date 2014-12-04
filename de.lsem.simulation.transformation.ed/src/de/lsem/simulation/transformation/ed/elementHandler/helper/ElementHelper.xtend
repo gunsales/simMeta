@@ -1,10 +1,10 @@
 package de.lsem.simulation.transformation.ed.elementHandler.helper
 
-import de.lsem.repository.model.simulation.DistributionFunction
 import de.lsem.repository.model.simulation.IConstant
 import de.lsem.repository.model.simulation.IDistribution
 import de.lsem.repository.model.simulation.IDistributionFunction
 import de.lsem.repository.model.simulation.ISimulationElement
+import de.lsem.repository.model.simulation.ITime
 import java.util.HashMap
 import java.util.HashSet
 import java.util.logging.Level
@@ -26,19 +26,19 @@ class ElementHelper {
 	val HashMap<Integer, Integer> chan2 = new HashMap<Integer, Integer>()
 	var lastId = 500
 
-	def getDistributionFor(IDistribution it, String objectNumber) {
-		if (it instanceof IDistributionFunction) {
+	def getDistributionFor(ITime it, String objectNumber) {
+		
+		if (period instanceof IDistributionFunction) {
 			printDistributionFunction(objectNumber)
-		} else if (it instanceof IConstant) {
-			printConstant(objectNumber)
+		} else if (period instanceof IConstant) {
+			period.printConstant(objectNumber)
 		} else {
 			printDefaultVal(objectNumber)
 		}
 	}
 
-	private def printDistributionFunction(IDistribution it, String objectNumber) {
-		var obj = it as DistributionFunction
-		"SetExprAtt(" + objectNumber + ", [" + cDist(obj) + "]);"
+	private def printDistributionFunction(ITime it, String objectNumber) {
+		"SetExprAtt(" + objectNumber + ", [" + period.cDist(unit) + "]);"
 	}
 
 	private def printConstant(IDistribution it, String objectNumber) {
