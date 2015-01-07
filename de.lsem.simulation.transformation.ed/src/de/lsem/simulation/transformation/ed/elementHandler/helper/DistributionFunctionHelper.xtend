@@ -3,7 +3,6 @@ package de.lsem.simulation.transformation.ed.elementHandler.helper
 import de.lsem.repository.model.simulation.Beta
 import de.lsem.repository.model.simulation.Erlang
 import de.lsem.repository.model.simulation.Gamma
-import de.lsem.repository.model.simulation.IDistributionFunction
 import de.lsem.repository.model.simulation.LogNormal
 import de.lsem.repository.model.simulation.NegExp
 import de.lsem.repository.model.simulation.Normal
@@ -54,18 +53,24 @@ class DistributionFunctionHelper {
 		class.simpleName + "( " + beta + ", " + alpha + " )"
 	}
 	
-	def getDistributionFunctionFor(IDistributionFunction it){
-
-		switch it {
-			Weibull		: 	cDist
-			Beta		: 	cDist			
-			Normal		: 	cDist
-			Triangular 	: 	cDist
-			Uniform 	: 	cDist
-			LogNormal	:	cDist
-			Poisson		:	cDist
-			NegExp		:	cDist
-			Erlang		:	cDist
-			Gamma		:	cDist
-		}	
-	}}
+	def dispatch cDist(Void it) {
+		''
+//		class.simpleName + "( " + beta + ", " + alpha + " )"
+	}
+	
+//	def getDistributionFunctionFor(IDistributionFunction it){
+//
+//		switch it {
+//			Weibull		: 	cDist
+//			Beta		: 	cDist			
+//			Normal		: 	cDist
+//			Triangular 	: 	cDist
+//			Uniform 	: 	cDist
+//			LogNormal	:	cDist
+//			Poisson		:	cDist
+//			NegExp		:	cDist
+//			Erlang		:	cDist
+//			Gamma		:	cDist
+//		}	
+//	}
+	}

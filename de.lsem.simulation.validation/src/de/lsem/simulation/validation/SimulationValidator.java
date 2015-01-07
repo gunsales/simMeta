@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 
 import de.lsem.repository.model.simulation.IActivity;
 import de.lsem.repository.model.simulation.ISimulationElement;
@@ -103,6 +104,7 @@ public class SimulationValidator {
 
 		for (ValidationException e : foundProblems) {
 			log.log(e.getStatus());
+			System.out.println(log.getBundle().getLocation());
 			if (e.getStatus().getSeverity() == Status.ERROR) {
 				hasNoError = ValidationStatus.STATUS_ERROR;
 			}
@@ -122,11 +124,18 @@ public class SimulationValidator {
 	}
 
 	private void displayProblemsExistMessage() {
-		Display.getDefault().syncExec(new Runnable() {
+		// TODO Just allow if app is in focus
+		// log.getBundle().getBundleContext().
+		PlatformUI.getWorkbench().getDisplay().asyncExec(
+				//TODO test runnable impl 
+				new Runnable() {
 
 			@Override
 			public void run() {
-				MessageBox messageBox = new MessageBox(Display.getDefault()
+				// XXX Check NPE
+				Display display = PlatformUI.getWorkbench().getDisplay();
+				
+				MessageBox messageBox = new MessageBox(display//Display.getDefault()
 						.getActiveShell(), SWT.ICON_INFORMATION);
 				messageBox
 						.setMessage("Your model contains errors or warnings. Please check the error log.");

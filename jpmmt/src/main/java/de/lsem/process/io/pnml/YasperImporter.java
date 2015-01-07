@@ -15,10 +15,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import de.lsem.process.model.GraphicalInformation;
-import de.lsem.word.Utils;
 
 /*
- * Copyright (c) 2013 Christopher Klinkmüller
+ * Copyright (c) 2013 Christopher Klinkmï¿½ller
  * 
  * This software is released under the terms of the
  * MIT license. See http://opensource.org/licenses/MIT
@@ -72,9 +71,9 @@ class YasperImporter {
 				Element textElement = (Element)nameElement.getElementsByTagName("text").item(0);
 				if (textElement != null) {
 					name = textElement.getTextContent().toLowerCase();
-					if (!Utils.isActivityLabel(name)) {
-						name = "";
-					}
+//					if (!Utils.isActivityLabel(name)) {
+//						name = "";
+//					}
 					
 //					name="";
 				}

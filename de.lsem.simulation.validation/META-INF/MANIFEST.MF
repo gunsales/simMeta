@@ -5,8 +5,8 @@ Bundle-SymbolicName: de.lsem.simulation.validation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: de.lsem.simulation.validation.Activator
 Require-Bundle: de.lsem.simulation.metaModel;bundle-version="1.0.0",
- org.eclipse.core.runtime;bundle-version="3.9.0",
- org.eclipse.ui;bundle-version="3.105.0",
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
  org.eclipse.graphiti.ui;bundle-version="0.10.0",
  org.eclipse.graphiti,
  org.eclipse.emf.transaction

@@ -33,7 +33,7 @@ public final class Configuration {
 	private List<String> stopWords;
 	private String wordNetFolder;
 	private IDictionary dictionary;
-	private static String configurationFile = "D:/EclipseWorkspace/simulation/jpmmt/src/main/resources/config.xml";
+	private static String configurationFile = "C:/Users/Lewin/Desktop/temp/simulation/jpmmt/src/main/resources/config.xml";//D:/EclipseWorkspace/simulation/jpmmt/src/main/resources/
 
 	public static final Configuration INSTANCE = new Configuration();
 
@@ -59,7 +59,8 @@ public final class Configuration {
 
 			URL url = new URL("file", null, this.wordNetFolder);
 			this.dictionary = new Dictionary(url);
-			this.dictionary.open();
+			// TODO Reactivate
+//			this.dictionary.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,12 +79,16 @@ public final class Configuration {
 		return this.wordNetFolder;
 	}
 
+	/**
+	 * Always specify new directory for file when installing on new machine
+	 * @return
+	 */
 	public IDictionary getWordNetDictionary() {
 		return this.dictionary;
 	}
 
 	public static void main(String[] args) {
-		Collection<String> words = Configuration.INSTANCE.getStopWords();
+//		Collection<String> words = Configuration.INSTANCE.getStopWords();
 //		System.out.println(words);
 	}
 }

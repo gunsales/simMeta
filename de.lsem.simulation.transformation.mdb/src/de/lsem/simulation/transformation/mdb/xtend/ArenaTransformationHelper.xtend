@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.xmi.XMIResource
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramLink
 
-import static de.lsem.repository.model.simulation.ServiceType.*
 import static de.lsem.repository.model.simulation.UnitOfTime.*
 
 @Singleton

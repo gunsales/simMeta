@@ -30,17 +30,19 @@ class GenericTransformation {
 		SimulationFactory::init
 	}
 
-	private def void filterNodesAndEdges(Set<ProcessNode> nodes, Set<ProcessEdge> edges) {
+	private def void filterNodesAndEdges(Set<ProcessNode> nodes2, Set<ProcessEdge> edges2) {
 
-		this.edges = edges
-		this.nodes = nodes
+		this.edges = edges2
+		this.nodes = nodes2
 
 		//Transform only activities and gateways
-		this.nodes = nodes.filter [
-			(activity || gateway) // only gateways and activities
-		].toSet
+		nodes2.toList.filter [ p |
+			(p.activity || p.gateway) // only gateways and activities
+		].forEach [
+			this.nodes.add(it)
+		]
 
-		nodes.filter[gateway].filter[incoming.size < 1 || outgoing.size < 1].forEach [
+ 		nodes.filter[gateway].filter[incoming.size < 1 || outgoing.size < 1].forEach [
 			edges.removeAll(incoming)
 			edges.removeAll(outgoing)
 		]

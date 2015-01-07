@@ -132,6 +132,14 @@
               id="simulation.source.good.tab.section"
               tab="simulation.source.good.tab">
         </propertySection>
+        <propertySection
+              afterSection="simulation.service.tab.service"
+              class="de.lsem.simulation.property.ProviderServiceSection"
+              enablesFor="1"
+              filter="de.lsem.simulation.property.ActivityServiceSectionFilter"
+              id="simulation.service.tab.serviceProvider"
+              tab="simulation.service.tab">
+        </propertySection>
      </propertySections>
   </extension>
   <extension

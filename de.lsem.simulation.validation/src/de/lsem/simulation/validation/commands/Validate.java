@@ -23,7 +23,7 @@ import de.lsem.simulation.validation.ValidationStatus;
 public class Validate implements IHandler {
 
 	private static final Object GRAPHITI_DIAGRAM_EXTENSION = "diagram";
-	
+
 	@Override
 	public void addHandlerListener(IHandlerListener handlerListener) {
 	}
@@ -36,39 +36,45 @@ public class Validate implements IHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		IEditorPart editor = getActiveEditor();
-		
-		if(editor instanceof IDiagramContainer){
-			IDiagramContainer container = (IDiagramContainer)editor;
-			ResourceSet resourceSet = container.getDiagramBehavior().getEditingDomain().getResourceSet();
-			
-			for(Resource r:resourceSet.getResources()){
-				if(r instanceof XMIResource){
-					XMIResource xmiResource = (XMIResource)r;
-					SimulationValidator validator = new SimulationValidator(xmiResource, Activator.getDefault().getLog(), Activator.PLUGIN_ID);
-					 ValidationStatus isValidationSuccessFull = validator.validate();
-					
-					if(isValidationSuccessFull.compareTo(ValidationStatus.STATUS_OK) == 0){
+
+		if (editor instanceof IDiagramContainer) {
+			IDiagramContainer container = (IDiagramContainer) editor;
+			ResourceSet resourceSet = container.getDiagramBehavior()
+					.getEditingDomain().getResourceSet();
+
+			for (Resource r : resourceSet.getResources()) {
+				if (r instanceof XMIResource) {
+					XMIResource xmiResource = (XMIResource) r;
+					SimulationValidator validator = new SimulationValidator(
+							xmiResource, Activator.getDefault().getLog(),
+							Activator.PLUGIN_ID);
+					ValidationStatus isValidationSuccessFull = validator
+							.validate();
+
+					if (isValidationSuccessFull
+							.compareTo(ValidationStatus.STATUS_OK) == 0) {
 						displaySuccessfullVaildationCompletion(event);
 					}
-					
+
 					break;
 				}
 			}
 		}
-		
-		
-		
+
 		return null;
 	}
 
-	private void displaySuccessfullVaildationCompletion(final ExecutionEvent event) {
+	private void displaySuccessfullVaildationCompletion(
+			final ExecutionEvent event) {
 		try {
-			final Display display = HandlerUtil.getActiveShellChecked(event).getDisplay();
+			final Display display = HandlerUtil.getActiveShellChecked(event)
+					.getDisplay();
 			display.asyncExec(new Runnable() {
-				
+
 				@Override
 				public void run() {
-					MessageBox msg = new MessageBox(display.getActiveShell(), SWT.ICON_INFORMATION);
+					MessageBox msg = new MessageBox(display.getActiveShell(),
+							SWT.ICON_INFORMATION);
 					msg.setMessage("Validation completed without errors or warnings.");
 					msg.setText("Validation succeeded");
 					msg.open();
@@ -97,7 +103,7 @@ public class Validate implements IHandler {
 				.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		return editor;
 	}
-	
+
 	private IEditorPart getActiveEditor() {
 		return PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 				.getActivePage().getActiveEditor();

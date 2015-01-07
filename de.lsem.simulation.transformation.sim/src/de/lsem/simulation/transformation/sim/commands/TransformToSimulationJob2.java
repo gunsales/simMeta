@@ -66,7 +66,7 @@ import de.lsem.simulation.transformation.sim.xtend.TransformBPMN2ToSimulation;
 import de.lsem.simulation.validation.SimulationValidator;
 import de.lsem.simulation.validation.ValidationStatus;
 
-public class TransformToSimulationJob extends Job {
+public class TransformToSimulationJob2 extends Job {
 
 	private static final String SIMULATION_DIAGRAM_TYPE_ID = "de.lsem.simulation";
 	// private static final Logger log = Logger
@@ -79,19 +79,19 @@ public class TransformToSimulationJob extends Job {
 	private ProcessModel model;
 	private boolean startable = true;
 
-	public TransformToSimulationJob(BPMNDiagram diagram, IFile saveFile,
+	public TransformToSimulationJob2(BPMNDiagram diagram, IFile saveFile,
 			IWorkbenchPage page) {
 		this(saveFile, page);
 		init(diagram);
 	}
 
-	public TransformToSimulationJob(ProcessModel model, IFile saveFile,
+	public TransformToSimulationJob2(ProcessModel model, IFile saveFile,
 			IWorkbenchPage page) {
 		this(saveFile, page);
 		init(model);
 	}
 
-	private TransformToSimulationJob(IFile saveFile, IWorkbenchPage page) {
+	private TransformToSimulationJob2(IFile saveFile, IWorkbenchPage page) {
 		super("Transform to simulation-format");
 
 		this.saveFile = saveFile;

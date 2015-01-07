@@ -9,34 +9,5 @@
             class="de.lsem.repository.model.simulation.ISimulationPackage"
             genModel="models/simmeta.genmodel"/>
    </extension>
-   <extension
-         point="org.eclipse.emf.validation.constraintProviders">
-      <constraintProvider
-            cache="true"
-            mode="Live">
-         <package
-               namespaceUri="http://simulation.repository.lsem.de/meta/1.0">
-         </package>
-         <constraints
-               categories="de.lsem.simulation.metaModel.category">
-            <constraint
-                  class="de.lsem.simulation.metaModel.constraints.ActivityHasOutgoingRelation"
-                  id="de.lsem.simulation.metaModel.constraints.activityHasOutgoingRelation"
-                  isEnabledByDefault="true"
-                  lang="java"
-                  mode="Live"
-                  name="Activity has outgoing relations"
-                  severity="ERROR"
-                  statusCode="de.lsem.simulation.metaModel.constraint1">
-               <message>
-                  Activites need one or more outgoing relations. Please fix this.
-               </message>
-            </constraint></constraints>
-      </constraintProvider>
-      <category
-            id="de.lsem.simulation.metaModel.category"
-            name="SimMeta Validation Category">
-      </category>
-   </extension>
 
 </plugin>

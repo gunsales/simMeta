@@ -41,7 +41,15 @@ public class Utils {
 	private static IPointer adjDerived;
 	
 	static {
-		wordnetStemmer = new WordnetStemmer(Configuration.INSTANCE.getWordNetDictionary());		
+		try{
+		wordnetStemmer = new WordnetStemmer(Configuration.INSTANCE.getWordNetDictionary());
+		}catch(NullPointerException e){
+			try {
+				throw new Exception("Please specify directory of config.xml. See Configuration-class");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
 		porterStemmer = new PorterStemmer();
 		levenshteinComparer = new LevenshteinComparer();
 		antonym = Pointer.ANTONYM;
